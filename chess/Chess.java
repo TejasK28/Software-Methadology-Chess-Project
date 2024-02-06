@@ -57,6 +57,7 @@ public class Chess {
 		/*
 		 * Temporary code to test the return
 		 */
+		System.out.println("returnplay method called");
 		return new ReturnPlay();
 		
 		//return null;
