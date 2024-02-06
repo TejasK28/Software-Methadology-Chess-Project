@@ -53,7 +53,13 @@ public class Chess {
 		
 		/* FOLLOWING LINE IS A PLACEHOLDER TO MAKE COMPILER HAPPY */
 		/* WHEN YOU FILL IN THIS METHOD, YOU NEED TO RETURN A ReturnPlay OBJECT */
-		return null;
+		
+		/*
+		 * Temporary code to test the return
+		 */
+		return new ReturnPlay();
+		
+		//return null;
 	}
 	
 	
@@ -62,5 +68,7 @@ public class Chess {
 	 */
 	public static void start() {
 		/* FILL IN THIS METHOD */
+
+		System.out.println("start method called.");
 	}
 }
