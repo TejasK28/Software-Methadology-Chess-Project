@@ -79,7 +79,7 @@ public class Chess {
 		 * Testing a simple pawn move: e2 e4
 		 */
 
-		 ReturnPiece from_piece = getPieceFromPosition(move_from_row + move_from_column);
+		 ReturnPiece from_piece = getPieceFromPosition(move_from_column + move_from_row );
 
 		 System.out.println("IDENTIFIED PIECE ON : " + move_from_column + move_from_row);
 		 
@@ -192,9 +192,8 @@ public class Chess {
 		for(ReturnPiece piece : returnPlay.piecesOnBoard)
 		{
 			Piece interface_piece = (Piece) piece;
-			String current_piece_position = interface_piece.getPosition();
 
-			if(current_piece_position.equals(position));
+			if(interface_piece.getPosition().equals(position))
 				return piece;
 		}
 		/*
