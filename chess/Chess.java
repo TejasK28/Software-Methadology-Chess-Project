@@ -103,6 +103,7 @@ public class Chess {
 		
 
 		return returnPlay;
+
 	}
 	
 	
@@ -119,6 +120,7 @@ public class Chess {
 		 * the the top of this class
 		 */
 		setupBoard();
+
 
 	}
 
