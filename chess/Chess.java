@@ -1,7 +1,6 @@
 package chess;
 
 import java.util.ArrayList;
-
 import chess.ReturnPiece.PieceFile;
 import chess.ReturnPiece.PieceType;
 
@@ -45,6 +44,11 @@ public class Chess {
 	 * Created a ReturnPlay reference
 	 */
 	static ReturnPlay returnPlay;
+
+	/*
+	 * Created an ENUM reference to keep track of the players
+	 */
+	static Player whosPlaying = Player.white;
 	
 	/**
 	 * Plays the next move for whichever player has the turn.
@@ -76,16 +80,27 @@ public class Chess {
 		String move_to_row  = String.valueOf(strArr[1].charAt(1));
 	 
 		/*
-		 * Testing a simple pawn move: e2 e4
+		 * This code will allow any piece on the board to move anywhere without any rules
+		 * 
+		 * TODO implement other rules in the move methods themselves
+		 * 
+		 * Remember that we will update the message of the ReturnPlay via the clases of the pieces themselves
 		 */
 
-		 ReturnPiece from_piece = getPieceFromPosition(move_from_column + move_from_row );
+		 if(whosPlaying == Player.white)
+		 {
+			System.out.println("WHITE'S TURN");
+			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
+			switchSide();
+		 }
+		 else
+		 {
+			System.out.println("BLACK'S TURN");
+			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
+			switchSide();
+		 }
 
-		 System.out.println("IDENTIFIED PIECE ON : " + move_from_column + move_from_row);
-		 
-		 if(from_piece instanceof Pawn)
-			((Pawn)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-
+		
 
 		return returnPlay;
 	}
@@ -106,8 +121,6 @@ public class Chess {
 		setupBoard();
 
 	}
-
-
 
 
 	/*
@@ -203,6 +216,40 @@ public class Chess {
 		return null;
 	}
 
+	/*
+	 * Static method will get the from position & to position.
+	 * It will identify the piece on the board and move accordingly.
+	 */
+	public static void movePieceFromTo(String move_from_column, String move_from_row, String move_to_column, String move_to_row)
+	{
+		ReturnPiece from_piece = getPieceFromPosition(move_from_column + move_from_row );
+		 
+		 if(from_piece instanceof Pawn)
+			((Pawn)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+		else if(from_piece instanceof Rook)
+			((Rook)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+		else if(from_piece instanceof Knight)
+			((Knight)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+		else if(from_piece instanceof Bishop)
+			((Bishop)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+		else if(from_piece instanceof Queen)
+			((Queen)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+		else if(from_piece instanceof King)
+			((King)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+
+		
+	}
+
+	/*
+	 * Method that will switch the side of who is playing at the moment
+	 */
+	public static void switchSide()
+	{
+		if(whosPlaying == Player.black)
+			whosPlaying = Player.white;
+		else
+			whosPlaying = Player.black;
+	}
+
+
 }
-
-

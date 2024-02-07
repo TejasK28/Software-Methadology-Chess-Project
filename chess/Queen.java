@@ -18,6 +18,13 @@ public class Queen extends ReturnPiece implements Piece{
             return this;
         } else {
             // if invalid, return the current position of the queen
+            /*
+             * TODO delete this code
+             * I just put it here for it to work
+             */
+
+             this.pieceRank = newRank;
+             this.pieceFile = newFile;
             return this;
         }
     }

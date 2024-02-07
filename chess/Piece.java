@@ -7,7 +7,6 @@
 
 package chess;
 import chess.ReturnPiece.PieceFile;
-import chess.ReturnPiece.PieceType;
 
 public interface Piece
 {
