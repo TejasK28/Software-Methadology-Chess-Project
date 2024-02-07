@@ -1,11 +1,7 @@
 package chess;
 
 //using Return Piece in Chess.java implement king class
-public class King extends ReturnPiece {
-    // current position of the king
-    private PieceType pieceType;
-    private PieceFile pieceFile;
-    private int pieceRank;
+public class King extends ReturnPiece implements Piece{
 
     // constructor
     public King(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
@@ -14,9 +10,9 @@ public class King extends ReturnPiece {
         this.pieceRank = pieceRank;
     }
 
-    public ReturnPiece move(int newRank, PieceFile newFile) {
+    public ReturnPiece move(PieceFile newFile, int newRank) {
         // check if the move is valid
-        if (isValidMove(newRank, newFile)) {
+        if (isValidMove(newFile, newRank)) {
             // if valid, move the king to the new position
             this.pieceRank = newRank;
             this.pieceFile = newFile;
@@ -27,7 +23,7 @@ public class King extends ReturnPiece {
         }
     }
     
-    public boolean isValidMove(int newRank, PieceFile newFile) {
+    public boolean isValidMove(PieceFile newFile, int newRank) {
         // check if the move is valid for the king
         // a king can move one square in any direction: horizontally, vertically, or diagonally
         // so the absolute difference between the current and new rank (row) should be <= 1
@@ -40,6 +36,12 @@ public class King extends ReturnPiece {
 
         // return true if the move is valid, false otherwise
         return rankDifference <= 1 && fileDifference <= 1;
+    }
+
+    @Override
+    public String getPosition() 
+    {
+        return "" + this.pieceFile + this.pieceRank;
     }
 
 }

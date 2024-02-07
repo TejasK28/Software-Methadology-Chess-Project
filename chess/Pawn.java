@@ -1,10 +1,10 @@
 package chess;
 
 // using Return Piece in Chess.java implement pawn class
-public class Pawn extends ReturnPiece {
+public class Pawn extends ReturnPiece implements Piece{
    /*
     * Removed shadowed vairables because we were referencing the
-    wrong variables resulting in inproper placement
+    wrong variables resulting in improper placement
     */
 
     // constructor
@@ -14,21 +14,29 @@ public class Pawn extends ReturnPiece {
         this.pieceRank = pieceRank;
     }
 
-    public ReturnPiece move(int newRank, PieceFile newFile) {
+    public ReturnPiece move(PieceFile newFile, int newRank) {
         // check if the move is valid
-        if (isValidMove(newRank, newFile)) {
+        //TODO fix this metho
+        if (isValidMove(newFile, newRank)) {
             // if valid, move the pawn to the new position
             this.pieceRank = newRank;
             this.pieceFile = newFile;
             return this;
         } else {
             // if invalid, return the current position of the pawn
+
+            // TODO delete this later, I'm just checking
+            this.pieceRank = newRank;
+            this.pieceFile = newFile;
             return this;
         }
     }
 
-    public boolean isValidMove(int newRank, PieceFile newFile) {
-        // check if the move is valid for the pawn
+    /*
+     * TODO Check as well if there is another piece on the board position we move to 
+     */
+    public boolean isValidMove(PieceFile newFile, int newRank) {
+        // che1ck if the move is valid for the pawn
         // a pawn can move one square forward, or two squares forward if it is in its starting position
         // a pawn can capture an opponent's piece by moving one square forward diagonally
         // a pawn can move only forward, so the new rank should be greater than the current rank
@@ -42,5 +50,12 @@ public class Pawn extends ReturnPiece {
 
         return (newRank - this.pieceRank == 1 || (newRank - this.pieceRank == 2 && this.pieceRank == 2)) && Math.abs(currentFile - newFileInt) == 1;
     }
+
+    @Override
+    public String getPosition() 
+    {
+        return "" + this.pieceFile + this.pieceRank;
+    }
+
 
 }

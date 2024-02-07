@@ -1,21 +1,21 @@
 package chess;
 
-public class Knight extends ReturnPiece {
-    // current position of the knight
-    private PieceType pieceType;
-    private PieceFile pieceFile;
-    private int pieceRank;
+public class Knight extends ReturnPiece implements Piece{
 
-    // constructor
+    /*
+     * Knight constructor
+     * 
+     * Initializes the pieceType, PieceFile, and PieceRank
+     */
     public Knight(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
         this.pieceType = pieceType; // Wn or Bn
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
     }
 
-    public ReturnPiece move(int newRank, PieceFile newFile) {
+    public ReturnPiece move(PieceFile newFile, int newRank) {
         // check if the move is valid
-        if (isValidMove(newRank, newFile)) {
+        if (isValidMove(newFile, newRank)) {
             // if valid, move the knight to the new position
             this.pieceRank = newRank;
             this.pieceFile = newFile;
@@ -26,7 +26,7 @@ public class Knight extends ReturnPiece {
         }
     }
 
-    public boolean isValidMove(int newRank, PieceFile newFile) {
+    public boolean isValidMove(PieceFile newFile, int newRank) {
         // check if the move is valid for the knight
         // a knight can move in an L-shape: two squares in one direction and one square in a perpendicular direction
         // so the absolute difference between the current and new rank (row) should be 2 and the absolute difference between the current and new file (column) should be 1
@@ -40,4 +40,12 @@ public class Knight extends ReturnPiece {
 
         return (Math.abs(this.pieceRank - newRank) == 2 && Math.abs(currentFile - newFileInt) == 1) || (Math.abs(this.pieceRank - newRank) == 1 && Math.abs(currentFile - newFileInt) == 2);
     }
+
+    @Override
+    public String getPosition() 
+    {
+        return "" + this.pieceFile + this.pieceRank;
+    }
+
+    
 }

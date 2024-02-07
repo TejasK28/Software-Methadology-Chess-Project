@@ -1,6 +1,6 @@
 package chess;
 
-public class Rook extends ReturnPiece {
+public class Rook extends ReturnPiece implements Piece{
     // current position of the rook
 
 
@@ -11,9 +11,9 @@ public class Rook extends ReturnPiece {
         this.pieceRank = pieceRank;
     }
 
-    public ReturnPiece move(int newRank, PieceFile newFile) {
+    public ReturnPiece move(PieceFile newFile, int newRank) {
         // check if the move is valid
-        if (isValidMove(newRank, newFile)) {
+        if (isValidMove(newFile, newRank)) {
             // if valid, move the rook to the new position
             this.pieceRank = newRank;
             this.pieceFile = newFile;
@@ -24,7 +24,7 @@ public class Rook extends ReturnPiece {
         }
     }
 
-    public boolean isValidMove(int newRank, PieceFile newFile) {
+    public boolean isValidMove(PieceFile newFile, int newRank) {
         // check if the move is valid for the rook
         // a rook can move any number of squares horizontally or vertically
         // so the current and new rank should be the same, or the current and new file should be the same
@@ -36,5 +36,11 @@ public class Rook extends ReturnPiece {
         int newFileInt = newFile.ordinal();
 
         return this.pieceRank == newRank || currentFile == newFileInt;
+    }
+
+    @Override
+    public String getPosition() 
+    {
+        return "" + this.pieceFile + this.pieceRank;
     }
 }

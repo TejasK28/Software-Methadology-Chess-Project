@@ -1,10 +1,6 @@
 package chess;
 
-public class Bishop extends ReturnPiece {
-    // current position of the bishop
-    private PieceType pieceType;
-    private PieceFile pieceFile;
-    private int pieceRank;
+public class Bishop extends ReturnPiece implements Piece{
 
     // constructor
     public Bishop(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
@@ -13,9 +9,9 @@ public class Bishop extends ReturnPiece {
         this.pieceRank = pieceRank;
     }
 
-    public ReturnPiece move(int newRank, PieceFile newFile) {
+    public ReturnPiece move(PieceFile newFile, int newRank) {
         // check if the move is valid
-        if (isValidMove(newRank, newFile)) {
+        if (isValidMove(newFile, newRank)) {
             // if valid, move the bishop to the new position
             this.pieceRank = newRank;
             this.pieceFile = newFile;
@@ -26,7 +22,7 @@ public class Bishop extends ReturnPiece {
         }
     }
     
-    public boolean isValidMove(int newRank, PieceFile newFile) {
+    public boolean isValidMove(PieceFile newFile, int newRank) {
         // check if the move is valid for the bishop
         // a bishop can move any number of squares diagonally
         // so the absolute difference between the current and new rank (row) should be the same as the absolute difference between the current and new file (column)
@@ -38,5 +34,11 @@ public class Bishop extends ReturnPiece {
         int newFileInt = newFile.ordinal();
 
         return Math.abs(this.pieceRank - newRank) == Math.abs(currentFile - newFileInt);
+    }
+
+    @Override
+    public String getPosition() 
+    {
+        return "" + this.pieceFile + this.pieceRank;
     }
 }
