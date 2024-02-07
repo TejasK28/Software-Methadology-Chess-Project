@@ -72,8 +72,18 @@ public class Chess {
 			returnPlay.piecesOnBoard.add(new Pawn(PieceType.WP, PieceFile.values()[i], 2));
 			returnPlay.piecesOnBoard.add(new Pawn(PieceType.BP, PieceFile.values()[i], 7));
 		}
-			
-		
+		//Rook Testing
+		//Should add all white/black rooks on board
+		int [] pos = {0, 7};
+		for(int i = 0; i < 4; i++)
+		{
+			if(i < 2)
+				returnPlay.piecesOnBoard.add(new Rook(PieceType.WR, PieceFile.values()[pos[i % 2]], 1));
+			else
+				returnPlay.piecesOnBoard.add(new Rook(PieceType.BR, PieceFile.values()[pos[i % 2]], 8));
+
+		}
+ 
 
 
 		return returnPlay;

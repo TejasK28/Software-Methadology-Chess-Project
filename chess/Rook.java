@@ -2,9 +2,7 @@ package chess;
 
 public class Rook extends ReturnPiece {
     // current position of the rook
-    private PieceType pieceType;
-    private PieceFile pieceFile;
-    private int pieceRank;
+
 
     // constructor
     public Rook(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
