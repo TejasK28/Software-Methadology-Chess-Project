@@ -2,10 +2,10 @@ package chess;
 
 // using Return Piece in Chess.java implement pawn class
 public class Pawn extends ReturnPiece {
-    // current position of the pawn
-    private PieceType pieceType;
-    private PieceFile pieceFile;
-    private int pieceRank;
+   /*
+    * Removed shadowed vairables because we were referencing the
+    wrong variables resulting in inproper placement
+    */
 
     // constructor
     public Pawn(PieceType pieceType, PieceFile pieceFile, int pieceRank) {

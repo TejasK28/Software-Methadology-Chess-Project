@@ -65,8 +65,16 @@ public class Chess {
 		ReturnPlay returnPlay = new ReturnPlay();
 		returnPlay.piecesOnBoard = new ArrayList<ReturnPiece>();
 
-		 //Pawn testing
-		 //This should add all the white pawns on the board
+		//Pawn testing
+		//This should add all the white/black pawns on the board
+		for(int i = 0; i < 8; i++)
+		{
+			returnPlay.piecesOnBoard.add(new Pawn(PieceType.WP, PieceFile.values()[i], 2));
+			returnPlay.piecesOnBoard.add(new Pawn(PieceType.BP, PieceFile.values()[i], 7));
+		}
+			
+		
+
 
 		return returnPlay;
 	}
