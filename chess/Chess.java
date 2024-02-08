@@ -78,6 +78,10 @@ public class Chess {
 		String move_from_row  = String.valueOf(strArr[0].charAt(1));
 		String move_to_column  = String.valueOf(strArr[1].charAt(0));
 		String move_to_row  = String.valueOf(strArr[1].charAt(1));
+
+		// draw? implementation
+		if(strArr.length >= 3)
+			System.out.println(whosPlaying + " WANTS A DRAW");
 	 
 		/*
 		 * This code will allow any piece on the board to move anywhere without any rules
