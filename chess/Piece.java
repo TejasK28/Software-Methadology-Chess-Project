@@ -13,7 +13,7 @@ public interface Piece
     /*
      * Methods already included prior to the interface
      */
-    ReturnPiece move(PieceFile newFile, int newRank);
+    void move(PieceFile newFile, int newRank);
 
     boolean isValidMove(PieceFile newFile, int newRank);
 

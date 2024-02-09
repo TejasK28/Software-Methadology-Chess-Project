@@ -43,7 +43,7 @@ public class Chess {
 	/*
 	 * Created a ReturnPlay reference
 	 */
-	static ReturnPlay returnPlay;
+	public static ReturnPlay returnPlay;
 
 	/*
 	 * Created an ENUM reference to keep track of the players
@@ -95,13 +95,13 @@ public class Chess {
 		 {
 			System.out.println("WHITE'S TURN");
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
-			switchSide();
+			switchPlayer();
 		 }
 		 else
 		 {
 			System.out.println("BLACK'S TURN");
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
-			switchSide();
+			switchPlayer();
 		 }
 
 		
@@ -249,7 +249,7 @@ public class Chess {
 	/*
 	 * Method that will switch the side of who is playing at the moment
 	 */
-	public static void switchSide()
+	public static void switchPlayer()
 	{
 		if(whosPlaying == Player.black)
 			whosPlaying = Player.white;

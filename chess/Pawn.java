@@ -1,60 +1,116 @@
 package chess;
 
+import java.util.ArrayList;
+
 // using Return Piece in Chess.java implement pawn class
-public class Pawn extends ReturnPiece implements Piece{
+public class Pawn extends ReturnPiece implements Piece
+{
    /*
     * Removed shadowed vairables because we were referencing the
     wrong variables resulting in improper placement
     */
 
-    // constructor
+    /*
+     * ArrayList validMoves will hold a string of 
+     */
+    ArrayList<String> validMoves;
+    int moveCount;
+    boolean canMove;
+
+    // constructor initializes the position + arraylist of valid moves
     public Pawn(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
         this.pieceType = pieceType; // Wp or Bp
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
-    }
 
-    public ReturnPiece move(PieceFile newFile, int newRank) {
-        // check if the move is valid
-        //TODO fix this metho
-        if (isValidMove(newFile, newRank)) {
-            // if valid, move the pawn to the new position
-            this.pieceRank = newRank;
-            this.pieceFile = newFile;
-            return this;
-        } else {
-            // if invalid, return the current position of the pawn
-
-            // TODO delete this later, I'm just checking
-            this.pieceRank = newRank;
-            this.pieceFile = newFile;
-            return this;
-        }
+        validMoves = new ArrayList<String>();
+        moveCount = 0;
     }
 
     /*
-     * TODO Check as well if there is another piece on the board position we move to 
+     * Instance method that will add the valid moves based on the first move
+     * Will also take care of the edge case of exceeding the board max size
+     * 
+     * TODO implement the enpessant
+     * TODO doesn't recognize enemies yet, just a straight line
      */
-    public boolean isValidMove(PieceFile newFile, int newRank) {
-        // che1ck if the move is valid for the pawn
-        // a pawn can move one square forward, or two squares forward if it is in its starting position
-        // a pawn can capture an opponent's piece by moving one square forward diagonally
-        // a pawn can move only forward, so the new rank should be greater than the current rank
-        // a pawn can move only horizontally if it is capturing an opponent's piece, so the absolute difference between the current and new file should be 1
-        // return true if the move is valid, false otherwise
+    public void popoulateValidMoves()
+    {
+        //Clears arraylist from old valid moves
+        validMoves.clear();
 
-        // file is an enum, so we need to convert it to an int
-        // convert the enum to an int by getting its ordinal value
-        int currentFile = this.pieceFile.ordinal();
-        int newFileInt = newFile.ordinal();
+        //First move ; 2 or 1 move
+        if(moveCount == 0)
+        {
+            for(int i = 1; i <= 2; i++)
+            if((this.pieceRank + i) <= 8)
+                validMoves.add("" + this.pieceFile + (this.pieceRank + i));
+        }
+        else
+        {
+            validMoves.add("" + this.pieceFile + (this.pieceRank + 1));
+        }
 
-        return (newRank - this.pieceRank == 1 || (newRank - this.pieceRank == 2 && this.pieceRank == 2)) && Math.abs(currentFile - newFileInt) == 1;
+        //remove the moves that are not valid due to other pieces on the board
+        for(int i = 0; i < Chess.returnPlay.piecesOnBoard.size(); i++)
+        {
+            //This will get the positon of a piece on the board
+            //Will cross reference the initial available moves & remove occupied spaces
+            String otherPosition = Chess.returnPlay.piecesOnBoard.get(i).toString().split(":")[0];
+            if(validMoves.contains(otherPosition))
+                validMoves.remove(otherPosition);
+
+        }
+
+    }
+
+    /*
+     * Instance method that will
+     *  1) populate valid moved in arraylist
+     *  2) update the canMove boolean
+     *  3) actually move
+     */
+    public void move(PieceFile newFile, int newRank) 
+    {
+        // check if the move is valid
+        //TODO fix this method
+        popoulateValidMoves();
+
+        //update canmove boolean
+        updateCanMove();
+            if(canMove)
+            {
+                this.pieceFile = newFile;
+                this.pieceRank = newRank;
+                moveCount++;
+
+                System.out.println(validMoves);
+            }
+            else
+                System.out.println("[ERROR] : can't move");     
+    }
+
+    /*
+     * TODO Check as well if there is another piece on the board position we move to
+     * TODO implement this later 
+     */
+    public boolean isValidMove(PieceFile newFile, int newRank) 
+    {
+        return false;
     }
 
     @Override
     public String getPosition() 
     {
         return "" + this.pieceFile + this.pieceRank;
+    }
+
+    public void updateCanMove()
+    {
+        if(validMoves.size() == 0)
+            canMove = false;
+        else
+            canMove = true;
     }
 
 

@@ -11,13 +11,12 @@ public class Rook extends ReturnPiece implements Piece{
         this.pieceRank = pieceRank;
     }
 
-    public ReturnPiece move(PieceFile newFile, int newRank) {
+    public void move(PieceFile newFile, int newRank) {
         // check if the move is valid
         if (isValidMove(newFile, newRank)) {
             // if valid, move the rook to the new position
             this.pieceRank = newRank;
             this.pieceFile = newFile;
-            return this;
         } else {
             // if invalid, return the current position of the rook
             /*
@@ -27,7 +26,6 @@ public class Rook extends ReturnPiece implements Piece{
 
             this.pieceRank = newRank;
             this.pieceFile = newFile;
-            return this;
         }
     }
 
