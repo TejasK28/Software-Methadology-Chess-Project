@@ -1,7 +1,5 @@
 package chess;
-
-import java.util.ArrayList;
-
+import java.util.*;
 // using Return Piece in Chess.java implement pawn class
 public class Pawn extends ReturnPiece implements Piece
 {
@@ -11,11 +9,12 @@ public class Pawn extends ReturnPiece implements Piece
     */
 
     /*
-     * ArrayList validMoves will hold a string of 
+     * ArrayList validMoves will hold a string of valid moves that the piece can perform based on the moveCount
+     * 
+     * TODO think about how to add kill pieces
      */
     ArrayList<String> validMoves;
     int moveCount;
-    boolean canMove;
 
     // constructor initializes the position + arraylist of valid moves
     public Pawn(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
@@ -39,17 +38,36 @@ public class Pawn extends ReturnPiece implements Piece
         //Clears arraylist from old valid moves
         validMoves.clear();
 
-        //First move ; 2 or 1 move
-        if(moveCount == 0)
+
+        if(Chess.whosPlaying == Chess.Player.white)
         {
-            for(int i = 1; i <= 2; i++)
-            if((this.pieceRank + i) <= 8)
-                validMoves.add("" + this.pieceFile + (this.pieceRank + i));
+            //First move ; 2 or 1 move
+            if(moveCount == 0)
+            {
+                for(int i = 1; i <= 2; i++)
+                if((this.pieceRank + i) <= 8)
+                    validMoves.add("" + this.pieceFile + (this.pieceRank + i));
+            }
+            else
+            {
+                validMoves.add("" + this.pieceFile + (this.pieceRank + 1));
+            }
         }
         else
         {
-            validMoves.add("" + this.pieceFile + (this.pieceRank + 1));
+            //First move ; 2 or 1 move
+            if(moveCount == 0)
+            {
+                for(int i = 1; i <= 2; i++)
+                if((this.pieceRank - i) >= 0)
+                    validMoves.add("" + this.pieceFile + (this.pieceRank - i));
+            }
+            else
+            {
+                validMoves.add("" + this.pieceFile + (this.pieceRank - 1));
+            }
         }
+        
 
         //remove the moves that are not valid due to other pieces on the board
         for(int i = 0; i < Chess.returnPlay.piecesOnBoard.size(); i++)
@@ -76,42 +94,85 @@ public class Pawn extends ReturnPiece implements Piece
         //TODO fix this method
         popoulateValidMoves();
 
-        //update canmove boolean
-        updateCanMove();
-            if(canMove)
+        //TODO test this method
+        identifyPossibleKills();
+        
+        /*
+         * If current piece can move,
+            * then change the position of this piece,
+            * and increment the moveCount integer to keep track of the count
+         * 
+         * else
+            * change the static returnPlay object message enum to ILLEGAL MOVE
+         * 
+         * TODO implement the identification of kill pieces
+         */
+            if(validMoves.contains("" + newFile + newRank))
             {
                 this.pieceFile = newFile;
                 this.pieceRank = newRank;
-                moveCount++;
-
-                System.out.println(validMoves);
+                moveCount++;      
+                //A legal move return a null message
+                Chess.returnPlay.message = null;
             }
             else
-                System.out.println("[ERROR] : can't move");     
+                Chess.returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+
+            // TODO delete this print message
+            System.out.println("VALID MOVES: " + validMoves + "\nMOVE COUNT: " + moveCount);
     }
 
     /*
-     * TODO Check as well if there is another piece on the board position we move to
-     * TODO implement this later 
+     * Overriden method from the Piece interface
+     * 
+     * Will return a string representing Filerank+rank
+     * 
+     * ex. "e4"
      */
-    public boolean isValidMove(PieceFile newFile, int newRank) 
-    {
-        return false;
-    }
-
     @Override
     public String getPosition() 
     {
         return "" + this.pieceFile + this.pieceRank;
     }
 
-    public void updateCanMove()
+
+    /*
+     * Helper method to add any pieces that are within kill range
+     * to get added to the validMoves arrayList
+     */
+
+     // TODO I never differentiated between black/white pieces while indeitfying kill pieces
+    public void identifyPossibleKills()
     {
-        if(validMoves.size() == 0)
-            canMove = false;
+        String pieceFileString = "" + this.pieceFile;
+        int nextIndex = ReturnPiece.PieceFile.valueOf(pieceFileString).ordinal() + 1;
+        int previousIndex = ReturnPiece.PieceFile.valueOf(pieceFileString).ordinal() - 1;
+        
+        /*
+         * Will change based on black/white
+         */
+        int targetRank;
+        if(Chess.whosPlaying == Chess.Player.white)
+            targetRank = this.pieceRank + 1;
         else
-            canMove = true;
+            targetRank = this.pieceRank - 1;
+
+
+        if(nextIndex < 8 && targetRank <= 8 && targetRank >= 0)
+        {
+
+            if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank))
+            {
+                validMoves.add("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank);
+            }
+                
+        }   
+        if(previousIndex >= 0 && targetRank <= 8 && targetRank >= 0)
+        {
+            if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank))
+            {
+                validMoves.add("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank);
+            }
+        }
     }
-
-
 }

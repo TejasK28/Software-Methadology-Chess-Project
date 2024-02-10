@@ -15,7 +15,5 @@ public interface Piece
      */
     void move(PieceFile newFile, int newRank);
 
-    boolean isValidMove(PieceFile newFile, int newRank);
-
     String getPosition();
 }

@@ -80,6 +80,7 @@ public class Chess {
 		String move_to_row  = String.valueOf(strArr[1].charAt(1));
 
 		// draw? implementation
+		// TODO can be promotion as well
 		if(strArr.length >= 3)
 			System.out.println(whosPlaying + " WANTS A DRAW");
 	 
@@ -93,13 +94,15 @@ public class Chess {
 
 		 if(whosPlaying == Player.white)
 		 {
-			System.out.println("WHITE'S TURN");
+			//TODO delete print 
+			System.out.println("\nWHITE'S TURN");
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 			switchPlayer();
 		 }
 		 else
 		 {
-			System.out.println("BLACK'S TURN");
+			//TODO delete print 
+			System.out.println("\nBLACK'S TURN");
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 			switchPlayer();
 		 }
@@ -190,7 +193,7 @@ public class Chess {
 			else
 				returnPlay.piecesOnBoard.add(new Queen(PieceType.BQ, PieceFile.values()[3], 8));
 		
-		//Kink Testing
+		//King Testing
 		//Should add black/white kings on board
 		for(int i = 0; i < 2; i++)
 			if(i < 1)
@@ -257,5 +260,18 @@ public class Chess {
 			whosPlaying = Player.black;
 	}
 
+	public static boolean pieceExistsAt(String targetPosition)
+	{
+		for(int i = 0; i < returnPlay.piecesOnBoard.size(); i++)
+		{
+			ReturnPiece piece = returnPlay.piecesOnBoard.get(i);
+			String positionOfPiece = piece.toString().split(":")[0];
+			
+			if(positionOfPiece.equals(targetPosition))
+				return true;
+		}
+
+		return false;
+	}
 
 }
