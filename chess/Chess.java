@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import chess.ReturnPiece.PieceFile;
 import chess.ReturnPiece.PieceType;
 
-class ReturnPiece {
+/*
+ * ReturnPiece clas
+ * 
+ * DO NOT EDIT
+ */
+class ReturnPiece
+{
 	static enum PieceType {WP, WR, WN, WB, WQ, WK, 
 		            BP, BR, BN, BB, BK, BQ};
 	static enum PieceFile {a, b, c, d, e, f, g, h};
@@ -26,6 +32,11 @@ class ReturnPiece {
 	}
 }
 
+/*
+ * ReturnPlay class
+ * 
+ * DO NOT EDIT
+ */
 class ReturnPlay {
 	enum Message {ILLEGAL_MOVE, DRAW, 
 				  RESIGN_BLACK_WINS, RESIGN_WHITE_WINS, 
@@ -36,6 +47,11 @@ class ReturnPlay {
 	Message message;
 }
 
+/*
+ * Chess Class
+ * 
+ * DONT EDIT THE EXISTING FIELDS!
+ */
 public class Chess {
 	
 	enum Player { white, black }
@@ -47,8 +63,19 @@ public class Chess {
 
 	/*
 	 * Created an ENUM reference to keep track of the players
+	 * 
+	 * Default is white
 	 */
 	static Player whosPlaying = Player.white;
+
+	/*
+	 * Created 4 Strings that will get assignned to the move
+	 */
+	static String [] strArr = null;
+	static String move_from_column = null;
+	static String move_from_row = null;
+	static String move_to_column = null;
+	static String move_to_row = null;
 	
 	/**
 	 * Plays the next move for whichever player has the turn.
@@ -62,27 +89,29 @@ public class Chess {
 	public static ReturnPlay play(String move) {
 
 		/* FILL IN THIS METHOD */
-		
-		/* FOLLOWING LINE IS A PLACEHOLDER TO MAKE COMPILER HAPPY */
-		/* WHEN YOU FILL IN THIS METHOD, YOU NEED TO RETURN A ReturnPlay OBJECT */
 
-		/*
-		 * Currently testing a design pattern via implemeted classes below
-		 */
+		// TODO handle when the user enters an incorrect move where we dont start from a piece
+		 
+		// TODO can be promotion as well
 
 		/*
 		 * Disecting the individal positions from and to
 		 */
-		String [] strArr = move.split(" ");
-		String move_from_column  = String.valueOf(strArr[0].charAt(0));
-		String move_from_row  = String.valueOf(strArr[0].charAt(1));
-		String move_to_column  = String.valueOf(strArr[1].charAt(0));
-		String move_to_row  = String.valueOf(strArr[1].charAt(1));
+		strArr = move.split(" ");
 
-		// draw? implementation
-		// TODO can be promotion as well
-		if(strArr.length >= 3)
-			System.out.println(whosPlaying + " WANTS A DRAW");
+		if(strArr.length >= 2)
+			disectFromPosition(move);
+		
+
+
+		/*
+		 * If statement that identifies a resign statement from the user
+		 * 
+		 * Will return a ReturnPlay object accordingly with the appropriate message
+		 */
+		if(resignPrompted() != null)
+			return returnPlay;
+			
 	 
 		/*
 		 * This code will allow any piece on the board to move anywhere without any rules
@@ -92,21 +121,45 @@ public class Chess {
 		 * Remember that we will update the message of the ReturnPlay via the clases of the pieces themselves
 		 */
 
-		 if(whosPlaying == Player.white)
+		if(whosPlaying == Player.white)
 		 {
 			//TODO delete print 
 			System.out.println("\nWHITE'S TURN");
+
+			if(getPieceFromPosition("" + move_from_column + move_from_row).toString().split(":")[1].toUpperCase().contains("B"))
+			{
+				System.out.println("ILLEGAL MOVE YOURE PLAYING FOR THE WRONG SIDE");
+				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+				return returnPlay;
+			}
+
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
-			switchPlayer();
+			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE)
+				switchPlayer();
 		 }
-		 else
-		 {
+		else
+		{	
 			//TODO delete print 
 			System.out.println("\nBLACK'S TURN");
+
+			if(getPieceFromPosition("" + move_from_column + move_from_row).toString().split(":")[1].toUpperCase().contains("W"))
+			{
+				System.out.println("ILLEGAL MOVE YOURE PLAYING FOR THE WRONG SIDE");
+				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+				return returnPlay;
+			}
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
-			switchPlayer();
+			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE)
+				switchPlayer();
 		 }
 
+
+		 /*
+		  * This is the if statement to test a draw 
+		  * This is here because a draw is performed after the move is executed unlike resign
+		  */
+		if(drawPrompted() != null)
+			return returnPlay;
 		
 
 		return returnPlay;
@@ -274,4 +327,43 @@ public class Chess {
 		return false;
 	}
 
+
+	public static void disectFromPosition(String move)
+	{
+		move_from_column  = String.valueOf(strArr[0].charAt(0));
+		move_from_row  = String.valueOf(strArr[0].charAt(1));
+		move_to_column  = String.valueOf(strArr[1].charAt(0));
+		move_to_row  = String.valueOf(strArr[1].charAt(1));
+	}
+
+	public static ReturnPlay resignPrompted()
+	{
+		if(strArr[0].equals("resign"))
+		{
+			// TODO delete print statement
+			System.out.println(whosPlaying.toString().toUpperCase() + " IS RSIGNING");
+			if(whosPlaying == Player.white)
+				returnPlay.message = ReturnPlay.Message.RESIGN_BLACK_WINS;
+			else
+				returnPlay.message = ReturnPlay.Message.RESIGN_WHITE_WINS;
+			return returnPlay;
+		}
+
+		return null;
+	}
+
+	public static ReturnPlay drawPrompted()
+	{
+		if(strArr.length >= 3)
+		{
+			if(strArr[2].equals("draw?"))
+			{
+				System.out.println(whosPlaying.toString().toUpperCase() + " WANTS A DRAW");
+				returnPlay.message = ReturnPlay.Message.DRAW;
+				return returnPlay;
+			}
+		}
+
+		return null;
+	}
 }

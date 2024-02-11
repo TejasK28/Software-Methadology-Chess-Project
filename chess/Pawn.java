@@ -70,6 +70,7 @@ public class Pawn extends ReturnPiece implements Piece
         
 
         //remove the moves that are not valid due to other pieces on the board
+        //TODO issue finding possible kills because of this
         for(int i = 0; i < Chess.returnPlay.piecesOnBoard.size(); i++)
         {
             //This will get the positon of a piece on the board
@@ -79,6 +80,9 @@ public class Pawn extends ReturnPiece implements Piece
                 validMoves.remove(otherPosition);
 
         }
+
+        //TODO test this method
+        identifyPossibleKills();
 
     }
 
@@ -94,9 +98,6 @@ public class Pawn extends ReturnPiece implements Piece
         //TODO fix this method
         popoulateValidMoves();
 
-        //TODO test this method
-        identifyPossibleKills();
-        
         /*
          * If current piece can move,
             * then change the position of this piece,
@@ -109,6 +110,11 @@ public class Pawn extends ReturnPiece implements Piece
          */
             if(validMoves.contains("" + newFile + newRank))
             {
+                if(Chess.pieceExistsAt("" + newFile + newRank))
+                {
+                    Chess.returnPlay.piecesOnBoard.remove(Chess.getPieceFromPosition(("" + newFile + newRank)));
+                    System.out.println("A PIECE WAS JUST KILLED!");
+                }
                 this.pieceFile = newFile;
                 this.pieceRank = newRank;
                 moveCount++;      
@@ -152,27 +158,38 @@ public class Pawn extends ReturnPiece implements Piece
          * Will change based on black/white
          */
         int targetRank;
+
         if(Chess.whosPlaying == Chess.Player.white)
+        {
             targetRank = this.pieceRank + 1;
+
+            if(nextIndex < 8 && previousIndex >= 0 && targetRank <= 8 && targetRank >= 0)
+            {
+    
+                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank))
+                {
+                    if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank).toString().toUpperCase().contains(":B"))
+                        validMoves.add("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank);
+                }
+                    
+            }   
+        }
         else
+        {
             targetRank = this.pieceRank - 1;
 
-
-        if(nextIndex < 8 && targetRank <= 8 && targetRank >= 0)
-        {
-
-            if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank))
+            if(previousIndex >= 0 && nextIndex < 8 && targetRank <= 8 && targetRank >= 0)
             {
-                validMoves.add("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank);
-            }
-                
-        }   
-        if(previousIndex >= 0 && targetRank <= 8 && targetRank >= 0)
-        {
-            if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank))
-            {
-                validMoves.add("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank);
+                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank))
+                {
+                    if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank).toString().toUpperCase().contains("W"))
+                        validMoves.add("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank);
+                }
             }
         }
+
+
+        
+        
     }
 }
