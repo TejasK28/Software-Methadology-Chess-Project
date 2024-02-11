@@ -137,7 +137,7 @@ public class Chess {
 			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE)
 				switchPlayer();
 		 }
-		else
+		else // Black's turn
 		{	
 			//TODO delete print 
 			System.out.println("\nBLACK'S TURN");

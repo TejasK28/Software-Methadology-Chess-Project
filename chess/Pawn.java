@@ -11,7 +11,6 @@ public class Pawn extends ReturnPiece implements Piece
     /*
      * ArrayList validMoves will hold a string of valid moves that the piece can perform based on the moveCount
      * 
-     * TODO think about how to add kill pieces
      */
     ArrayList<String> validMoves;
     int moveCount;
@@ -31,7 +30,6 @@ public class Pawn extends ReturnPiece implements Piece
      * Will also take care of the edge case of exceeding the board max size
      * 
      * TODO implement the enpessant
-     * TODO doesn't recognize enemies yet, just a straight line
      */
     public void popoulateValidMoves()
     {
@@ -78,11 +76,12 @@ public class Pawn extends ReturnPiece implements Piece
             String otherPosition = Chess.returnPlay.piecesOnBoard.get(i).toString().split(":")[0];
             if(validMoves.contains(otherPosition))
                 validMoves.remove(otherPosition);
-
         }
 
         //TODO test this method
         identifyPossibleKills();
+
+        findEnpessant();
 
     }
 
@@ -117,6 +116,10 @@ public class Pawn extends ReturnPiece implements Piece
                 }
                 this.pieceFile = newFile;
                 this.pieceRank = newRank;
+
+                //add a method to check if we enpessanted
+                removeIfEnPessantPlayed();
+
                 moveCount++;      
                 //A legal move return a null message
                 Chess.returnPlay.message = null;
@@ -148,7 +151,6 @@ public class Pawn extends ReturnPiece implements Piece
      */
 
      // TODO I never differentiated between black/white pieces while indeitfying kill pieces
-     // TODO refractor this method
      // TODO rewrite the if statement for > or < -- potential bug there
     public void identifyPossibleKills()
     {
@@ -230,4 +232,60 @@ public class Pawn extends ReturnPiece implements Piece
         
         
     }
+
+    /*
+     * findEnpessant will 
+     * 1) iterate through the entire returnPlay static object
+     * 2) check for a pawn whose move count is equal to 1
+     * 3) if the moved pawn is to the left/right of the current pawn
+     * 4) append the pawn to the validMoves list
+     * 5) check for which color is playing
+     * 
+     * instanceof checks for the dynamic type or one of its subclasses
+     */
+    public void findEnpessant()
+    {
+
+        // 1
+        for(ReturnPiece piece : Chess.returnPlay.piecesOnBoard)
+        {
+            // 2
+            if(piece instanceof Pawn)
+            {
+                Pawn toBeKilledPawn  = (Pawn) piece;
+                // 3
+                if(toBeKilledPawn.moveCount == 1 && Math.abs((toBeKilledPawn.pieceFile.ordinal() - this.pieceFile.ordinal())) == 1 && toBeKilledPawn.pieceRank == this.pieceRank)
+                {
+                    System.out.println("ENPESSANT POSSIBLE");
+                    // 4 & 5
+                    if(Chess.whosPlaying == Chess.Player.white && toBeKilledPawn.pieceType == ReturnPiece.PieceType.BP)
+                        validMoves.add("" + toBeKilledPawn.pieceFile + (toBeKilledPawn.pieceRank + 1));
+                    else if(Chess.whosPlaying == Chess.Player.black && toBeKilledPawn.pieceType == ReturnPiece.PieceType.WP)
+                        validMoves.add("" + toBeKilledPawn.pieceFile + (toBeKilledPawn.pieceRank - 1));
+                }
+            }
+        }
+
+    }
+
+    /*
+     * Method will
+     * 1) if the opponent pawn is right "behind" the current pawn
+     * 2) remove the oppoennt pawn from the board
+     */
+
+     // TODO complete this method
+    public void removeIfEnPessantPlayed()
+    {
+        if(Chess.whosPlaying == Chess.Player.white)
+        {
+
+        }
+        else
+        {
+
+        }
+            
+    }
+
 }
