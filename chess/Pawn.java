@@ -149,6 +149,7 @@ public class Pawn extends ReturnPiece implements Piece
 
      // TODO I never differentiated between black/white pieces while indeitfying kill pieces
      // TODO refractor this method
+     // TODO rewrite the if statement for > or < -- potential bug there
     public void identifyPossibleKills()
     {
         String pieceFileString = "" + this.pieceFile;
@@ -163,42 +164,66 @@ public class Pawn extends ReturnPiece implements Piece
         if(Chess.whosPlaying == Chess.Player.white)
         {
             targetRank = this.pieceRank + 1;
+            // nextIndex is a logical value
+            // targetRank is a physical value
 
-            if(nextIndex < 8 && previousIndex >= 0 && targetRank <= 8 && targetRank > 0)
+            if(nextIndex < 8 && nextIndex >= 0 && targetRank <= 8 && targetRank > 0)
             {
-    
-                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank))
-                {
-                    if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank).toString().toUpperCase().contains(":B"))
+                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank) && Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank).toString().toUpperCase().contains("B"))
                         validMoves.add("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank);
-                }
-
-                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank))
-                {
-                    if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank).toString().toUpperCase().contains("B"))
+            }
+            if(previousIndex < 8 && previousIndex >= 0 && targetRank <= 8 && targetRank > 0)
+            {
+                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank) && Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank).toString().toUpperCase().contains("B"))
                         validMoves.add("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank);
-                }
+            }
+
+            // if(nextIndex < 8 && previousIndex >= 0 && targetRank <= 8 && targetRank > 0)
+            // {
+    
+            //     if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank))
+            //     {
+            //         if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank).toString().toUpperCase().contains("B"))
+            //             validMoves.add("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank);
+            //     }
+
+            //     if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank))
+            //     {
+            //         if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank).toString().toUpperCase().contains("B"))
+            //             validMoves.add("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank);
+            //     }
                     
-            }   
+            // }   
         }
         else
         {
             targetRank = this.pieceRank - 1;
 
-            if(previousIndex >= 0 && nextIndex < 8 && targetRank <= 8 && targetRank > 0)
+            if(nextIndex < 8 && nextIndex >= 0 && targetRank <= 8 && targetRank > 0)
             {
-                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank))
-                {
-                    if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank).toString().toUpperCase().contains("W"))
+                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank) && Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank).toString().toUpperCase().contains("B"))
                         validMoves.add("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank);
-                }
-
-                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank))
-                {
-                    if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank).toString().toUpperCase().contains("W"))
-                        validMoves.add("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank);
-                }
             }
+            if(previousIndex < 8 && previousIndex >= 0 && targetRank <= 8 && targetRank > 0)
+            {
+                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank) && Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank).toString().toUpperCase().contains("B"))
+                        validMoves.add("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank);
+            }
+
+            // if(previousIndex >= 0 && nextIndex < 8 && targetRank <= 8 && targetRank > 0)
+            // {
+            //     if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank))
+            //     {
+            //         if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank).toString().toUpperCase().contains("W"))
+            //             validMoves.add("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank);
+            //     }
+
+            //     if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank))
+            //     {
+            //         if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank).toString().toUpperCase().contains("W"))
+            //             validMoves.add("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank);
+            //     }
+            // }
         }
 
 
