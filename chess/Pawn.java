@@ -148,6 +148,7 @@ public class Pawn extends ReturnPiece implements Piece
      */
 
      // TODO I never differentiated between black/white pieces while indeitfying kill pieces
+     // TODO refractor this method
     public void identifyPossibleKills()
     {
         String pieceFileString = "" + this.pieceFile;
@@ -163,13 +164,19 @@ public class Pawn extends ReturnPiece implements Piece
         {
             targetRank = this.pieceRank + 1;
 
-            if(nextIndex < 8 && previousIndex >= 0 && targetRank <= 8 && targetRank >= 0)
+            if(nextIndex < 8 && previousIndex >= 0 && targetRank <= 8 && targetRank > 0)
             {
     
                 if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank))
                 {
                     if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank).toString().toUpperCase().contains(":B"))
                         validMoves.add("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank);
+                }
+
+                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank))
+                {
+                    if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank).toString().toUpperCase().contains("B"))
+                        validMoves.add("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank);
                 }
                     
             }   
@@ -178,11 +185,17 @@ public class Pawn extends ReturnPiece implements Piece
         {
             targetRank = this.pieceRank - 1;
 
-            if(previousIndex >= 0 && nextIndex < 8 && targetRank <= 8 && targetRank >= 0)
+            if(previousIndex >= 0 && nextIndex < 8 && targetRank <= 8 && targetRank > 0)
             {
-                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank))
+                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank))
                 {
                     if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank).toString().toUpperCase().contains("W"))
+                        validMoves.add("" + ReturnPiece.PieceFile.values()[nextIndex] + targetRank);
+                }
+
+                if(Chess.pieceExistsAt("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank))
+                {
+                    if(Chess.getPieceFromPosition("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank).toString().toUpperCase().contains("W"))
                         validMoves.add("" + ReturnPiece.PieceFile.values()[previousIndex] + targetRank);
                 }
             }
