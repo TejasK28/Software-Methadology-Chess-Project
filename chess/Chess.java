@@ -149,8 +149,6 @@ public class Chess {
 			{
 				switchPlayer(); //switch player & null the message
 				++globalMoveCount; // increment the globalMoveCount
-				//TODO PAWNS ONLY
-				((Pawn) getPieceFromPosition(move_to_column + move_to_row)).lastMoved = globalMoveCount;
 			}
 
 			System.out.println("WHITE JUST MOVED");
@@ -305,8 +303,28 @@ public class Chess {
 		ReturnPiece from_piece = getPieceFromPosition(move_from_column + move_from_row );
 		 
 		 if(from_piece instanceof Pawn)
-		 // TODO new move testing for pawn
-			((Pawn)from_piece).newMove(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+		 {
+			// TODO new move testing for pawn
+			// TODO promotion
+			Pawn current_pawn = ((Pawn)from_piece);
+			current_pawn.newMove(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+
+			//Promotion implementation
+			//default promotion to queen
+			// TODO need to accept a choice for promotion
+			if(current_pawn.pieceRank == 8 && current_pawn.color.equals("W"))
+			{
+				//adds a white queen in the place of the old pawn and removes old pawn
+				returnPlay.piecesOnBoard.add(new Queen(PieceType.WQ,current_pawn.pieceFile, current_pawn.pieceRank));
+				returnPlay.piecesOnBoard.remove(current_pawn);
+			}
+			else if(((Pawn)from_piece).pieceRank == 1 && ((Pawn)from_piece).color.equals("B"))
+			{
+				returnPlay.piecesOnBoard.add(new Queen(PieceType.BQ,current_pawn.pieceFile, current_pawn.pieceRank));
+				returnPlay.piecesOnBoard.remove(current_pawn);
+			}
+		 }
+		 
 		else if(from_piece instanceof Rook)
 			((Rook)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 		else if(from_piece instanceof Knight)
