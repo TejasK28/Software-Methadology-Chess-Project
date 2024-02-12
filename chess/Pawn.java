@@ -1,8 +1,6 @@
 package chess;
 import java.util.*;
 
-import chess.Chess.Player;
-
 // using Return Piece in Chess.java implement pawn class
 public class Pawn extends ReturnPiece implements Piece
 {
@@ -207,8 +205,7 @@ public class Pawn extends ReturnPiece implements Piece
                 {
                     // TODO GLOBAL ENPESSANT CHECK DELETE THIS IF IT DOESN'T WORK
                     // TODO TEST THIS
-                    if(opponentPawn.canBeEnPessanted)
-                        moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank + 1), opponentPawn);
+                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank + 1), opponentPawn);
                 }
             }
             if(nextColumn != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)) != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
@@ -217,8 +214,7 @@ public class Pawn extends ReturnPiece implements Piece
                 if(opponentPawn.moveCount == 1)
                 {
                     //TODO TEST THIS
-                    if(opponentPawn.canBeEnPessanted)
-                        moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank + 1), opponentPawn);
+                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank + 1), opponentPawn);
                 }
             }
         }
@@ -246,8 +242,7 @@ public class Pawn extends ReturnPiece implements Piece
                 if(opponentPawn.moveCount == 1)
                 {
                     //TODO TEST
-                    if(opponentPawn.canBeEnPessanted)
-                        moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank - 1), opponentPawn);
+                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank - 1), opponentPawn);
                 }
             }
             if(nextColumn != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)) != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
@@ -256,15 +251,13 @@ public class Pawn extends ReturnPiece implements Piece
                 if(opponentPawn.moveCount == 1)
                 {
                     //TODO TEST
-                    if(opponentPawn.canBeEnPessanted)
-                        moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank - 1), opponentPawn);
+                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank - 1), opponentPawn);
                 }
             }
 
             
         }
-            
-            
+               
     }
 
 

@@ -133,44 +133,51 @@ public class Chess {
 		 * Remember that we will update the message of the ReturnPlay via the clases of the pieces themselves
 		 */
 
-		if(whosPlaying == Player.white)
+		if(whosPlaying == Player.white) // white's turn
 		{
-			//TODO delete print 
-			System.out.println("\nWHITE'S TURN");
-			System.out.println("GLOBAL MOVE COUNT: " + globalMoveCount);
-
-			if(getPieceFromPosition("" + move_from_column + move_from_row).toString().split(":")[1].toUpperCase().contains("B"))
+			// if we are playing the wrong side
+			if(getColorOfPieceFromPosition(move_from_column + move_from_row).equals("B")) 
 			{
 				System.out.println("ILLEGAL MOVE YOURE PLAYING FOR THE WRONG SIDE");
-				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
-				return returnPlay;
-			}
+				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE; // illegal move
+				return returnPlay; // returning the returnPlay
+			} 
 
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
+			
 			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE) // if the move was successful
 			{
 				switchPlayer(); //switch player & null the message
 				++globalMoveCount; // increment the globalMoveCount
+				//TODO PAWNS ONLY
+				((Pawn) getPieceFromPosition(move_to_column + move_to_row)).lastMoved = globalMoveCount;
 			}
+
+			System.out.println("WHITE JUST MOVED");
+			System.out.println("GLOBAL MOVE COUNT: " + globalMoveCount);
+			System.out.println("BLACK TO MOVE");
 		}
 		else // Black's turn
 		{	
-			//TODO delete print 
-			System.out.println("\nBLACK'S TURN");
-			System.out.println("GLOBAL MOVE COUNT: " + globalMoveCount);
-
-			if(getPieceFromPosition("" + move_from_column + move_from_row).toString().split(":")[1].toUpperCase().contains("W"))
+			
+			if(getColorOfPieceFromPosition(move_from_column + move_from_row).equals("W"))
 			{
 				System.out.println("ILLEGAL MOVE YOURE PLAYING FOR THE WRONG SIDE");
 				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 				return returnPlay;
 			}
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
+			
 			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE) // if the move was successful
 			{
 				switchPlayer(); //switch player & null the message
 				++globalMoveCount; // increment the globalMoveCount
 			}
+			//TODO delete print 
+			System.out.println("BLACK JUST MOVED");
+			System.out.println("GLOBAL MOVE COUNT: " + globalMoveCount);
+			System.out.println("WHITE TO MOVE");
+
 		 }
 
 
@@ -181,7 +188,6 @@ public class Chess {
 		if(drawPrompted() != null)
 			return returnPlay;
 		
-
 		return returnPlay;
 
 	}
