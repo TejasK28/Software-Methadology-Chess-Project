@@ -1,6 +1,8 @@
 package chess;
 import java.util.*;
 
+import chess.Chess.Player;
+
 // using Return Piece in Chess.java implement pawn class
 public class Pawn extends ReturnPiece implements Piece
 {
@@ -43,13 +45,14 @@ public class Pawn extends ReturnPiece implements Piece
     {
         populateRegularAndKillMoves(); // populates moves hashmap with the appropriate moves for standard/kill plays
 
+
         System.out.println("THE VALID MOVES ARE: " + this.moves);
 
         if(moves.containsKey(getStringOfPosition(newFile, newRank)))//moves the piece if it is included in the moves hashmap
         {
             if(moves.get(getStringOfPosition(newFile, newRank)) != null) // movement is not null so we remove
             {
-                Chess.returnPlay.piecesOnBoard.remove(Chess.getPieceFromPosition(getStringOfPosition(newFile, newRank)));
+                Chess.returnPlay.piecesOnBoard.remove(moves.get(getStringOfPosition(newFile, newRank)));
             }
 
             //actual movements
@@ -57,6 +60,10 @@ public class Pawn extends ReturnPiece implements Piece
             this.pieceRank = newRank;
             //increment move count
             moveCount++;
+        }
+        else
+        {
+            Chess.returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
         }
 
 
@@ -192,6 +199,22 @@ public class Pawn extends ReturnPiece implements Piece
                 moves.put(getStringOfPosition(nextColumn, plusOneRank), Chess.getPieceFromPosition(getStringOfPosition(nextColumn, plusOneRank)));
             }
 
+            if(previousColumn != null && Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank)) != null && Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
+            {
+                Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank));
+                if(opponentPawn.moveCount == 1)
+                {
+                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank + 1), opponentPawn);
+                }
+            }
+            if(nextColumn != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)) != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
+            {
+                Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank));
+                if(opponentPawn.moveCount == 1)
+                {
+                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank + 1), opponentPawn);
+                }
+            }
         }
         else // if we are black so we are looking for white pices and looking down
         {
@@ -210,9 +233,26 @@ public class Pawn extends ReturnPiece implements Piece
             {
                 moves.put(getStringOfPosition(nextColumn, minusOneRank), Chess.getPieceFromPosition(getStringOfPosition(nextColumn, minusOneRank)));
             }
+
+            if(previousColumn != null && Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank)) != null && Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
+            {
+                Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank));
+                if(opponentPawn.moveCount == 1)
+                {
+                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank - 1), opponentPawn);
+                }
+            }
+            if(nextColumn != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)) != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
+            {
+                Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank));
+                if(opponentPawn.moveCount == 1)
+                {
+                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank - 1), opponentPawn);
+                }
+            }
+
+            
         }
-            
-            
             
             
     }
