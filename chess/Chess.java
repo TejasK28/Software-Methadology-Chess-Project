@@ -62,14 +62,14 @@ public class Chess {
 	public static ReturnPlay returnPlay;
 
 	/*
-	 * Created an ENUM reference to keep track of the players
+	 * Declared an ENUM reference to keep track of the players
 	 * 
 	 * Default is white
 	 */
 	static Player whosPlaying = Player.white;
 
 	/*
-	 * Created 4 Strings that will get assignned to the move
+	 * Declared 4 Strings that will get assignned to the move
 	 */
 	static String [] strArr = null;
 	static String move_from_column = null;
@@ -184,6 +184,7 @@ public class Chess {
 
 	}
 
+	// SETUP METHODS
 
 	/*
 	 * Static method that is called in the chess.start() method
@@ -259,25 +260,16 @@ public class Chess {
 		 */		
 	}
 
-	/*
-	 * Static method to be used to check whic piece is in some position of the board
-	 */
-	public static ReturnPiece getPieceFromPosition(String position)
+	public static void disectFromPosition(String move)
 	{
-		for(ReturnPiece piece : returnPlay.piecesOnBoard)
-		{
-			Piece interface_piece = (Piece) piece;
-
-			if(interface_piece.getPosition().equals(position))
-				return piece;
-		}
-		/*
-		 * Included to make the compiler happy
-		 * We already assume we got the correct position
-		 */
-		return null;
+		move_from_column  = String.valueOf(strArr[0].charAt(0));
+		move_from_row  = String.valueOf(strArr[0].charAt(1));
+		move_to_column  = String.valueOf(strArr[1].charAt(0));
+		move_to_row  = String.valueOf(strArr[1].charAt(1));
 	}
 
+
+	// MOVEMENT METHODS
 	/*
 	 * Static method will get the from position & to position.
 	 * It will identify the piece on the board and move accordingly.
@@ -287,7 +279,8 @@ public class Chess {
 		ReturnPiece from_piece = getPieceFromPosition(move_from_column + move_from_row );
 		 
 		 if(from_piece instanceof Pawn)
-			((Pawn)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+		 // TODO new move testing for pawn
+			((Pawn)from_piece).newMove(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 		else if(from_piece instanceof Rook)
 			((Rook)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 		else if(from_piece instanceof Knight)
@@ -302,6 +295,7 @@ public class Chess {
 		
 	}
 
+	// LOGISTIC METHODS
 	/*
 	 * Method that will switch the side of who is playing at the moment
 	 */
@@ -326,16 +320,34 @@ public class Chess {
 
 		return false;
 	}
-
-
-	public static void disectFromPosition(String move)
+	
+	/*
+	 * Static method to be used to check whic piece is in some position of the board
+	 */
+	public static ReturnPiece getPieceFromPosition(String position)
 	{
-		move_from_column  = String.valueOf(strArr[0].charAt(0));
-		move_from_row  = String.valueOf(strArr[0].charAt(1));
-		move_to_column  = String.valueOf(strArr[1].charAt(0));
-		move_to_row  = String.valueOf(strArr[1].charAt(1));
+		for(ReturnPiece piece : returnPlay.piecesOnBoard)
+		{
+			Piece interface_piece = (Piece) piece;
+
+			if(interface_piece.getPosition().equals(position))
+				return piece;
+		}
+		/*
+		 * Included to make the compiler happy
+		 * We already assume we got the correct position
+		 */
+		return null;
 	}
 
+	// TODO test this method
+	public static String getColorOfPieceFromPosition(String position)
+	{
+		ReturnPiece returnPiece = getPieceFromPosition(position);
+		return "" + returnPiece.toString().split(":")[1].substring(0,1).toUpperCase();
+	}
+
+	// SPECIAL END CASE METHODS
 	public static ReturnPlay resignPrompted()
 	{
 		if(strArr[0].equals("resign"))
