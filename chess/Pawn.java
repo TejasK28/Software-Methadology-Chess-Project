@@ -40,7 +40,8 @@ public class Pawn extends ReturnPiece implements Piece
     // MOVE METHODS
 
     //TODO TESTING NEW MOVE METHODS
-
+    //SEEMS TO BE AN ISSUE WITH ENPESSANT
+    // TODO FIX ENPESSANT -- MAKE SURE TO VALIDATE THE PROPER MOVES BASED ON MOVECOUNT
     public void newMove(PieceFile newFile, int newRank)
     {
         populateRegularAndKillMoves(); // populates moves hashmap with the appropriate moves for standard/kill plays

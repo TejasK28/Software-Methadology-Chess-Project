@@ -102,6 +102,15 @@ public class Chess {
 		if(strArr.length >= 2)
 			disectFromPosition(move);
 		
+		//handles a wrong move with a message
+		if(!pieceExistsAt(move_from_column + move_from_row))
+		{
+			returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+			return returnPlay;
+		}
+		else
+			returnPlay.message = null;
+		
 
 
 		/*
@@ -122,7 +131,7 @@ public class Chess {
 		 */
 
 		if(whosPlaying == Player.white)
-		 {
+		{
 			//TODO delete print 
 			System.out.println("\nWHITE'S TURN");
 
@@ -136,7 +145,7 @@ public class Chess {
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE)
 				switchPlayer();
-		 }
+		}
 		else // Black's turn
 		{	
 			//TODO delete print 
@@ -305,6 +314,8 @@ public class Chess {
 			whosPlaying = Player.white;
 		else
 			whosPlaying = Player.black;
+		
+		returnPlay.message = null; // reset the message when we switch
 	}
 
 	public static boolean pieceExistsAt(String targetPosition)
