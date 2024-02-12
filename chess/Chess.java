@@ -76,6 +76,9 @@ public class Chess {
 	static String move_from_row = null;
 	static String move_to_column = null;
 	static String move_to_row = null;
+
+	//global move count specifically for enpessant currently
+	public static int globalMoveCount = 0;
 	
 	/**
 	 * Plays the next move for whichever player has the turn.
@@ -134,6 +137,7 @@ public class Chess {
 		{
 			//TODO delete print 
 			System.out.println("\nWHITE'S TURN");
+			System.out.println("GLOBAL MOVE COUNT: " + globalMoveCount);
 
 			if(getPieceFromPosition("" + move_from_column + move_from_row).toString().split(":")[1].toUpperCase().contains("B"))
 			{
@@ -143,13 +147,17 @@ public class Chess {
 			}
 
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
-			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE)
-				switchPlayer();
+			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE) // if the move was successful
+			{
+				switchPlayer(); //switch player & null the message
+				++globalMoveCount; // increment the globalMoveCount
+			}
 		}
 		else // Black's turn
 		{	
 			//TODO delete print 
 			System.out.println("\nBLACK'S TURN");
+			System.out.println("GLOBAL MOVE COUNT: " + globalMoveCount);
 
 			if(getPieceFromPosition("" + move_from_column + move_from_row).toString().split(":")[1].toUpperCase().contains("W"))
 			{
@@ -158,8 +166,11 @@ public class Chess {
 				return returnPlay;
 			}
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
-			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE)
-				switchPlayer();
+			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE) // if the move was successful
+			{
+				switchPlayer(); //switch player & null the message
+				++globalMoveCount; // increment the globalMoveCount
+			}
 		 }
 
 
