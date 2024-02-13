@@ -127,6 +127,10 @@ public class Pawn extends ReturnPiece implements Piece
                 }
             }
         }
+
+
+        // print moves
+        System.out.println("MOVES: " + moves);
         
 
         //check for the next column
@@ -197,27 +201,39 @@ public class Pawn extends ReturnPiece implements Piece
             {
                 moves.put(getStringOfPosition(nextColumn, plusOneRank), Chess.getPieceFromPosition(getStringOfPosition(nextColumn, plusOneRank)));
             }
-            //enpessant checks again
-            if(previousColumn != null && Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank)) != null && Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
+
+            // enpessant checks
+            // this piece is on the 5th rank
+            // if the piece to the left or right of this piece is a pawn and has moveCount == 1
+            // and if the last moved piece was a pawn and moved 2 spaces
+            // then this piece can be enpessanted
+            if(this.pieceRank == 5)
             {
-                Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank));
-                if(opponentPawn.moveCount == 1 )
+                PieceFile leftFile = PieceFile.values()[this.pieceFile.ordinal() - 1];
+                PieceFile rightFile = PieceFile.values()[this.pieceFile.ordinal() + 1];
+
+                // print last moved piece
+                System.out.println("LAST MOVED PIECE: " + Chess.lastMovedPiece);
+                if(Chess.pieceExistsAt(getStringOfPosition(leftFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
                 {
-                    // TODO GLOBAL ENPESSANT CHECK DELETE THIS IF IT DOESN'T WORK
-                    // TODO TEST THIS
-                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank + 1), opponentPawn);
+                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank));
+                    if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)
+                    {
+                        
+                        canBeEnPessanted = true;
+                        moves.put(getStringOfPosition(leftFile, this.pieceRank + 1), opponentPawn);
+                    }
+                }
+                if(Chess.pieceExistsAt(getStringOfPosition(rightFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
+                {
+                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank));
+                    if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)
+                    {
+                        canBeEnPessanted = true;
+                        moves.put(getStringOfPosition(rightFile, this.pieceRank + 1), opponentPawn);
+                    }
                 }
             }
-            if(nextColumn != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)) != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
-            {
-                Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank));
-                if(opponentPawn.moveCount == 1)
-                {
-                    //TODO TEST THIS
-                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank + 1), opponentPawn);
-                }
-            }
-        }
         else // if we are black so we are looking for white pices and looking down
         {
             int minusOneRank;
@@ -235,26 +251,44 @@ public class Pawn extends ReturnPiece implements Piece
             {
                 moves.put(getStringOfPosition(nextColumn, minusOneRank), Chess.getPieceFromPosition(getStringOfPosition(nextColumn, minusOneRank)));
             }
-            //enpessant checks
-            if(previousColumn != null && Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank)) != null && Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
-            {
-                Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(previousColumn, this.pieceRank));
-                if(opponentPawn.moveCount == 1)
-                {
-                    //TODO TEST
-                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank - 1), opponentPawn);
-                }
-            }
-            if(nextColumn != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)) != null && Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
-            {
-                Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(nextColumn, this.pieceRank));
-                if(opponentPawn.moveCount == 1)
-                {
-                    //TODO TEST
-                    moves.put(getStringOfPosition(opponentPawn.pieceFile, opponentPawn.pieceRank - 1), opponentPawn);
-                }
-            }
 
+            // enpessant checks for black
+            // this piece is on the 4th rank
+            // if the piece to the left or right of this piece is a pawn and has moveCount == 1
+            // and if the last moved piece was a pawn and moved 2 spaces
+            // then this piece can be enpessanted
+            if(this.pieceRank == 4)
+            {
+                PieceFile leftFile = PieceFile.values()[this.pieceFile.ordinal() - 1];
+                PieceFile rightFile = PieceFile.values()[this.pieceFile.ordinal() + 1];
+                // print last moved piece
+                System.out.println("LAST MOVED PIECE: " + Chess.lastMovedPiece);
+
+                if(Chess.pieceExistsAt(getStringOfPosition(leftFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
+                {
+                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank));
+                    // print if Chess.lastMovedPiece == opponentPawn
+                    System.out.println("LAST MOVED PIECE == OPPONENT PAWN: " + (Chess.lastMovedPiece == opponentPawn));
+                    if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)
+                    {
+                        canBeEnPessanted = true;
+                        System.out.println("CAN BE ENPESANTED: " + canBeEnPessanted);
+                        moves.put(getStringOfPosition(leftFile, this.pieceRank - 1), opponentPawn);
+                    }
+                }
+                if(Chess.pieceExistsAt(getStringOfPosition(rightFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
+                {
+                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank));
+                    // print if Chess.lastMovedPiece == opponentPawn
+                    System.out.println("LAST MOVED PIECE == OPPONENT PAWN: " + (Chess.lastMovedPiece == opponentPawn));
+                    if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)
+                    {
+                        canBeEnPessanted = true;
+                        System.out.println("CAN BE ENPESANTED: " + canBeEnPessanted);
+                        moves.put(getStringOfPosition(rightFile, this.pieceRank - 1), opponentPawn);
+                    }
+                }
+            }
             
         }
                
