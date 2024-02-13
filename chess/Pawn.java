@@ -291,6 +291,8 @@ public class Pawn extends ReturnPiece implements Piece
             }
             
         }
+    
+    }
                
     }
 
@@ -331,12 +333,5 @@ public class Pawn extends ReturnPiece implements Piece
     {
         return this.color;
     }
-
-    @Override
-    public void move(PieceFile newFile, int newRank) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
-    }
-
 
 }

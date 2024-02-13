@@ -10,10 +10,7 @@ import chess.ReturnPiece.PieceFile;
 
 public interface Piece
 {
-    /*
-     * Methods already included prior to the interface
-     */
-    void move(PieceFile newFile, int newRank);
+
 
     String getPosition();
 }
