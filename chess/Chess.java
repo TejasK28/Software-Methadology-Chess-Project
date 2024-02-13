@@ -79,6 +79,7 @@ public class Chess {
 
 	//global move count specifically for enpessant currently
 	public static int globalMoveCount = 0;
+	public static ReturnPiece lastMovedPiece;
 	
 	/**
 	 * Plays the next move for whichever player has the turn.
@@ -145,6 +146,9 @@ public class Chess {
 
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 			
+			// set the last moved piece
+			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
+			
 			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE) // if the move was successful
 			{
 				switchPlayer(); //switch player & null the message
@@ -166,6 +170,10 @@ public class Chess {
 			}
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 			
+			// set the last moved piece
+			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
+			
+
 			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE) // if the move was successful
 			{
 				switchPlayer(); //switch player & null the message
@@ -335,8 +343,6 @@ public class Chess {
 			((Queen)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 		else if(from_piece instanceof King)
 			((King)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-
-		
 	}
 
 	// LOGISTIC METHODS
