@@ -22,7 +22,7 @@ public class Bishop extends ReturnPiece implements Piece{
     }
 
     public void move(PieceFile newFile, int newRank) {
-        populateRegularAndKillMoves(); // populates moves hashmap with the appropriate moves for standard/kill plays
+        Map<String, ReturnPiece> moves = populateRegularAndKillMoves(); // populates moves hashmap with the appropriate moves for standard/kill plays
 
         System.out.println("THE VALID MOVES ARE: " + this.moves);
 
@@ -46,9 +46,9 @@ public class Bishop extends ReturnPiece implements Piece{
     }
     
 
-    public void populateRegularAndKillMoves() {
-        // clear the moves hashmap
-        moves.clear();
+    public Map<String, ReturnPiece> populateRegularAndKillMoves() {
+        moves = new HashMap<String, ReturnPiece>();
+
 
         // populate the moves hashmap with the appropriate moves for standard/kill plays
         // consider 4 directions: up-right, up-left, down-right, down-left
@@ -138,6 +138,8 @@ public class Bishop extends ReturnPiece implements Piece{
                 moves.put(getStringOfPosition(file, rank), null);
             }
         }
+
+        return moves;
     }
 
     public String getStringOfPosition(PieceFile file, int rank)
