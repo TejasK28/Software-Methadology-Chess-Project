@@ -1,50 +1,87 @@
 package chess;
+import java.util.*;
 
 public class Queen extends ReturnPiece implements Piece{
+    ArrayList<String> validMoves;
+    int moveCount;
+    String color;
+    private Bishop bishop;
 
+    //TODO TEST FIELDS
+    Map<String, ReturnPiece> moves;
     // constructor
     public Queen(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
         this.pieceType = pieceType; // Wq or Bq
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
+        this.bishop = new Bishop(this.pieceType, this.pieceFile, this.pieceRank);
+        validMoves = new ArrayList<String>();
+        moveCount = 0;
+        color = this.pieceType.toString().substring(0,1).toUpperCase();
+        moves = new HashMap<String, ReturnPiece>();
     }
 
     public void move(PieceFile newFile, int newRank) {
-        // check if the move is valid
-        if (isValidMove(newFile, newRank)) {
-            // if valid, move the queen to the new position
-            this.pieceRank = newRank;
-            this.pieceFile = newFile;
-        } else {
-            // if invalid, return the current position of the queen
-            /*
-             * TODO delete this code
-             * I just put it here for it to work
-             */
+        Map<String, ReturnPiece> moves = populateRegularAndKillMoves();
 
-             this.pieceRank = newRank;
-             this.pieceFile = newFile;
+        // populateRegularAndKillMoves(); // populates moves hashmap with the appropriate moves for standard/kill plays
+
+        System.out.println("THE VALID MOVES ARE: " + this.moves);
+
+        if(moves.containsKey(getStringOfPosition(newFile, newRank)))//moves the piece if it is included in the moves hashmap
+        {
+            if(moves.get(getStringOfPosition(newFile, newRank)) != null) // movement is not null so we remove
+            {
+                Chess.returnPlay.piecesOnBoard.remove(moves.get(getStringOfPosition(newFile, newRank)));
+            }
+
+            //actual movements
+            this.pieceFile = newFile;
+            this.pieceRank = newRank;
+            //increment move count
+            moveCount++;
+        }
+        else
+        {
+            Chess.returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
         }
     }
 
-    public boolean isValidMove(PieceFile newFile, int newRank) {
-        // check if the move is valid for the queen
-        // a queen can move any number of squares in any direction: horizontally, vertically, or diagonally
-        // so the absolute difference between the current and new rank (row) should be the same as the absolute difference between the current and new file (column)
-        // or the current and new rank should be the same, or the current and new file should be the same
-        // return true if the move is valid, false otherwise
+    public Map<String, ReturnPiece> populateRegularAndKillMoves() {
+        // leverage the bishop and rook classes to get the moves
+        // concatenate the two maps
+        moves = new HashMap<String, ReturnPiece>();
+        moves.putAll(bishop.populateRegularAndKillMoves());
 
-        // file is an enum, so we need to convert it to an int
-        // convert the enum to an int by getting its ordinal value
-        int currentFile = this.pieceFile.ordinal();
-        int newFileInt = newFile.ordinal();
+        // TODO: add the rook moves
+        // moves.putAll(rook.populateRegularAndKillMoves());
 
-        return Math.abs(this.pieceRank - newRank) == Math.abs(currentFile - newFileInt) || this.pieceRank == newRank || currentFile == newFileInt;
+        return moves;
+    }
+
+
+    public String getStringOfPosition(PieceFile file, int rank)
+    {
+        return "" + file + rank;
     }
 
     @Override
     public String getPosition() 
     {
         return "" + this.pieceFile + this.pieceRank;
+    }
+
+
+    /*
+     * Getter method that will return the first letter of the piece color
+     * 
+     * ex. "W"
+     * ex. "B"
+     * 
+     * Expect uppercase letter
+     */
+    public String getColor()
+    {
+        return this.color;
     }
 }
