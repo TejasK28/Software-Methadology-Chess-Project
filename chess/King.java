@@ -1,46 +1,86 @@
 package chess;
+import java.util.*;
+
 
 //using Return Piece in Chess.java implement king class
 public class King extends ReturnPiece implements Piece{
+    
+    ArrayList<String> validMoves;
+    int moveCount;
+    String color;
+
+    //TODO TEST FIELDS
+    Map<String, ReturnPiece> moves;
 
     // constructor
     public King(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
         this.pieceType = pieceType; // Wk or Bk
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
+
+        color = this.pieceType.toString().substring(0,1).toUpperCase();
+        moves = new HashMap<String, ReturnPiece>();
     }
 
     public void move(PieceFile newFile, int newRank) {
-        // check if the move is valid
-        if (isValidMove(newFile, newRank)) {
-            // if valid, move the king to the new position
-            this.pieceRank = newRank;
-            this.pieceFile = newFile;
-        } else {
-            // if invalid, return the current position of the king
-            /*
-             * TODO delete this code
-             * I just put it here for it to work
-             */
+        Map<String, ReturnPiece> moves = populateRegularAndKillMoves(); // populates moves hashmap with the appropriate moves for standard/kill plays
 
-             this.pieceRank = newRank;
-             this.pieceFile = newFile;
+        System.out.println("THE VALID MOVES ARE: " + this.moves);
+
+        if(moves.containsKey(getStringOfPosition(newFile, newRank)))//moves the piece if it is included in the moves hashmap
+        {
+            if(moves.get(getStringOfPosition(newFile, newRank)) != null) // movement is not null so we remove
+            {
+                Chess.returnPlay.piecesOnBoard.remove(moves.get(getStringOfPosition(newFile, newRank)));
+            }
+
+            //actual movements
+            this.pieceFile = newFile;
+            this.pieceRank = newRank;
+            //increment move count
+            moveCount++;
+        }
+        else
+        {
+            Chess.returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
         }
     }
     
-    public boolean isValidMove(PieceFile newFile, int newRank) {
-        // check if the move is valid for the king
-        // a king can move one square in any direction: horizontally, vertically, or diagonally
-        // so the absolute difference between the current and new rank (row) should be <= 1
-        // and the absolute difference between the current and new file (column) should be <= 1
+    public Map<String, ReturnPiece> populateRegularAndKillMoves() {
+        moves = new HashMap<String, ReturnPiece>();
 
-        int rankDifference = Math.abs(this.pieceRank - newRank);
-        // file is an enum, so we need to convert it to an int
-        // convert the enum to an int by getting its ordinal value
-        int fileDifference = Math.abs(this.pieceFile.ordinal() - newFile.ordinal());
+        // populate the moves hashmap with the appropriate moves for standard/kill plays
+        // consider 8 directions: up, down, left, right, up-right, up-left, down-right, down-left
+        for (int fileChange = -1; fileChange <= 1; fileChange++) {
+            for (int rankChange = -1; rankChange <= 1; rankChange++) {
+                // Skip the case where fileChange and rankChange are both 0, as this corresponds to the King's current position
+                if (fileChange == 0 && rankChange == 0) {
+                    continue;
+                }
 
-        // return true if the move is valid, false otherwise
-        return rankDifference <= 1 && fileDifference <= 1;
+                PieceFile newFile = PieceFile.values()[this.pieceFile.ordinal() + fileChange];
+                int newRank = this.pieceRank + rankChange;
+
+                // Check if the new file and rank are within the board's boundaries
+                if (newFile.ordinal() > 0 && newFile.ordinal() < 8 && newRank > 0 && newRank < 8) {
+                    String newPosition = getStringOfPosition(newFile, newRank);
+                    // If the new position is not occupied, add it to the moves with null as value
+                    if (!Chess.pieceExistsAt(newPosition)) {
+                        moves.put(newPosition, null);
+                    }         
+                    // If the new position is occupied by an opponent's piece, add it to the moves
+                    else if (!Chess.getColorOfPieceFromPosition(getStringOfPosition(newFile, newRank)).equals(this.color)) {
+                        moves.put(newPosition, Chess.getPieceFromPosition(newPosition));
+                    }
+                }
+            }
+        }
+        return moves;
+    }
+
+    public String getStringOfPosition(PieceFile file, int rank)
+    {
+        return "" + file + rank;
     }
 
     @Override
@@ -49,4 +89,16 @@ public class King extends ReturnPiece implements Piece{
         return "" + this.pieceFile + this.pieceRank;
     }
 
+    /*
+     * Getter method that will return the first letter of the piece color
+     * 
+     * ex. "W"
+     * ex. "B"
+     * 
+     * Expect uppercase letter
+     */
+    public String getColor()
+    {
+        return this.color;
+    }
 }
