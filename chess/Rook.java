@@ -1,48 +1,82 @@
 package chess;
-// First 
+import java.util.*;
+
 public class Rook extends ReturnPiece implements Piece{
-    // current position of the rook
 
+    //HashMap validMoves holds all the valid moves in the form : Key: String -> Value: ReturnPiece
+    Map<String, ReturnPiece> moves;
+    //String color that holds the first letter of the color in all caps
+    String color;
+    String white;
+    String black;
 
-    // constructor
-    public Rook(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
+    /*
+     * Rook Constructor
+     * 
+     * intitalizes inherited fields:
+     * @pieceType
+     * @pieceFile
+     * @pieceRank
+     * 
+     * Will initialize other variables as necessary
+     */
+    public Rook(PieceType pieceType, PieceFile pieceFile, int pieceRank)
+    {
         this.pieceType = pieceType; // Wr or Br
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
+
+        this.moves = new HashMap<String, ReturnPiece>();
+        this.color = this.pieceType.toString().substring(0,1).toUpperCase();
+        this.white = "W";
+        this.black = "B";
     }
 
-    public void move(PieceFile newFile, int newRank) {
-        // check if the move is valid
-        if (isValidMove(newFile, newRank)) {
-            // if valid, move the rook to the new position
-            this.pieceRank = newRank;
-            this.pieceFile = newFile;
-        } else {
-            // if invalid, return the current position of the rook
-            /*
-             * TODO delete this code
-             * I just put it here for it to work
-             */
+    /*
+     * Move Method
+     *
+     * 
+     * 1) calls popoulateMoves -- must clear beforehand
+     * 2) will move 
+     */
+    public void move(PieceFile newFile, int newRank) 
+    {
+        //clearing the moves hashmap
+        moves.clear();
 
-            this.pieceRank = newRank;
-            this.pieceFile = newFile;
+        //calls popoulateMoves to ensure the hashmap contains all the valid moves based on color
+        populateRegularMovesAndKillMoves();
+    } 
+    
+    /*
+     * populateRegularMovesAndKillMoves
+     * 
+     * 1) will popoulate all the regular moves
+     * 2) will remove all the occupied moves by the same color
+     * 3) this will leave the popoulated moves hashmap for one move
+     * 4) hashmap should get cleared regularly in the @move method
+     */
+    public HashMap<String, ReturnPiece> populateRegularMovesAndKillMoves()
+    {
+        /*
+         * Starting off by checking the white rook first
+         */
+        if(this.color.equals(white))
+        {
+            
         }
+        else //If this rook is black
+        {
+
+        }
+
+
+        return null; // put in place to keep the compiler happy for now
     }
 
-    public boolean isValidMove(PieceFile newFile, int newRank) {
-        // check if the move is valid for the rook
-        // a rook can move any number of squares horizontally or vertically
-        // so the current and new rank should be the same, or the current and new file should be the same
-        // return true if the move is valid, false otherwise
-
-        // file is an enum, so we need to convert it to an int
-        // convert the enum to an int by getting its ordinal value
-        int currentFile = this.pieceFile.ordinal();
-        int newFileInt = newFile.ordinal();
-
-        return this.pieceRank == newRank || currentFile == newFileInt;
-    }
-
+    /*
+     * Returns the current position as a String
+     */
     @Override
     public String getPosition() 
     {
