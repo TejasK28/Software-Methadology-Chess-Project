@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import chess.ReturnPiece.PieceFile;
 import chess.ReturnPiece.PieceType;
 
-class ReturnPiece {
+/*
+ * ReturnPiece clas
+ * 
+ * DO NOT EDIT
+ */
+class ReturnPiece
+{
 	static enum PieceType {WP, WR, WN, WB, WQ, WK, 
 		            BP, BR, BN, BB, BK, BQ};
 	static enum PieceFile {a, b, c, d, e, f, g, h};
@@ -26,6 +32,11 @@ class ReturnPiece {
 	}
 }
 
+/*
+ * ReturnPlay class
+ * 
+ * DO NOT EDIT
+ */
 class ReturnPlay {
 	enum Message {ILLEGAL_MOVE, DRAW, 
 				  RESIGN_BLACK_WINS, RESIGN_WHITE_WINS, 
@@ -36,6 +47,11 @@ class ReturnPlay {
 	Message message;
 }
 
+/*
+ * Chess Class
+ * 
+ * DONT EDIT THE EXISTING FIELDS!
+ */
 public class Chess {
 	
 	enum Player { white, black }
@@ -43,12 +59,27 @@ public class Chess {
 	/*
 	 * Created a ReturnPlay reference
 	 */
-	static ReturnPlay returnPlay;
+	public static ReturnPlay returnPlay;
 
 	/*
-	 * Created an ENUM reference to keep track of the players
+	 * Declared an ENUM reference to keep track of the players
+	 * 
+	 * Default is white
 	 */
 	static Player whosPlaying = Player.white;
+
+	/*
+	 * Declared 4 Strings that will get assignned to the move
+	 */
+	static String [] strArr = null;
+	static String move_from_column = null;
+	static String move_from_row = null;
+	static String move_to_column = null;
+	static String move_to_row = null;
+
+	//global move count specifically for enpessant currently
+	public static int globalMoveCount = 0;
+	public static ReturnPiece lastMovedPiece;
 	
 	/**
 	 * Plays the next move for whichever player has the turn.
@@ -62,22 +93,38 @@ public class Chess {
 	public static ReturnPlay play(String move) {
 
 		/* FILL IN THIS METHOD */
-		
-		/* FOLLOWING LINE IS A PLACEHOLDER TO MAKE COMPILER HAPPY */
-		/* WHEN YOU FILL IN THIS METHOD, YOU NEED TO RETURN A ReturnPlay OBJECT */
 
-		/*
-		 * Currently testing a design pattern via implemeted classes below
-		 */
+		// TODO handle when the user enters an incorrect move where we dont start from a piece
+		 
+		// TODO can be promotion as well
 
 		/*
 		 * Disecting the individal positions from and to
 		 */
-		String [] strArr = move.split(" ");
-		String move_from_column  = String.valueOf(strArr[0].charAt(0));
-		String move_from_row  = String.valueOf(strArr[0].charAt(1));
-		String move_to_column  = String.valueOf(strArr[1].charAt(0));
-		String move_to_row  = String.valueOf(strArr[1].charAt(1));
+		strArr = move.split(" ");
+
+		if(strArr.length >= 2)
+			disectFromPosition(move);
+		
+		//handles a wrong move with a message
+		if(!pieceExistsAt(move_from_column + move_from_row))
+		{
+			returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+			return returnPlay;
+		}
+		else
+			returnPlay.message = null;
+		
+
+
+		/*
+		 * If statement that identifies a resign statement from the user
+		 * 
+		 * Will return a ReturnPlay object accordingly with the appropriate message
+		 */
+		if(resignPrompted() != null)
+			return returnPlay;
+			
 	 
 		/*
 		 * This code will allow any piece on the board to move anywhere without any rules
@@ -87,21 +134,66 @@ public class Chess {
 		 * Remember that we will update the message of the ReturnPlay via the clases of the pieces themselves
 		 */
 
-		 if(whosPlaying == Player.white)
-		 {
-			System.out.println("WHITE'S TURN");
+		if(whosPlaying == Player.white) // white's turn
+		{
+			// if we are playing the wrong side
+			if(getColorOfPieceFromPosition(move_from_column + move_from_row).equals("B")) 
+			{
+				System.out.println("ILLEGAL MOVE YOURE PLAYING FOR THE WRONG SIDE");
+				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE; // illegal move
+				return returnPlay; // returning the returnPlay
+			} 
+
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
-			switchSide();
-		 }
-		 else
-		 {
-			System.out.println("BLACK'S TURN");
+			
+			// set the last moved piece
+			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
+			
+			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE) // if the move was successful
+			{
+				switchPlayer(); //switch player & null the message
+				++globalMoveCount; // increment the globalMoveCount
+			}
+
+			System.out.println("WHITE JUST MOVED");
+			System.out.println("GLOBAL MOVE COUNT: " + globalMoveCount);
+			System.out.println("BLACK TO MOVE");
+		}
+		else // Black's turn
+		{	
+			
+			if(getColorOfPieceFromPosition(move_from_column + move_from_row).equals("W"))
+			{
+				System.out.println("ILLEGAL MOVE YOURE PLAYING FOR THE WRONG SIDE");
+				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+				return returnPlay;
+			}
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
-			switchSide();
+			
+			// set the last moved piece
+			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
+			
+
+			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE) // if the move was successful
+			{
+				switchPlayer(); //switch player & null the message
+				++globalMoveCount; // increment the globalMoveCount
+			}
+			//TODO delete print 
+			System.out.println("BLACK JUST MOVED");
+			System.out.println("GLOBAL MOVE COUNT: " + globalMoveCount);
+			System.out.println("WHITE TO MOVE");
+
 		 }
 
+
+		 /*
+		  * This is the if statement to test a draw 
+		  * This is here because a draw is performed after the move is executed unlike resign
+		  */
+		if(drawPrompted() != null)
+			return returnPlay;
 		
-
 		return returnPlay;
 
 	}
@@ -124,6 +216,7 @@ public class Chess {
 
 	}
 
+	// SETUP METHODS
 
 	/*
 	 * Static method that is called in the chess.start() method
@@ -186,7 +279,7 @@ public class Chess {
 			else
 				returnPlay.piecesOnBoard.add(new Queen(PieceType.BQ, PieceFile.values()[3], 8));
 		
-		//Kink Testing
+		//King Testing
 		//Should add black/white kings on board
 		for(int i = 0; i < 2; i++)
 			if(i < 1)
@@ -199,6 +292,87 @@ public class Chess {
 		 */		
 	}
 
+	public static void disectFromPosition(String move)
+	{
+		move_from_column  = String.valueOf(strArr[0].charAt(0));
+		move_from_row  = String.valueOf(strArr[0].charAt(1));
+		move_to_column  = String.valueOf(strArr[1].charAt(0));
+		move_to_row  = String.valueOf(strArr[1].charAt(1));
+	}
+
+
+	// MOVEMENT METHODS
+	/*
+	 * Static method will get the from position & to position.
+	 * It will identify the piece on the board and move accordingly.
+	 */
+	public static void movePieceFromTo(String move_from_column, String move_from_row, String move_to_column, String move_to_row)
+	{
+		ReturnPiece from_piece = getPieceFromPosition(move_from_column + move_from_row );
+		 
+		 if(from_piece instanceof Pawn)
+		 {
+			// TODO new move testing for pawn
+			// TODO promotion
+			Pawn current_pawn = ((Pawn)from_piece);
+			current_pawn.newMove(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+
+			//Promotion implementation
+			//default promotion to queen
+			// TODO need to accept a choice for promotion
+			if(current_pawn.pieceRank == 8 && current_pawn.color.equals("W"))
+			{
+				//adds a white queen in the place of the old pawn and removes old pawn
+				returnPlay.piecesOnBoard.add(new Queen(PieceType.WQ,current_pawn.pieceFile, current_pawn.pieceRank));
+				returnPlay.piecesOnBoard.remove(current_pawn);
+			}
+			else if(((Pawn)from_piece).pieceRank == 1 && ((Pawn)from_piece).color.equals("B"))
+			{
+				returnPlay.piecesOnBoard.add(new Queen(PieceType.BQ,current_pawn.pieceFile, current_pawn.pieceRank));
+				returnPlay.piecesOnBoard.remove(current_pawn);
+			}
+		 }
+		 
+		else if(from_piece instanceof Rook)
+			((Rook)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+		else if(from_piece instanceof Knight)
+			((Knight)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+		else if(from_piece instanceof Bishop)
+			((Bishop)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+		else if(from_piece instanceof Queen)
+			((Queen)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+		else if(from_piece instanceof King)
+			((King)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+	}
+
+	// LOGISTIC METHODS
+	/*
+	 * Method that will switch the side of who is playing at the moment
+	 */
+	public static void switchPlayer()
+	{
+		if(whosPlaying == Player.black)
+			whosPlaying = Player.white;
+		else
+			whosPlaying = Player.black;
+		
+		returnPlay.message = null; // reset the message when we switch
+	}
+
+	public static boolean pieceExistsAt(String targetPosition)
+	{
+		for(int i = 0; i < returnPlay.piecesOnBoard.size(); i++)
+		{
+			ReturnPiece piece = returnPlay.piecesOnBoard.get(i);
+			String positionOfPiece = piece.toString().split(":")[0];
+			
+			if(positionOfPiece.equals(targetPosition))
+				return true;
+		}
+
+		return false;
+	}
+	
 	/*
 	 * Static method to be used to check whic piece is in some position of the board
 	 */
@@ -218,40 +392,42 @@ public class Chess {
 		return null;
 	}
 
-	/*
-	 * Static method will get the from position & to position.
-	 * It will identify the piece on the board and move accordingly.
-	 */
-	public static void movePieceFromTo(String move_from_column, String move_from_row, String move_to_column, String move_to_row)
+	// TODO test this method
+	public static String getColorOfPieceFromPosition(String position)
 	{
-		ReturnPiece from_piece = getPieceFromPosition(move_from_column + move_from_row );
-		 
-		 if(from_piece instanceof Pawn)
-			((Pawn)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-		else if(from_piece instanceof Rook)
-			((Rook)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-		else if(from_piece instanceof Knight)
-			((Knight)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-		else if(from_piece instanceof Bishop)
-			((Bishop)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-		else if(from_piece instanceof Queen)
-			((Queen)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-		else if(from_piece instanceof King)
-			((King)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-
-		
+		ReturnPiece returnPiece = getPieceFromPosition(position);
+		return "" + returnPiece.toString().split(":")[1].substring(0,1).toUpperCase();
 	}
 
-	/*
-	 * Method that will switch the side of who is playing at the moment
-	 */
-	public static void switchSide()
+	// SPECIAL END CASE METHODS
+	public static ReturnPlay resignPrompted()
 	{
-		if(whosPlaying == Player.black)
-			whosPlaying = Player.white;
-		else
-			whosPlaying = Player.black;
+		if(strArr[0].equals("resign"))
+		{
+			// TODO delete print statement
+			System.out.println(whosPlaying.toString().toUpperCase() + " IS RSIGNING");
+			if(whosPlaying == Player.white)
+				returnPlay.message = ReturnPlay.Message.RESIGN_BLACK_WINS;
+			else
+				returnPlay.message = ReturnPlay.Message.RESIGN_WHITE_WINS;
+			return returnPlay;
+		}
+
+		return null;
 	}
 
+	public static ReturnPlay drawPrompted()
+	{
+		if(strArr.length >= 3)
+		{
+			if(strArr[2].equals("draw?"))
+			{
+				System.out.println(whosPlaying.toString().toUpperCase() + " WANTS A DRAW");
+				returnPlay.message = ReturnPlay.Message.DRAW;
+				return returnPlay;
+			}
+		}
 
+		return null;
+	}
 }
