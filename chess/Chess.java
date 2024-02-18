@@ -430,4 +430,12 @@ public class Chess {
 
 		return null;
 	}
+
+
+    //TODO Helper method for new move
+    public static String getStringOfPosition(PieceFile file, int rank)
+    {
+        return "" + file + rank;
+    }
+
 }
