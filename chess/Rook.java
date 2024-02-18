@@ -22,7 +22,8 @@ public class Rook extends Piece{
         this.color = this.pieceType.toString().substring(0,1).toUpperCase();
     }
     
-    //move methodis inherited from Piece Class
+    //move method inherited from Piece Class
+
 
     /*
      * populateRegularMovesAndKillMoves
@@ -39,6 +40,7 @@ public class Rook extends Piece{
          * Call 2 methods to popoulate the proper moves based on color and indeitify kill moves
          */
         horizontal(this.getPosition());
+        vertical(this.getPosition());
 
         System.out.println("THE MOVES OF ROOK : " + this.moves);
 
@@ -104,6 +106,9 @@ public class Rook extends Piece{
 
             ++current_file_index;
         }
+        
+        current_file_index = this.pieceFile.ordinal() - 1;
+
         /*
          * this while loop goes in the left direction
          */
@@ -149,6 +154,109 @@ public class Rook extends Piece{
         
     }
 
+    public void vertical(String currentPosition)
+    {
+        /*
+         * @ current_file_index : int
+         *  - stores the changing index of the columns(row-way traverse)
+         */
+        int current_file_index = this.pieceFile.ordinal();
+        
 
+        /*
+         * @ current_rank : int
+         *  - stores the current rank
+         */
+        int current_rank = this.pieceRank + 1;
+
+        
+        /*
+         * This while loop checks from the current file & rank up until the end
+         */
+        while(current_file_index <= 8)
+        {
+            /*
+             * @ current_piecefile : PieceFile
+             *  - stores the pieceFile equivalent of the current file index
+             */
+            PieceFile current_piecefile = PieceFile.values()[current_file_index];
+
+            /*
+            * @ checking_index : String
+            * - stores the string version of the checking position
+            */
+            String checkingIndex = getStringOfPosition(current_piecefile, current_rank);
+
+            String currentindex = getPosition();
+
+            //we are going to default to the same rank, but change the file
+            
+            //we now are safe from messing with our own rook
+
+            //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
+            if(isEnemyForThisPiece(currentPosition, checkingIndex))
+            {
+                //adding the index we can move to
+                this.moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
+                break;
+
+            }
+            else if(!isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
+            {
+                break;
+            }
+            else // free space
+            {
+                this.moves.put(currentindex, null);
+            }
+
+            ++current_rank;
+        }
+        
+        current_rank = this.pieceRank - 1;
+        /*
+         * this while loop goes in the down direction
+         */
+        while(current_file_index > 0)
+        {
+            /*
+             * @ current_piecefile : PieceFile
+             *  - stores the pieceFile equivalent of the current file index
+             */
+            PieceFile current_piecefile = PieceFile.values()[current_file_index];
+
+            /*
+            * @ checking_index : String
+            * - stores the string version of the checking position
+            */
+            String checkingIndex = getStringOfPosition(current_piecefile, current_rank);
+
+            String currentindex = getPosition();
+
+            //we are going to default to the same rank, but change the file
+            
+            //we now are safe from messing with our own rook
+
+            //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
+            if(isEnemyForThisPiece(currentPosition, checkingIndex))
+            {
+                //adding the index we can move to
+                this.moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
+                break;
+
+            }
+            else if(!isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
+            {
+                break;
+            }
+            else // free space
+            {
+                this.moves.put(currentindex, null);
+            }
+
+            --current_rank;;
+        }
+        
+    }
 
 }
