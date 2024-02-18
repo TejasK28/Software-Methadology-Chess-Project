@@ -46,6 +46,19 @@ public class Rook extends ReturnPiece implements Piece{
 
         //calls popoulateMoves to ensure the hashmap contains all the valid moves based on color
         populateRegularMovesAndKillMoves();
+
+        //if the move is valid
+       if(moves.containsKey(Chess.getStringOfPosition(newFile, newRank)))
+       {
+            //if the move has an enemy piece on it, we will remove it from returnPlay
+            if(moves.get(Chess.getStringOfPosition(newFile, newRank)) != null)
+            {  
+                Chess.returnPlay.piecesOnBoard.remove(Chess.getPieceFromPosition(Chess.getStringOfPosition(newFile, newRank)));
+            }
+            //updating to the new coordinates
+            this.pieceFile = newFile;
+            this.pieceRank = newRank;
+       }
     } 
     
     /*
@@ -62,7 +75,7 @@ public class Rook extends ReturnPiece implements Piece{
          * Call 2 methods to popoulate the proper moves based on color and indeitify kill moves
          */
         populateVerticalMove(getPosition());
-        pupulateHorizontalMoves(getPosition());
+        populateHorizontalMoves(getPosition());
 
         System.out.println("THE MOVES OF ROOK : " + moves);
 
@@ -108,20 +121,16 @@ public class Rook extends ReturnPiece implements Piece{
                     moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
                     break; // will break if we find an enemy picece
                 }
+                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
+                {
+                    break;
+                }
                 else
                 {
-                    if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        if(!Chess.pieceExistsAt(checkingPosition))
+                    if(!Chess.pieceExistsAt(checkingPosition))
                             moves.put(checkingPosition, null);
-                    }
-
-                    
                 }
+
 
                 ++rank;
             }
@@ -239,11 +248,11 @@ public class Rook extends ReturnPiece implements Piece{
      * 
      * TODO fix the bug where we dont see our own color
      */
-    public void pupulateHorizontalMoves(String currentPosition)
+    public void populateHorizontalMoves(String currentPosition)
     {
         if(this.color.equals(white)) // current rook is white
         {
-            int column = this.pieceFile.ordinal();
+            int column = this.pieceFile.ordinal() + 1;
             int rank = this.pieceRank;
             /*
              * While loop to go through the horizontal path from file 0 to 7
@@ -259,17 +268,22 @@ public class Rook extends ReturnPiece implements Piece{
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
                 {
                     moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    break;
+                }
+                //Rook is white and we are checking for a white piece
+                if(!Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
+                {
+                    break;
+
                 }
                 else
-                {
-                    if(!Chess.pieceExistsAt(checkingPosition))
-                        moves.put(checkingPosition, null);
-                }
+                    moves.put(checkingPosition, null);
+
 
                 ++column;
             }
 
-            column = this.pieceFile.ordinal();
+            column = this.pieceFile.ordinal() - 1;
 
             while(column >= 0)
             {
@@ -280,19 +294,21 @@ public class Rook extends ReturnPiece implements Piece{
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
                 {
                     moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    break;
+                }
+                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
+                {
+                    break;
                 }
                 else
-                {
-                    if(!Chess.pieceExistsAt(checkingPosition))
-                        moves.put(checkingPosition, null);
-                }
+                    moves.put(checkingPosition, null);
 
                 --column;
             }
         }
         else // if the rook is black
         {
-            int column = this.pieceFile.ordinal();
+            int column = this.pieceFile.ordinal() + 1;
             int rank = this.pieceRank;
             /*
              * While loop to go through the horizontal path from file 0 to 7
@@ -308,17 +324,20 @@ public class Rook extends ReturnPiece implements Piece{
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
                 {
                     moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    break;
+                }
+                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
+                {
+                    break;
                 }
                 else
-                {
-                    if(!Chess.pieceExistsAt(checkingPosition))
-                        moves.put(checkingPosition, null);
-                }
+                    moves.put(checkingPosition, null);
+
 
                 ++column;
             }
 
-            column = this.pieceFile.ordinal();
+            column = this.pieceFile.ordinal() - 1;
 
             while(column >= 0)
             {
@@ -329,12 +348,14 @@ public class Rook extends ReturnPiece implements Piece{
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
                 {
                     moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    break;
+                }
+                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
+                {
+                    break;
                 }
                 else
-                {
-                    if(!Chess.pieceExistsAt(checkingPosition))
-                        moves.put(checkingPosition, null);
-                }
+                    moves.put(checkingPosition, null);
 
                 --column;
             }
