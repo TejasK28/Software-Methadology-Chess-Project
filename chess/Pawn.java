@@ -15,17 +15,12 @@ public class Pawn extends Piece
     boolean canBeEnPessanted;
     int lastMoved;
 
-    //TODO TEST FIELDS
-    Map<String, ReturnPiece> moves;
-
     // PAWN CONSTRUCTOR
     public Pawn(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
         
         this.pieceType = pieceType; // Wp or Bp
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
-
-        validMoves = new ArrayList<String>();
         moveCount = 0;
         color = this.pieceType.toString().substring(0,1).toUpperCase();
         canBeEnPessanted = false;
@@ -37,7 +32,7 @@ public class Pawn extends Piece
 
     // TODO NEW MOVE HELPER METHODS
 
-    public Map<String, ReturnPiece> populateRegularAndKillMoves()
+    public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
     {
         //white
 

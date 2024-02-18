@@ -12,11 +12,13 @@ import java.util.*;
 
 public class Piece extends ReturnPiece
 {
-    ArrayList<String> validMoves;
-    int moveCount;
+    HashMap<String, ReturnPiece> moves;
+    int moveCount = 0;
     String color;
+    String white = "W";
+    String black = "B";
 
-    Map<String, ReturnPiece> populateRegularAndKillMoves() {
+    HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
         return null;
     };
 

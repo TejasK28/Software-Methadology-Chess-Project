@@ -2,14 +2,6 @@ package chess;
 import java.util.*;
 
 public class Rook extends Piece{
-
-    //HashMap validMoves holds all the valid moves in the form : Key: String -> Value: ReturnPiece
-    Map<String, ReturnPiece> moves;
-    //String color that holds the first letter of the color in all caps
-    String color;
-    String white;
-    String black;
-
     /*
      * Rook Constructor
      * 
@@ -28,8 +20,7 @@ public class Rook extends Piece{
 
         this.moves = new HashMap<String, ReturnPiece>();
         this.color = this.pieceType.toString().substring(0,1).toUpperCase();
-        this.white = "W";
-        this.black = "B";
+
     }
     
     /*

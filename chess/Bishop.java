@@ -3,24 +3,18 @@ import java.util.*;
 
 public class Bishop extends Piece {
 
-    //TODO TEST FIELDS
-    Map<String, ReturnPiece> moves;
+
     // constructor
     public Bishop(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
         this.pieceType = pieceType; // Wb or Bb
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
 
-        validMoves = new ArrayList<String>();
-        moveCount = 0;
         color = this.pieceType.toString().substring(0,1).toUpperCase();
-        moves = new HashMap<String, ReturnPiece>();
     }
 
 
-    public Map<String, ReturnPiece> populateRegularAndKillMoves() {
-        moves = new HashMap<String, ReturnPiece>();
-
+    public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
 
         // populate the moves hashmap with the appropriate moves for standard/kill plays
         // consider 4 directions: up-right, up-left, down-right, down-left
