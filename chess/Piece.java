@@ -25,12 +25,15 @@ public class Piece extends ReturnPiece
     public boolean isValidMove(PieceFile newFile, int newRank) {
         // check if the move is valid for the piece
         // return true if the move is valid, false otherwise
-        Map<String, ReturnPiece> moves = this.populateRegularAndKillMoves();
+        HashMap<String, ReturnPiece> moves = this.populateRegularAndKillMoves();
+        if (moves == null) {
+            return false;
+        }
         return moves.containsKey(getStringOfPosition(newFile, newRank));
     }
 
     public void move(PieceFile newFile, int newRank) {
-        Map<String, ReturnPiece> moves = populateRegularAndKillMoves();
+        HashMap<String, ReturnPiece> moves = populateRegularAndKillMoves();
 
         if(moves.containsKey(getStringOfPosition(newFile, newRank)))//moves the piece if it is included in the moves hashmap
         {

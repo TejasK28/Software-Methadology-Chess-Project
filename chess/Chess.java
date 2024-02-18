@@ -146,6 +146,19 @@ public class Chess {
 			} 
 
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
+
+
+			// check for check
+			if(isKingInCheck("B"))
+			{
+				returnPlay.message = ReturnPlay.Message.CHECK;
+			}
+
+			// check for checkmate
+			if(isKingInCheckmate("B"))
+			{
+				returnPlay.message = ReturnPlay.Message.CHECKMATE_WHITE_WINS;
+			}
 			
 			// set the last moved piece
 			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
@@ -169,7 +182,20 @@ public class Chess {
 				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 				return returnPlay;
 			}
+
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
+			
+			// check for check
+			if(isKingInCheck("W"))
+			{
+				returnPlay.message = ReturnPlay.Message.CHECK;
+			}
+
+			// check for checkmate
+			if(isKingInCheckmate("W"))
+			{
+				returnPlay.message = ReturnPlay.Message.CHECKMATE_BLACK_WINS;
+			}
 			
 			// set the last moved piece
 			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
@@ -437,100 +463,117 @@ public class Chess {
 		return "" + file + rank;
 	}
 
-	// TODO: Refactor Class design and come back to this method
 	// check if the king is in check
-	// public static boolean isKingInCheck(String color)
-	// {
-	// 	// get the king
-	// 	King = null;
-	// 	for(ReturnPiece piece : returnPlay.piecesOnBoard)
-	// 	{
-	// 		if(piece instanceof King && piece.toString().split(":")[1].substring(0,1).equals(color))
-	// 		{
-	// 			king = (King) piece;
-	// 			break;
-	// 		}
-	// 	}
+	public static boolean isKingInCheck(String color)
+	{
+		// get the king
+		King king = null;
+		for(ReturnPiece piece : returnPlay.piecesOnBoard)
+		{
+			if(piece instanceof King && piece.toString().split(":")[1].substring(0,1).equals(color))
+			{
+				king = (King) piece;
+				break;
+			}
+		}
 
-	// 	// check if the king is in check
-	// 	for(ReturnPiece piece : returnPlay.piecesOnBoard)
-	// 	{
-	// 		if(piece.toString().split(":")[1].substring(0,1).equals(color))
-	// 			continue;
+		// check if the king is in check
+		for(ReturnPiece piece : returnPlay.piecesOnBoard)
+		{
+			if(piece.toString().split(":")[1].substring(0,1).equals(color)){
+				// print passing
+				System.out.println("PASSING");
+				continue;
+			}
 
-	// 		// get moves
-	// 		// Turn ReturnPiece into King
-	// 		King kingPiece = (King) king;
-	// 		if (king.isValidMove(kingPiece.pieceFile, kingPiece.pieceRank))
-	// 		{
-	// 			System.out.println("THE KING IS IN CHECK");
-	// 			return true;
-	// 		}
-	// 	}
+			// cast the piece to the appropriate piece
+			Piece casted_piece = (Piece) piece;
+			// print the type of piece and the piece itself
+			System.out.println("THE PIECE IS: " + casted_piece.toString().split(":")[1].substring(0,1));
 
-	// 	return false;
-	// }
+			// check if the piece can move to the king's position
+			if (casted_piece.isValidMove(king.pieceFile, king.pieceRank))
+			{
+				System.out.println("THE KING IS IN CHECK");
+				return true;
+			}
+		}
 
-	// // TODO: Refactor Class design and come back to this method
-	// // check if the king is in checkmate
-	// public static boolean isKingInCheckmate(String color)
-	// {
-	// 	// get the king
-	// 	ReturnPiece king = null;
-	// 	for(ReturnPiece piece : returnPlay.piecesOnBoard)
-	// 	{
-	// 		if(piece instanceof King && piece.toString().split(":")[1].substring(0,1).equals(color))
-	// 		{
-	// 			king = piece;
-	// 			break;
-	// 		}
-	// 	}
+		return false;
+	}
 
-	// 	// check if the king is in checkmate
-	// 	// looping through same color pieces and simulate all possible moves
-	// 	// if the king is still in check after all possible moves, then it is checkmate
-	// 	// if the king is not in check after all possible moves, then it is not checkmate
-	// 	for(ReturnPiece piece : returnPlay.piecesOnBoard)
-	// 	{
-	// 		// cast the piece to the appropriate piece
-	// 		Chess.
+	// TODO: Refactor Class design and come back to this method
+	// check if the king is in checkmate
+	public static boolean isKingInCheckmate(String color)
+	{
+		// get the king
+		ReturnPiece king = null;
+		for(ReturnPiece piece : returnPlay.piecesOnBoard)
+		{
+			if(piece instanceof King && piece.toString().split(":")[1].substring(0,1).equals(color))
+			{
+				king = piece;
+				break;
+			}
+		}
 
-	// 		if(piece.toString().split(":")[1].substring(0,1).equals(color))
-	// 		{
-	// 			// print the type of piece and the piece itself
-	// 			System.out.println("THE PIECE IS: " + piece.toString().split(":")[1].substring(0,1));
-	// 			// simulate all possible moves 
-	// 			for (Map<String, ReturnPiece> move : piece.populateRegularAndKillMoves()) {
-	// 				// change ReturnPiece to whatever piece it is
+		// check if the king is in checkmate
+		// looping through same color pieces and simulate all possible moves
+		// if the king is still in check after all possible moves, then it is checkmate
+		// if the king is not in check after all possible moves, then it is not checkmate
+		for(ReturnPiece piece : returnPlay.piecesOnBoard)
+		{
+			if(piece.toString().split(":")[1].substring(0,1).equals(color))
+			{
+				// cast the piece to the appropriate piece
+				Piece casted_piece = (Piece) piece;
+				// print the type of piece and the piece itself
+				System.out.println("THE PIECE IS: " + casted_piece.toString().split(":")[1].substring(0,1));
+				// simulate all possible moves 
+				for (HashMap.Entry<String, ReturnPiece> move : casted_piece.populateRegularAndKillMoves().entrySet()) {
+					// print the move
+					System.out.println("THE MOVE IS: " + move.getKey());
 
+					// store casted_piece's position
+					PieceFile originalFile = casted_piece.pieceFile;
+					int originalRank = casted_piece.pieceRank;
 
-					
-	// 				// get the piece at the new position
+					System.out.println("THE MOVE FILE IS: " + move.getKey().split(":")[0].substring(0,1));
+					// convert above to PieceFile
+					PieceFile newFile = PieceFile.valueOf(move.getKey().split(":")[0].substring(0,1));
+					// convert above to int
+					int newRank = Integer.parseInt(move.getKey().split(":")[0].substring(1,2));
+					// print the move rank
+					System.out.println("THE MOVE RANK IS: " + move.getKey().split(":")[0].substring(1,2));
 
-	// 				// print the move
-	// 				System.out.println("THE MOVE IS: " + move.keySet().toArray()[0]);
+					// simulate the move
+					casted_piece.pieceFile = newFile;
+					casted_piece.pieceRank = newRank;
+					// check if the king is still in check
+					if(!isKingInCheck(color))
+					{
+						// if the king is not in check, then it is not checkmate
+						// move the piece back
+						casted_piece.pieceFile = originalFile;
+						casted_piece.pieceRank = originalRank;
 
-	// 				ReturnPiece newPiece = move.get(move.keySet().toArray()[0]);
-	// 				// move the piece
-	// 				// piece.move('a', 1);
-	// 				movePieceFromTo(piece.pieceFile.toString(), String.valueOf(piece.pieceRank), move.keySet().toArray()[0].toString().substring(0,1), move.keySet().toArray()[0].toString().substring(1));
-	// 				// check if the king is still in check
-	// 				if(!isKingInCheck(color))
-	// 				{
-	// 					// if the king is not in check, then it is not checkmate
-	// 					// move the piece back
-	// 					// piece.move('a', 1);
-	// 					return false;
-	// 				}
-	// 				// move the piece back
-	// 				// piece.move('a', 1);
-	// 			}
+						// print not checkmate
+						System.out.println("THE KING IS NOT IN CHECKMATE");
+						return false;
+					}
+					// move the piece back
+					casted_piece.pieceFile = originalFile;
+					casted_piece.pieceRank = originalRank;
+				}
 
-	// 	}
-
-	// 	return true;
+		}
+		// print checkmate
+		System.out.println("THE KING IS IN CHECKMATE");
+		return true;
 			
-	// }
+	}
+		return false;
+	}
 }
 
 

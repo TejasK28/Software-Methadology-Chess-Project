@@ -31,7 +31,7 @@ public class Rook extends Piece{
      * 3) this will leave the popoulated moves hashmap for one move
      * 4) hashmap should get cleared regularly in the @move method
      */
-    public HashMap<String, ReturnPiece> populateRegularMovesAndKillMoves()
+    public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
     {
         /*
          * Call 2 methods to popoulate the proper moves based on color and indeitify kill moves
@@ -39,10 +39,9 @@ public class Rook extends Piece{
         populateVerticalMove(getPosition());
         populateHorizontalMoves(getPosition());
 
-        System.out.println("THE MOVES OF ROOK : " + moves);
+        System.out.println("THE MOVES OF ROOK : " + this.moves);
 
-
-        return null; // put in place to keep the compiler happy for now
+        return this.moves; // put in place to keep the compiler happy for now
     }
 
     /*
@@ -80,7 +79,7 @@ public class Rook extends Piece{
                 //we will add that to the hashmap
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
                 {
-                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
                     break; // will break if we find an enemy picece
                 }
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
@@ -90,7 +89,7 @@ public class Rook extends Piece{
                 else
                 {
                     if(!Chess.pieceExistsAt(checkingPosition))
-                            moves.put(checkingPosition, null);
+                            this.moves.put(checkingPosition, null);
                 }
 
 
@@ -113,7 +112,7 @@ public class Rook extends Piece{
                 //we will add that to the hashmap
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
                 {
-                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
                     break; // will break if we find an enemy picece
                 }
                 else
@@ -124,7 +123,7 @@ public class Rook extends Piece{
                     }
                     else
                         if(!Chess.pieceExistsAt(checkingPosition))
-                            moves.put(checkingPosition, null);
+                            this.moves.put(checkingPosition, null);
                 }
 
                 --rank;
@@ -149,7 +148,7 @@ public class Rook extends Piece{
                 //we will add that to the hashmap
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
                 {
-                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
                     break; // will break if we find an enemy picece
                 }
                 else
@@ -160,7 +159,7 @@ public class Rook extends Piece{
                     }
                     else
                         if(!Chess.pieceExistsAt(checkingPosition))
-                            moves.put(checkingPosition, null);
+                            this.moves.put(checkingPosition, null);
                 }
 
                 ++rank;
@@ -182,7 +181,7 @@ public class Rook extends Piece{
                 //we will add that to the hashmap
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
                 {
-                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
                     break; // will break if we find an enemy picece
                 }
                 else
@@ -193,7 +192,7 @@ public class Rook extends Piece{
                     }
                     else
                         if(!Chess.pieceExistsAt(checkingPosition))
-                            moves.put(checkingPosition, null);
+                            this.moves.put(checkingPosition, null);
                 }
 
                 --rank;
@@ -229,7 +228,7 @@ public class Rook extends Piece{
                 //we will add that to the hashmap
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
                 {
-                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
                     break;
                 }
                 //Rook is white and we are checking for a white piece
@@ -239,7 +238,7 @@ public class Rook extends Piece{
 
                 }
                 else
-                    moves.put(checkingPosition, null);
+                    this.moves.put(checkingPosition, null);
 
 
                 ++column;
@@ -255,7 +254,7 @@ public class Rook extends Piece{
                 //we will add that to the hashmap
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
                 {
-                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
                     break;
                 }
                 if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
@@ -263,7 +262,7 @@ public class Rook extends Piece{
                     break;
                 }
                 else
-                    moves.put(checkingPosition, null);
+                    this.moves.put(checkingPosition, null);
 
                 --column;
             }

@@ -15,7 +15,7 @@ public class Bishop extends Piece {
 
 
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
-
+        moves = new HashMap<String, ReturnPiece>();
         // populate the moves hashmap with the appropriate moves for standard/kill plays
         // consider 4 directions: up-right, up-left, down-right, down-left
         // once hit a piece, stop
