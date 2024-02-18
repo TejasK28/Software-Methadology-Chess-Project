@@ -431,6 +431,7 @@ public class Chess {
 
 		return null;
 	}
+
 	// TODO: Refactor Class design and come back to this method
 	// check if the king is in check
 	public static boolean isKingInCheck(String color)
@@ -526,4 +527,12 @@ public class Chess {
 			
 	}
 }
+
+
+  //TODO Helper method for new move
+  public static String getStringOfPosition(PieceFile file, int rank)
+  {
+      return "" + file + rank;
+  }
+
 }

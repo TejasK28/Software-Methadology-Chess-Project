@@ -9,6 +9,7 @@ package chess;
 import chess.ReturnPiece.PieceFile;
 import java.util.*;
 
+
 public interface Piece
 {
 
