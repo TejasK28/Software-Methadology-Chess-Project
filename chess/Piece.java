@@ -1,12 +1,9 @@
 /*
- * The idea of this is to have all the pieces classes implement
- * this Piece interface which will house the methods all the pieces will need
- * 
- * Interface will update as we go
- */
+ * The idea of this is to have all the pieces classes extend
+ * this Piece class which will house the methods all the pieces will need
+*/
 
 package chess;
-import chess.ReturnPiece.PieceFile;
 import java.util.*;
 
 
@@ -75,4 +72,20 @@ public class Piece extends ReturnPiece
     {
         return this.color;
     }
+
+    /*
+     * Takes in the current piece position and the checking piece position
+     * 
+     * will return true if the 2 colors differ
+     * 
+     * will return false if the 2 colors are the the same
+     */
+    public boolean isEnemyForThisPiece(String thisPosition, String thatPosition)
+    {
+        if(!(((Piece) Chess.getPieceFromPosition(thisPosition)).getColor().equals(((Piece) Chess.getPieceFromPosition(thatPosition)).getColor())))
+            return true;
+        
+        return false;
+    }
+
 }
