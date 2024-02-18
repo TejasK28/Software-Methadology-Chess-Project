@@ -1,6 +1,6 @@
 package chess;
 
-public class Knight extends ReturnPiece implements Piece{
+public class Knight extends Piece {
 
     /*
      * Knight constructor

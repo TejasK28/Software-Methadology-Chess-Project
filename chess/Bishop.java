@@ -1,11 +1,7 @@
 package chess;
 import java.util.*;
 
-public class Bishop extends ReturnPiece implements Piece{
-
-    ArrayList<String> validMoves;
-    int moveCount;
-    String color;
+public class Bishop extends Piece {
 
     //TODO TEST FIELDS
     Map<String, ReturnPiece> moves;
@@ -21,30 +17,6 @@ public class Bishop extends ReturnPiece implements Piece{
         moves = new HashMap<String, ReturnPiece>();
     }
 
-    public void move(PieceFile newFile, int newRank) {
-        Map<String, ReturnPiece> moves = populateRegularAndKillMoves(); // populates moves hashmap with the appropriate moves for standard/kill plays
-
-        System.out.println("THE VALID MOVES ARE: " + this.moves);
-
-        if(moves.containsKey(getStringOfPosition(newFile, newRank)))//moves the piece if it is included in the moves hashmap
-        {
-            if(moves.get(getStringOfPosition(newFile, newRank)) != null) // movement is not null so we remove
-            {
-                Chess.returnPlay.piecesOnBoard.remove(moves.get(getStringOfPosition(newFile, newRank)));
-            }
-
-            //actual movements
-            this.pieceFile = newFile;
-            this.pieceRank = newRank;
-            //increment move count
-            moveCount++;
-        }
-        else
-        {
-            Chess.returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
-        }
-    }
-    
 
     public Map<String, ReturnPiece> populateRegularAndKillMoves() {
         moves = new HashMap<String, ReturnPiece>();
@@ -140,29 +112,5 @@ public class Bishop extends ReturnPiece implements Piece{
         }
 
         return moves;
-    }
-
-    public String getStringOfPosition(PieceFile file, int rank)
-    {
-        return "" + file + rank;
-    }
-
-    @Override
-    public String getPosition() 
-    {
-        return "" + this.pieceFile + this.pieceRank;
-    }
-
-    /*
-     * Getter method that will return the first letter of the piece color
-     * 
-     * ex. "W"
-     * ex. "B"
-     * 
-     * Expect uppercase letter
-     */
-    public String getColor()
-    {
-        return this.color;
     }
 }

@@ -1,7 +1,7 @@
 package chess;
 import java.util.*;
 
-public class Rook extends ReturnPiece implements Piece{
+public class Rook extends Piece{
 
     //HashMap validMoves holds all the valid moves in the form : Key: String -> Value: ReturnPiece
     Map<String, ReturnPiece> moves;
@@ -31,35 +31,6 @@ public class Rook extends ReturnPiece implements Piece{
         this.white = "W";
         this.black = "B";
     }
-
-    /*
-     * Move Method
-     *
-     * 
-     * 1) calls popoulateMoves -- must clear beforehand
-     * 2) will move 
-     */
-    public void move(PieceFile newFile, int newRank) 
-    {
-        //clearing the moves hashmap
-        moves.clear();
-
-        //calls popoulateMoves to ensure the hashmap contains all the valid moves based on color
-        populateRegularMovesAndKillMoves();
-
-        //if the move is valid
-       if(moves.containsKey(Chess.getStringOfPosition(newFile, newRank)))
-       {
-            //if the move has an enemy piece on it, we will remove it from returnPlay
-            if(moves.get(Chess.getStringOfPosition(newFile, newRank)) != null)
-            {  
-                Chess.returnPlay.piecesOnBoard.remove(Chess.getPieceFromPosition(Chess.getStringOfPosition(newFile, newRank)));
-            }
-            //updating to the new coordinates
-            this.pieceFile = newFile;
-            this.pieceRank = newRank;
-       }
-    } 
     
     /*
      * populateRegularMovesAndKillMoves
@@ -362,12 +333,4 @@ public class Rook extends ReturnPiece implements Piece{
         }
     }
 
-    /*
-     * Returns the current position as a String
-     */
-    @Override
-    public String getPosition() 
-    {
-        return "" + this.pieceFile + this.pieceRank;
-    }
 }

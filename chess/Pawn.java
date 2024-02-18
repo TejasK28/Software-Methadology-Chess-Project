@@ -2,7 +2,7 @@ package chess;
 import java.util.*;
 
 // using Return Piece in Chess.java implement pawn class
-public class Pawn extends ReturnPiece implements Piece
+public class Pawn extends Piece
 {
     /*
      * @ArrayList validMoves will hold a string of valid moves that the piece can perform based on the moveCount
@@ -12,9 +12,6 @@ public class Pawn extends ReturnPiece implements Piece
      * @color is a string that holds the first letter of the current color
      *  ex. W or B
      */
-    ArrayList<String> validMoves;
-    int moveCount;
-    String color;
     boolean canBeEnPessanted;
     int lastMoved;
 
@@ -38,43 +35,10 @@ public class Pawn extends ReturnPiece implements Piece
         moves = new HashMap<String, ReturnPiece>();
     }
 
-    // MOVE METHODS
-
-    //TODO TESTING NEW MOVE METHODS
-    //SEEMS TO BE AN ISSUE WITH ENPESSANT
-    // TODO FIX ENPESSANT -- MAKE SURE TO VALIDATE THE PROPER MOVES BASED ON MOVECOUNT
-    public void newMove(PieceFile newFile, int newRank)
-    {
-        populateRegularAndKillMoves(); // populates moves hashmap with the appropriate moves for standard/kill plays
-
-        System.out.println("THE VALID MOVES ARE: " + this.moves);
-
-        if(moves.containsKey(getStringOfPosition(newFile, newRank)))//moves the piece if it is included in the moves hashmap
-        {
-            if(moves.get(getStringOfPosition(newFile, newRank)) != null) // movement is not null so we remove
-            {
-                Chess.returnPlay.piecesOnBoard.remove(moves.get(getStringOfPosition(newFile, newRank)));
-            }
-
-            //actual movements
-            this.pieceFile = newFile;
-            this.pieceRank = newRank;
-            //increment move count
-            moveCount++;
-        }
-        else
-        {
-            Chess.returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
-        }
-    }
-
     // TODO NEW MOVE HELPER METHODS
 
-    public void populateRegularAndKillMoves()
+    public Map<String, ReturnPiece> populateRegularAndKillMoves()
     {
-        //clear original moves
-        moves.clear();
-
         //white
 
         if(Chess.whosPlaying == Chess.Player.white)
@@ -291,47 +255,9 @@ public class Pawn extends ReturnPiece implements Piece
             }
             
         }
-    
-    }
-               
-    }
+        }
 
-
-    //TODO Helper method for new move
-    public String getStringOfPosition(PieceFile file, int rank)
-    {
-        return "" + file + rank;
-    }
-
-    //----------------------------------------------------------------
-
-    //GETTER METHODS
-
-    /*
-     * Overriden method from the Piece interface
-     * 
-     * Will return a string representing Filerank+rank
-     * 
-     * ex. "e4"
-     */
-    @Override
-    public String getPosition() 
-    {
-        return "" + this.pieceFile + this.pieceRank;
-    }
-
-
-    /*
-     * Getter method that will return the first letter of the piece color
-     * 
-     * ex. "W"
-     * ex. "B"
-     * 
-     * Expect uppercase letter
-     */
-    public String getColor()
-    {
-        return this.color;
+        return moves;
     }
 
 }
