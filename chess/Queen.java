@@ -15,6 +15,8 @@ public class Queen extends ReturnPiece implements Piece{
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
         this.bishop = new Bishop(this.pieceType, this.pieceFile, this.pieceRank);
+        this.rook = new Rook(this.pieceType, this.pieceFile, this.pieceRank);
+
         validMoves = new ArrayList<String>();
         moveCount = 0;
         color = this.pieceType.toString().substring(0,1).toUpperCase();
@@ -52,10 +54,7 @@ public class Queen extends ReturnPiece implements Piece{
         // concatenate the two maps
         moves = new HashMap<String, ReturnPiece>();
         moves.putAll(bishop.populateRegularAndKillMoves());
-
-        // TODO: add the rook moves
-        // moves.putAll(rook.populateRegularAndKillMoves());
-
+        moves.putAll(rook.populateRegularAndKillMoves());
         return moves;
     }
 
