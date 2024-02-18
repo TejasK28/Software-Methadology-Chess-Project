@@ -20,9 +20,10 @@ public class Rook extends Piece{
 
         this.moves = new HashMap<String, ReturnPiece>();
         this.color = this.pieceType.toString().substring(0,1).toUpperCase();
-
     }
     
+    //move methodis inherited from Piece Class
+
     /*
      * populateRegularMovesAndKillMoves
      * 
@@ -31,296 +32,123 @@ public class Rook extends Piece{
      * 3) this will leave the popoulated moves hashmap for one move
      * 4) hashmap should get cleared regularly in the @move method
      */
+    @Override
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
     {
         /*
          * Call 2 methods to popoulate the proper moves based on color and indeitify kill moves
          */
-        populateVerticalMove(getPosition());
-        populateHorizontalMoves(getPosition());
+        horizontal(this.getPosition());
 
         System.out.println("THE MOVES OF ROOK : " + this.moves);
 
         return this.moves; // put in place to keep the compiler happy for now
     }
 
-    /*
-     * populateVerticalMoves method 
-     * 
-     * given a starting position
-     * 
-     * will
-     * 1) keep iterating based on color vertically up and down
-     * 
-     * WILL MAKE SURE THE KILL MOVES ARE ONLY ADDED IF THE PIECE IS THE OPPOSITE COLOR
-     */
-    public void populateVerticalMove(String currentPosition)
+
+    public void horizontal(String currentPosition)
     {
-        if(this.color.equals(white)) // current rook is white
+        /*
+         * @ current_file_index : int
+         *  - stores the changing index of the columns(row-way traverse)
+         */
+        int current_file_index = this.pieceFile.ordinal() + 1;
+        
+
+        /*
+         * @ current_rank : int
+         *  - stores the current rank
+         */
+        int current_rank = this.pieceRank;
+
+        
+        /*
+         * This while loop checks from the current file & rank to the right until the end
+         */
+        while(current_file_index < 8)
         {
-            PieceFile column = this.pieceFile;
-            int rank = this.pieceRank;
             /*
-             * While loop to go through the vertical path from rank 1
-             * if there is an enemy piece, then add the enemy
-             * else add the location and null
+             * @ current_piecefile : PieceFile
+             *  - stores the pieceFile equivalent of the current file index
              */
-            while(rank <= 8)
+            PieceFile current_piecefile = PieceFile.values()[current_file_index];
+
+            /*
+            * @ checking_index : String
+            * - stores the string version of the checking position
+            */
+            String checkingIndex = getStringOfPosition(current_piecefile, current_rank);
+
+            String currentindex = getPosition();
+
+            //we are going to default to the same rank, but change the file
+            
+            //we now are safe from messing with our own rook
+
+            //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
+            if(isEnemyForThisPiece(currentPosition, checkingIndex))
             {
-                String checkingPosition = Chess.getStringOfPosition(column, rank);
+                //adding the index we can move to
+                this.moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
+                break;
 
-                if(checkingPosition.equals(getPosition()))
-                {
-                    ++rank;
-                    continue;
-                }
-                
-                //if we find an enemy piece along the current path
-                //we will add that to the hashmap
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
-                {
-                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
-                    break; // will break if we find an enemy picece
-                }
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
-                {
-                    break;
-                }
-                else
-                {
-                    if(!Chess.pieceExistsAt(checkingPosition))
-                            this.moves.put(checkingPosition, null);
-                }
-
-
-                ++rank;
+            }
+            else if(!isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
+            {
+                break;
+            }
+            else // free space
+            {
+                this.moves.put(currentindex, null);
             }
 
-            rank = this.pieceRank;
-
-            while(rank >= 1)
-            {
-                String checkingPosition = Chess.getStringOfPosition(column, rank);
-                
-                if(checkingPosition.equals(getPosition()))
-                {
-                    --rank;
-                    continue;
-                }
-                
-                //if we find an enemy piece along the current path
-                //we will add that to the hashmap
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
-                {
-                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
-                    break; // will break if we find an enemy picece
-                }
-                else
-                {
-                    if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
-                    {
-                        break;
-                    }
-                    else
-                        if(!Chess.pieceExistsAt(checkingPosition))
-                            this.moves.put(checkingPosition, null);
-                }
-
-                --rank;
-            }
+            ++current_file_index;
         }
-        else // if the rook is black
+        /*
+         * this while loop goes in the left direction
+         */
+        while(current_file_index >= 0)
         {
-            PieceFile column = this.pieceFile;
-            int rank = this.pieceRank;
+            /*
+             * @ current_piecefile : PieceFile
+             *  - stores the pieceFile equivalent of the current file index
+             */
+            PieceFile current_piecefile = PieceFile.values()[current_file_index];
 
-            while(rank <= 8)
+            /*
+            * @ checking_index : String
+            * - stores the string version of the checking position
+            */
+            String checkingIndex = getStringOfPosition(current_piecefile, current_rank);
+
+            String currentindex = getPosition();
+
+            //we are going to default to the same rank, but change the file
+            
+            //we now are safe from messing with our own rook
+
+            //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
+            if(isEnemyForThisPiece(currentPosition, checkingIndex))
             {
-                String checkingPosition = Chess.getStringOfPosition(column, rank);
-                
-                if(checkingPosition.equals(getPosition()))
-                {
-                    ++rank;
-                    continue;
-                }
+                //adding the index we can move to
+                this.moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
+                break;
 
-                //if we find an enemy piece along the current path
-                //we will add that to the hashmap
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
-                {
-                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
-                    break; // will break if we find an enemy picece
-                }
-                else
-                {
-                    if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
-                    {
-                        break;
-                    }
-                    else
-                        if(!Chess.pieceExistsAt(checkingPosition))
-                            this.moves.put(checkingPosition, null);
-                }
-
-                ++rank;
+            }
+            else if(!isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
+            {
+                break;
+            }
+            else // free space
+            {
+                this.moves.put(currentindex, null);
             }
 
-            rank = this.pieceRank;
-
-            while(rank >= 1)
-            {
-                String checkingPosition = Chess.getStringOfPosition(column, rank);
-                
-                if(checkingPosition.equals(getPosition()))
-                {
-                    --rank;
-                    continue;
-                }
-                
-                //if we find an enemy piece along the current path
-                //we will add that to the hashmap
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
-                {
-                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
-                    break; // will break if we find an enemy picece
-                }
-                else
-                {
-                    if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
-                    {
-                        break;
-                    }
-                    else
-                        if(!Chess.pieceExistsAt(checkingPosition))
-                            this.moves.put(checkingPosition, null);
-                }
-
-                --rank;
-            }
+            --current_file_index;
         }
+        
     }
-    /*
-     * populaHorizontalMoves method 
-     * 
-     * given a starting position
-     * 
-     * will
-     * 1) keep iterating based on color horizontally left and right
-     * 
-     * TODO fix the bug where we dont see our own color
-     */
-    public void populateHorizontalMoves(String currentPosition)
-    {
-        if(this.color.equals(white)) // current rook is white
-        {
-            int column = this.pieceFile.ordinal() + 1;
-            int rank = this.pieceRank;
-            /*
-             * While loop to go through the horizontal path from file 0 to 7
-             * if there is an enemy piece, then add the enemy
-             * else add the location and null
-             */
-            while(column < 8)
-            {
-                String checkingPosition = Chess.getStringOfPosition(PieceFile.values()[column], rank);
-                
-                //if we find an enemy piece along the current path
-                //we will add that to the hashmap
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
-                {
-                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
-                    break;
-                }
-                //Rook is white and we are checking for a white piece
-                if(!Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
-                {
-                    break;
-
-                }
-                else
-                    this.moves.put(checkingPosition, null);
 
 
-                ++column;
-            }
-
-            column = this.pieceFile.ordinal() - 1;
-
-            while(column >= 0)
-            {
-                String checkingPosition = Chess.getStringOfPosition(PieceFile.values()[column], rank);
-                
-                //if we find an enemy piece along the current path
-                //we will add that to the hashmap
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
-                {
-                    this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
-                    break;
-                }
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
-                {
-                    break;
-                }
-                else
-                    this.moves.put(checkingPosition, null);
-
-                --column;
-            }
-        }
-        else // if the rook is black
-        {
-            int column = this.pieceFile.ordinal() + 1;
-            int rank = this.pieceRank;
-            /*
-             * While loop to go through the horizontal path from file 0 to 7
-             * if there is an enemy piece, then add the enemy
-             * else add the location and null
-             */
-            while(column < 8)
-            {
-                String checkingPosition = Chess.getStringOfPosition(PieceFile.values()[column], rank);
-                
-                //if we find an enemy piece along the current path
-                //we will add that to the hashmap
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
-                {
-                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
-                    break;
-                }
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
-                {
-                    break;
-                }
-                else
-                    moves.put(checkingPosition, null);
-
-
-                ++column;
-            }
-
-            column = this.pieceFile.ordinal() - 1;
-
-            while(column >= 0)
-            {
-                String checkingPosition = Chess.getStringOfPosition(PieceFile.values()[column], rank);
-                
-                //if we find an enemy piece along the current path
-                //we will add that to the hashmap
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(white))
-                {
-                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
-                    break;
-                }
-                if(Chess.pieceExistsAt(checkingPosition) && Chess.getColorOfPieceFromPosition(checkingPosition).equals(black))
-                {
-                    break;
-                }
-                else
-                    moves.put(checkingPosition, null);
-
-                --column;
-            }
-        }
-    }
 
 }
