@@ -23,7 +23,7 @@ public class Queen extends Piece{
         moves.putAll(this.bishop.populateRegularAndKillMoves());
         HashMap<String, ReturnPiece> rookMoves = this.rook.populateRegularAndKillMoves();
         // print the rook moves
-        System.out.println("rook moves: " + rookMoves);
+        //System.out.println("rook moves: " + rookMoves);
         moves.putAll(this.rook.populateRegularAndKillMoves());
         return moves;
     }

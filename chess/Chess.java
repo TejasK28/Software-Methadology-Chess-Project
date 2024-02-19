@@ -482,14 +482,14 @@ public class Chess {
 		{
 			if(piece.toString().split(":")[1].substring(0,1).equals(color)){
 				// print passing
-				System.out.println("PASSING");
+				//System.out.println("PASSING");
 				continue;
 			}
 
 			// cast the piece to the appropriate piece
 			Piece casted_piece = (Piece) piece;
 			// print the type of piece and the piece itself
-			System.out.println("THE PIECE IS: " + casted_piece.toString().split(":")[1].substring(0,1));
+			//System.out.println("THE PIECE IS: " + casted_piece.toString().split(":")[1].substring(0,1));
 
 			// check if the piece can move to the king's position
 			if (casted_piece.isValidMove(king.pieceFile, king.pieceRank))
@@ -528,7 +528,7 @@ public class Chess {
 				// cast the piece to the appropriate piece
 				Piece casted_piece = (Piece) piece;
 				// print the type of piece and the piece itself
-				System.out.println("THE PIECE IS: " + casted_piece.toString().split(":")[1].substring(0,1));
+				//System.out.println("THE PIECE IS: " + casted_piece.toString().split(":")[1].substring(0,1));
 				// simulate all possible moves 
 				for (HashMap.Entry<String, ReturnPiece> move : casted_piece.populateRegularAndKillMoves().entrySet()) {
 					// print the move
