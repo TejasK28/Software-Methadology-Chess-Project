@@ -13,7 +13,7 @@ public class Queen extends Piece{
         this.bishop = new Bishop(this.pieceType, this.pieceFile, this.pieceRank);
         this.rook = new Rook(this.pieceType, this.pieceFile, this.pieceRank);
 
-        color = this.pieceType.toString().substring(0,1).toUpperCase();
+        this.color = pieceType.toString().toUpperCase().substring(0, 1);
     }
 
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {

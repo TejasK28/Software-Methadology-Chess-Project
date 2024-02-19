@@ -29,7 +29,8 @@ public class Piece extends ReturnPiece
         return moves.containsKey(getStringOfPosition(newFile, newRank));
     }
 
-    public void move(PieceFile newFile, int newRank) {
+    public void move(PieceFile newFile, int newRank) 
+    {
         HashMap<String, ReturnPiece> moves = populateRegularAndKillMoves();
 
         if(moves.containsKey(getStringOfPosition(newFile, newRank)))//moves the piece if it is included in the moves hashmap
@@ -82,10 +83,18 @@ public class Piece extends ReturnPiece
      */
     public boolean isEnemyForThisPiece(String thisPosition, String thatPosition)
     {
-        if(!(((Piece) Chess.getPieceFromPosition(thisPosition)).getColor().equals(((Piece) Chess.getPieceFromPosition(thatPosition)).getColor())))
-            return true;
+        Piece thisPiece = ((Piece) Chess.getPieceFromPosition(thisPosition));
+        Piece thatPiece = ((Piece) Chess.getPieceFromPosition(thatPosition));
+
+        if(thisPiece != null && thatPiece != null)
+        {
+            if(thisPiece.getColor().equals(thatPiece.getColor()))
+                return true;
+
+        }
         
         return false;
     }
+
 
 }
