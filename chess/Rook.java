@@ -42,9 +42,7 @@ public class Rook extends Piece{
         horizontal(this.getPosition());
         vertical(this.getPosition());
 
-        System.out.println("THE MOVES OF ROOK : " + this.moves);
-
-        return this.moves; // put in place to keep the compiler happy for now
+        return this.moves;
     }
 
 

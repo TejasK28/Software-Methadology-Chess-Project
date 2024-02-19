@@ -89,7 +89,7 @@ public class Pawn extends Piece
 
 
         // print moves
-        System.out.println("MOVES: " + moves);
+        //System.out.println("MOVES: " + moves);
         
 
         //check for the next column
