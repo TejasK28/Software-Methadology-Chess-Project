@@ -83,11 +83,18 @@ public class Piece extends ReturnPiece
      */
     public boolean isEnemyForThisPiece(String thisPosition, String thatPosition)
     {
-        if(!(((Piece) Chess.getPieceFromPosition(thisPosition)).getColor().equals(((Piece) Chess.getPieceFromPosition(thatPosition)).getColor())))
-            return true;
+        Piece thisPiece = ((Piece) Chess.getPieceFromPosition(thisPosition));
+        Piece thatPiece = ((Piece) Chess.getPieceFromPosition(thatPosition));
+
+        if(thisPiece != null && thatPiece != null)
+        {
+            if(thisPiece.getColor().equals(thatPiece.getColor()))
+                return true;
+
+        }
         
         return false;
     }
 
-    
+
 }
