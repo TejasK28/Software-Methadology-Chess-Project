@@ -19,7 +19,7 @@ public class Rook extends Piece{
         this.pieceRank = pieceRank;
 
         this.moves = new HashMap<String, ReturnPiece>();
-        this.color = this.pieceType.toString().substring(0,1).toUpperCase();
+        this.color = pieceType.toString().toUpperCase().substring(0, 1);
     }
     
     //move method inherited from Piece Class

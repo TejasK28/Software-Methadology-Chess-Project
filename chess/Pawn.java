@@ -21,8 +21,8 @@ public class Pawn extends Piece
         this.pieceType = pieceType; // Wp or Bp
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
-        moveCount = 0;
-        color = this.pieceType.toString().substring(0,1).toUpperCase();
+
+        this.color = pieceType.toString().toUpperCase().substring(0, 1);
         canBeEnPessanted = false;
         lastMoved = Chess.globalMoveCount;
 

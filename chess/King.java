@@ -11,7 +11,7 @@ public class King extends Piece{
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
 
-        color = this.pieceType.toString().substring(0,1).toUpperCase();
+        this.color = pieceType.toString().toUpperCase().substring(0, 1);
         moves = new HashMap<String, ReturnPiece>();
     }
 
