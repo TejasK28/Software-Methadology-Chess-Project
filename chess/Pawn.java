@@ -35,7 +35,6 @@ public class Pawn extends Piece
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
     {
         //white
-
         if(Chess.whosPlaying == Chess.Player.white)
         {
             //Handling the first 2/1 unobstructed spaces

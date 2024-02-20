@@ -72,11 +72,19 @@ public class Chess {
 	/*
 	 * Declared 4 Strings that will get assignned to the move
 	 */
-	static String [] strArr = null;
+	public static String [] strArr = null;
 	static String move_from_column = null;
 	static String move_from_row = null;
 	static String move_to_column = null;
 	static String move_to_row = null;
+
+	/*
+	 * predefined constants
+	 * for player color
+	 */
+
+	 public static final String white = "W";
+	 public static final String black = "B";
 
 	//global move count specifically for enpessant currently
 	public static int globalMoveCount = 0;
@@ -90,6 +98,8 @@ public class Chess {
 	 * @return A ReturnPlay instance that contains the result of the move.
 	 *         See the section "The Chess class" in the assignment description for details of
 	 *         the contents of the returned ReturnPlay instance.
+	 * 
+	 * DON't DELETE BUT YOU CAN EDIT
 	 */
 	public static ReturnPlay play(String move) {
 
@@ -104,10 +114,18 @@ public class Chess {
 		 */
 		strArr = move.split(" ");
 
+		/*
+		 * If we have more than 2 moves
+		 * we will first get the first 2 moves
+		 */
 		if(strArr.length >= 2)
 			disectFromPosition(move);
+
+		
 		
 		//handles a wrong move with a message
+		//ensures the input space and output spaces are valid or else we will return a illegal move error
+		//TODO add a method to make sure the position strings are valid
 		if(!pieceExistsAt(move_from_column + move_from_row))
 		{
 			returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
@@ -138,7 +156,7 @@ public class Chess {
 		if(whosPlaying == Player.white) // white's turn
 		{
 			// if we are playing the wrong side
-			if(getColorOfPieceFromPosition(move_from_column + move_from_row).equals("B")) 
+			if(getColorOfPieceFromPosition(move_from_column + move_from_row).equals(black)) 
 			{
 				System.out.println("ILLEGAL MOVE YOURE PLAYING FOR THE WRONG SIDE");
 				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE; // illegal move
@@ -147,15 +165,14 @@ public class Chess {
 
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 
-
 			// check for check
-			if(isKingInCheck("B"))
+			if(isKingInCheck(black))
 			{
 				returnPlay.message = ReturnPlay.Message.CHECK;
 			}
 
 			// check for checkmate
-			if(isKingInCheckmate("B"))
+			if(isKingInCheckmate(black))
 			{
 				returnPlay.message = ReturnPlay.Message.CHECKMATE_WHITE_WINS;
 			}
@@ -186,13 +203,13 @@ public class Chess {
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 			
 			// check for check
-			if(isKingInCheck("W"))
+			if(isKingInCheck(white))
 			{
 				returnPlay.message = ReturnPlay.Message.CHECK;
 			}
 
 			// check for checkmate
-			if(isKingInCheckmate("W"))
+			if(isKingInCheckmate(white))
 			{
 				returnPlay.message = ReturnPlay.Message.CHECKMATE_BLACK_WINS;
 			}
@@ -226,8 +243,10 @@ public class Chess {
 	}
 	
 	
-	/**
+	/*
 	 * This method should reset the game, and start from scratch.
+	 * 
+	 * DON'T DELETE BUT YOU CAN EDIT
 	 */
 	public static void start() {
 		/* FILL IN THIS METHOD */
@@ -327,7 +346,6 @@ public class Chess {
 		move_to_row  = String.valueOf(strArr[1].charAt(1));
 	}
 
-
 	// MOVEMENT METHODS
 	/*
 	 * Static method will get the from position & to position.
@@ -346,18 +364,86 @@ public class Chess {
 
 			//Promotion implementation
 			//default promotion to queen
-			// TODO need to accept a choice for promotion
-			if(current_pawn.pieceRank == 8 && current_pawn.color.equals("W"))
+			/*
+			 * we will check if the pawn in question is at the end of the board
+			 * and the strArr array is equal to 3, indicating a promotion query
+			 */
+			//{WP, WR, WN, WB, WQ, WK, 
+			//BP, BR, BN, BB, BK, BQ};
+			if(current_pawn.pieceRank == 8 && strArr.length == 3)
 			{
-				//adds a white queen in the place of the old pawn and removes old pawn
-				returnPlay.piecesOnBoard.add(new Queen(PieceType.WQ,current_pawn.pieceFile, current_pawn.pieceRank));
-				returnPlay.piecesOnBoard.remove(current_pawn);
+				switch(strArr[2].toUpperCase())
+				{
+					//rook
+					case "R":
+						returnPlay.piecesOnBoard.add(new Rook(PieceType.WR,current_pawn.pieceFile, current_pawn.pieceRank));
+						returnPlay.piecesOnBoard.remove(current_pawn);
+						break;
+
+					//Knight
+					case "N":
+						returnPlay.piecesOnBoard.add(new Rook(PieceType.WN,current_pawn.pieceFile, current_pawn.pieceRank));
+						returnPlay.piecesOnBoard.remove(current_pawn);
+						break;
+
+					//bishop
+					case "B":
+						returnPlay.piecesOnBoard.add(new Rook(PieceType.WB,current_pawn.pieceFile, current_pawn.pieceRank));
+						returnPlay.piecesOnBoard.remove(current_pawn);
+						break;
+
+					//queen
+					case "Q":
+						returnPlay.piecesOnBoard.add(new Rook(PieceType.WQ,current_pawn.pieceFile, current_pawn.pieceRank));
+						returnPlay.piecesOnBoard.remove(current_pawn);
+						break;
+				}
 			}
-			else if(((Pawn)from_piece).pieceRank == 1 && ((Pawn)from_piece).color.equals("B"))
+			else if(current_pawn.pieceRank == 1 && strArr.length == 3)// take care of black's promotion at the end
 			{
-				returnPlay.piecesOnBoard.add(new Queen(PieceType.BQ,current_pawn.pieceFile, current_pawn.pieceRank));
-				returnPlay.piecesOnBoard.remove(current_pawn);
+				switch(strArr[2].toUpperCase())
+				{
+					//rook
+					case "R":
+						returnPlay.piecesOnBoard.add(new Rook(PieceType.BR,current_pawn.pieceFile, current_pawn.pieceRank));
+						returnPlay.piecesOnBoard.remove(current_pawn);
+						break;
+
+					//Knight
+					case "N":
+						returnPlay.piecesOnBoard.add(new Rook(PieceType.BN,current_pawn.pieceFile, current_pawn.pieceRank));
+						returnPlay.piecesOnBoard.remove(current_pawn);
+						break;
+
+					//bishop
+					case "B":
+						returnPlay.piecesOnBoard.add(new Rook(PieceType.BB,current_pawn.pieceFile, current_pawn.pieceRank));
+						returnPlay.piecesOnBoard.remove(current_pawn);
+						break;
+
+					//queen
+					case "Q":
+						returnPlay.piecesOnBoard.add(new Rook(PieceType.BQ,current_pawn.pieceFile, current_pawn.pieceRank));
+						returnPlay.piecesOnBoard.remove(current_pawn);
+						break;
+				}
 			}
+			else // then we will default to queen for the respective color
+			{
+				if(current_pawn.pieceRank == 8 && current_pawn.color.equals(white))
+				{
+					//adds a white queen in the place of the old pawn and removes old pawn
+					returnPlay.piecesOnBoard.add(new Queen(PieceType.WQ,current_pawn.pieceFile, current_pawn.pieceRank));
+					returnPlay.piecesOnBoard.remove(current_pawn);
+				}
+				else if(((Pawn)from_piece).pieceRank == 1 && ((Pawn)from_piece).color.equals(black))
+				{
+					returnPlay.piecesOnBoard.add(new Queen(PieceType.BQ,current_pawn.pieceFile, current_pawn.pieceRank));
+					returnPlay.piecesOnBoard.remove(current_pawn);
+				}
+			}
+
+			
 		 }
 		 
 		else if(from_piece instanceof Rook)
