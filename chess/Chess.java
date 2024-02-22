@@ -163,20 +163,40 @@ public class Chess {
 				return returnPlay; // returning the returnPlay
 			} 
 
+			// check if white is in check. If so, this move must undo the check
+			if(isKingInCheck(white))
+			{
+				// if the move does not undo the check, then it is an illegal move
+				Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
+				PieceFile originalFile = from_piece.pieceFile;
+				int originalRank = from_piece.pieceRank;
+
+				// simulate the move
+				from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+
+				if(isKingInCheck(black))
+				{	
+					// move the piece back
+					from_piece.setPosition(originalFile, originalRank);
+					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+					return returnPlay;
+				}
+			}
+
+			// move the piece
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 
 			// check for check
 			if(isKingInCheck(black))
 			{
 				returnPlay.message = ReturnPlay.Message.CHECK;
+				// check for checkmate
+				if(isKingInCheckmate(black))
+				{
+					returnPlay.message = ReturnPlay.Message.CHECKMATE_WHITE_WINS;
+				}
 			}
 
-			// check for checkmate
-			if(isKingInCheckmate(black))
-			{
-				returnPlay.message = ReturnPlay.Message.CHECKMATE_WHITE_WINS;
-			}
-			
 			// set the last moved piece
 			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
 			
@@ -200,19 +220,40 @@ public class Chess {
 				return returnPlay;
 			}
 
+			// check if the black in check, If so, this move must undo the check
+			if(isKingInCheck(black))
+			{
+				// if the move does not undo the check, then it is an illegal move
+				Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
+				PieceFile originalFile = from_piece.pieceFile;
+				int originalRank = from_piece.pieceRank;
+
+				// simulate the move
+				from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+
+				if(isKingInCheck(black))
+				{	
+					// move the piece back
+					from_piece.setPosition(originalFile, originalRank);
+					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+					return returnPlay;
+				}
+			}
+
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 			
 			// check for check
 			if(isKingInCheck(white))
 			{
 				returnPlay.message = ReturnPlay.Message.CHECK;
+				// check for checkmate
+				if(isKingInCheckmate(white))
+				{
+					returnPlay.message = ReturnPlay.Message.CHECKMATE_BLACK_WINS;
+				}
 			}
 
-			// check for checkmate
-			if(isKingInCheckmate(white))
-			{
-				returnPlay.message = ReturnPlay.Message.CHECKMATE_BLACK_WINS;
-			}
+
 			
 			// set the last moved piece
 			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
@@ -568,14 +609,17 @@ public class Chess {
 		{
 			if(piece.toString().split(":")[1].substring(0,1).equals(color)){
 				// print passing
-				//System.out.println("PASSING");
 				continue;
 			}
 
 			// cast the piece to the appropriate piece
 			Piece casted_piece = (Piece) piece;
 			// print the type of piece and the piece itself
-			//System.out.println("THE PIECE IS: " + casted_piece.toString().split(":")[1].substring(0,1));
+			// System.out.println("THE PIECE IS: " + casted_piece.toString());
+			// // get the valid moves of the piece
+			// HashMap<String, ReturnPiece> validMoves = casted_piece.populateRegularAndKillMoves();
+			// // print the valid moves
+			// System.out.println("THE VALID MOVES ARE: " + validMoves);
 
 			// check if the piece can move to the king's position
 			if (casted_piece.isValidMove(king.pieceFile, king.pieceRank))
@@ -609,14 +653,21 @@ public class Chess {
 		// if the king is not in check after all possible moves, then it is not checkmate
 		for(ReturnPiece piece : returnPlay.piecesOnBoard)
 		{
+			// print piece
+			// System.out.println("(CHECKMATE) THE PIECE IS: " + piece.toString());
 			if(piece.toString().split(":")[1].substring(0,1).equals(color))
 			{
+				// print here in the loop
+				System.out.println("THE PIECE IS IN CHECKMATE: " + piece.toString());
 				// cast the piece to the appropriate piece
 				Piece casted_piece = (Piece) piece;
 				// print the type of piece and the piece itself
 				//System.out.println("THE PIECE IS: " + casted_piece.toString().split(":")[1].substring(0,1));
+				// Create a copy of the map
+				Map<String, ReturnPiece> mapCopy = new HashMap<>(casted_piece.populateRegularAndKillMoves());
+
 				// simulate all possible moves 
-				for (HashMap.Entry<String, ReturnPiece> move : casted_piece.populateRegularAndKillMoves().entrySet()) {
+				for (HashMap.Entry<String, ReturnPiece> move : mapCopy.entrySet()) {
 					// print the move
 					System.out.println("THE MOVE IS: " + move.getKey());
 
@@ -652,13 +703,11 @@ public class Chess {
 					casted_piece.pieceRank = originalRank;
 				}
 
+			}
 		}
 		// print checkmate
 		System.out.println("THE KING IS IN CHECKMATE");
 		return true;
-			
-	}
-		return false;
 	}
 }
 
