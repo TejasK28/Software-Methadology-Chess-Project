@@ -167,12 +167,20 @@ public class Pawn extends Piece
             // then this piece can be enpessanted
             if(this.pieceRank == 5)
             {
-                PieceFile leftFile = PieceFile.values()[this.pieceFile.ordinal() - 1];
-                PieceFile rightFile = PieceFile.values()[this.pieceFile.ordinal() + 1];
+                // handle enpessant & handle left-most and right-most pawns
+                PieceFile leftFile = null;
+                PieceFile rightFile = null;
 
+                if (this.pieceFile.ordinal() > 0) {
+                    leftFile = PieceFile.values()[this.pieceFile.ordinal() - 1];
+                }
+
+                if (this.pieceFile.ordinal() < PieceFile.values().length - 1) {
+                    rightFile = PieceFile.values()[this.pieceFile.ordinal() + 1];
+                }
                 // print last moved piece
                 System.out.println("LAST MOVED PIECE: " + Chess.lastMovedPiece);
-                if(Chess.pieceExistsAt(getStringOfPosition(leftFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
+                if(leftFile != null && Chess.pieceExistsAt(getStringOfPosition(leftFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
                 {
                     Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank));
                     if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)
@@ -182,7 +190,7 @@ public class Pawn extends Piece
                         moves.put(getStringOfPosition(leftFile, this.pieceRank + 1), opponentPawn);
                     }
                 }
-                if(Chess.pieceExistsAt(getStringOfPosition(rightFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
+                if(leftFile != null && Chess.pieceExistsAt(getStringOfPosition(rightFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
                 {
                     Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank));
                     if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)

@@ -195,6 +195,7 @@ public class Chess {
 				{
 					returnPlay.message = ReturnPlay.Message.CHECKMATE_WHITE_WINS;
 				}
+				return returnPlay;
 			}
 
 			// set the last moved piece
@@ -251,6 +252,7 @@ public class Chess {
 				{
 					returnPlay.message = ReturnPlay.Message.CHECKMATE_BLACK_WINS;
 				}
+				return returnPlay;
 			}
 
 
@@ -323,6 +325,7 @@ public class Chess {
 		returnPlay = new ReturnPlay();
 		returnPlay.piecesOnBoard = new ArrayList<ReturnPiece>();
 		returnPlay.message = null;
+		whosPlaying = Player.white; // default player is white
 
 		//Pawn testing
 		//This should add all the white/black pawns on the board
@@ -675,13 +678,10 @@ public class Chess {
 					PieceFile originalFile = casted_piece.pieceFile;
 					int originalRank = casted_piece.pieceRank;
 
-					System.out.println("THE MOVE FILE IS: " + move.getKey().split(":")[0].substring(0,1));
 					// convert above to PieceFile
 					PieceFile newFile = PieceFile.valueOf(move.getKey().split(":")[0].substring(0,1));
 					// convert above to int
 					int newRank = Integer.parseInt(move.getKey().split(":")[0].substring(1,2));
-					// print the move rank
-					System.out.println("THE MOVE RANK IS: " + move.getKey().split(":")[0].substring(1,2));
 
 					// simulate the move
 					casted_piece.pieceFile = newFile;
