@@ -17,6 +17,9 @@ public class Queen extends Piece{
     }
 
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
+        // set new position for the bishop and rook
+        this.bishop.setPosition(this.pieceFile, this.pieceRank);
+        this.rook.setPosition(this.pieceFile, this.pieceRank);
         // leverage the bishop and rook classes to get the moves
         // concatenate the two maps
         moves = new HashMap<String, ReturnPiece>();
