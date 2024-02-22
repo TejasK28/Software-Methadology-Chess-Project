@@ -217,30 +217,35 @@ public class Pawn extends Piece
             // then this piece can be enpessanted
             if(this.pieceRank == 4)
             {
-                PieceFile leftFile = PieceFile.values()[this.pieceFile.ordinal() - 1];
-                PieceFile rightFile = PieceFile.values()[this.pieceFile.ordinal() + 1];
+                // handle enpessant & handle left-most and right-most pawns
+                PieceFile leftFile = null;
+                PieceFile rightFile = null;
+
+                if (this.pieceFile.ordinal() > 0) {
+                    leftFile = PieceFile.values()[this.pieceFile.ordinal() - 1];
+                }
+
+                if (this.pieceFile.ordinal() < PieceFile.values().length - 1) {
+                    rightFile = PieceFile.values()[this.pieceFile.ordinal() + 1];
+                }
                 // print last moved piece
                 System.out.println("LAST MOVED PIECE: " + Chess.lastMovedPiece);
 
-                if(Chess.pieceExistsAt(getStringOfPosition(leftFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
-                {
+                if (leftFile != null && Chess.pieceExistsAt(getStringOfPosition(leftFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP")) {
                     Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank));
                     // print if Chess.lastMovedPiece == opponentPawn
                     System.out.println("LAST MOVED PIECE == OPPONENT PAWN: " + (Chess.lastMovedPiece == opponentPawn));
-                    if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)
-                    {
+                    if (opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn) {
                         canBeEnPessanted = true;
                         System.out.println("CAN BE ENPESANTED: " + canBeEnPessanted);
                         moves.put(getStringOfPosition(leftFile, this.pieceRank - 1), opponentPawn);
                     }
                 }
-                if(Chess.pieceExistsAt(getStringOfPosition(rightFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
-                {
+                if (rightFile != null && Chess.pieceExistsAt(getStringOfPosition(rightFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP")) {
                     Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank));
                     // print if Chess.lastMovedPiece == opponentPawn
                     System.out.println("LAST MOVED PIECE == OPPONENT PAWN: " + (Chess.lastMovedPiece == opponentPawn));
-                    if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)
-                    {
+                    if (opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn) {
                         canBeEnPessanted = true;
                         System.out.println("CAN BE ENPESANTED: " + canBeEnPessanted);
                         moves.put(getStringOfPosition(rightFile, this.pieceRank - 1), opponentPawn);
