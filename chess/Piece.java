@@ -73,6 +73,11 @@ public class Piece extends ReturnPiece
     {
         return this.color;
     }
+    // setter method for position
+    public void setPosition(PieceFile file, int rank) {
+        this.pieceFile = file;
+        this.pieceRank = rank;
+    }
 
     /*
      * Takes in the current piece position and the checking piece position
