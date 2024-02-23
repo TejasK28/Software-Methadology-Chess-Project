@@ -200,10 +200,6 @@ public class Chess {
 				switchPlayer(); //switch player & null the message
 				++globalMoveCount; // increment the globalMoveCount
 			}
-
-			System.out.println("WHITE JUST MOVED");
-			System.out.println("GLOBAL MOVE COUNT: " + globalMoveCount);
-			System.out.println("BLACK TO MOVE");
 		}
 		else // Black's turn
 		{	
@@ -258,10 +254,6 @@ public class Chess {
 				switchPlayer(); //switch player & null the message
 				++globalMoveCount; // increment the globalMoveCount
 			}
-			//TODO delete print 
-			System.out.println("BLACK JUST MOVED");
-			System.out.println("GLOBAL MOVE COUNT: " + globalMoveCount);
-			System.out.println("WHITE TO MOVE");
 
 		 }
 
@@ -389,15 +381,15 @@ public class Chess {
 	public static void movePieceFromTo(String move_from_column, String move_from_row, String move_to_column, String move_to_row)
 	{
 		ReturnPiece from_piece = getPieceFromPosition(move_from_column + move_from_row );
-		 
+		System.out.println("CURRENT MOVES: " + ((Piece)from_piece).populateRegularAndKillMoves());
+
 		 if(from_piece instanceof Pawn)
 		 {
 			// TODO new move testing for pawn
 			// TODO promotion
 			Pawn current_pawn = ((Pawn)from_piece);
 			current_pawn.move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-			System.out.println("CURREN MOVES: " + ((Piece)from_piece).populateRegularAndKillMoves());
-
+	
 			//Promotion implementation
 			//default promotion to queen
 			/*
@@ -661,6 +653,10 @@ public class Chess {
 		return false;
 	}
 
+	/*
+	 * Helper method to check if I move a position from the original to the next,
+	 * will it still be targeted
+	 */
 	public static boolean shiftPositionAndCheckIfPieceIsStillInDanger(Piece thisPiece, PieceFile checkPieceFile, int checkPieceRank)
 	{
 		PieceFile originalFile = thisPiece.pieceFile;
@@ -688,6 +684,12 @@ public class Chess {
 		return false;
 	}
 
+	/*
+	 * Method will invoke a helper method to check if
+	 * the current piece can't kill the second pice passed in
+	 * 
+	 * this is mainly for the use of the KING
+	 */
 	public static boolean thisPieceKillMeButICantKillThatPiece(Piece thisPiece, Piece thatPiece)
 	{
 		if (shiftPositionAndCheckIfPieceIsStillInDanger(thisPiece, thatPiece.pieceFile, thatPiece.pieceRank))
@@ -770,6 +772,9 @@ public class Chess {
         return false;
     }
 
+	/*
+	 * Method that will return true of the piece on second position is the same color as the piece on first position
+	 */
 	public static boolean isAllyForThisPiece(String thisPosition, String thatPosition)
     {
         Piece thisPiece = ((Piece) Chess.getPieceFromPosition(thisPosition));
@@ -801,7 +806,38 @@ public class Chess {
         return false;
     }
 
+	/*
+	 * Method to check if a certain position is safe for a color
+	 */
+	public static boolean isPositionSafeFor(String targetPosition, String thisColor)
+	{
+		//what makes a position safe for a certain color?
 
+		/*
+		 * 1) the targetPosition should be empty
+		 * 2) the target position should not be seen by an enemy
+		 */
+
+		 //1
+
+		 if(Chess.isPositionEmpty(targetPosition))
+		 {
+			//2
+
+			for(ReturnPiece p : returnPlay.piecesOnBoard)
+			{
+				Piece piece = (Piece) p;
+
+				if(!piece.getColor().equals(thisColor)) // if the piece is the enemy
+				{
+					if(!piece.populateRegularAndKillMoves().containsKey(targetPosition))
+						return true;
+				}
+			}
+		 }
+
+		 return false; // meaning the potion is not safe
+	}
 	
 }
 

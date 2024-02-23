@@ -17,6 +17,7 @@ public class Rook extends Piece{
         this.pieceType = pieceType; // Wr or Br
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
+        this.moveCount = 0;
 
         moves = new HashMap<String, ReturnPiece>();
         this.color = pieceType.toString().toUpperCase().substring(0, 1);
@@ -139,4 +140,9 @@ public class Rook extends Piece{
         }
     }    
 
+    @Override
+    public void incrementMoveCount()
+    {
+        ++this.moveCount;
+    }
 }

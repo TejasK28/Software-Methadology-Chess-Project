@@ -9,6 +9,7 @@ public class King extends Piece{
         this.pieceType = pieceType; // Wk or Bk
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
+        this.moveCount = 0;
 
         this.color = pieceType.toString().toUpperCase().substring(0, 1);
         moves = new HashMap<String, ReturnPiece>();
@@ -61,9 +62,20 @@ public class King extends Piece{
      * TODO implement canCastle
      * but we need to implement check first
      */
-    public boolean canCastle()
+    public boolean addCastleMovesIfPossible()
     {
+        //TODO
+        
+
+
+
         return false;
+    }
+
+    @Override
+    public void incrementMoveCount()
+    {
+        ++moveCount;
     }
 
 

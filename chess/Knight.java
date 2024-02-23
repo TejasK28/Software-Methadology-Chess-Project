@@ -14,7 +14,7 @@ public class Knight extends Piece {
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
         this.color = pieceType.toString().toUpperCase().substring(0, 1);
-
+        
         moves = new HashMap<String, ReturnPiece>();
     }
 
@@ -53,7 +53,7 @@ public class Knight extends Piece {
           * Now we will check left up and down
           */
            checkLeftUpAndDown();
-                     
+
         return moves;
     }
 

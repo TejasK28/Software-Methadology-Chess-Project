@@ -44,7 +44,7 @@ public class Piece extends ReturnPiece
             this.pieceFile = newFile;
             this.pieceRank = newRank;
             //increment move count
-            moveCount++;
+            incrementMoveCount();
         }
         else
         {
@@ -79,6 +79,10 @@ public class Piece extends ReturnPiece
         this.pieceRank = rank;
     }
 
+    public void incrementMoveCount()
+    {
+        ++moveCount;
+    }
     
 
 
