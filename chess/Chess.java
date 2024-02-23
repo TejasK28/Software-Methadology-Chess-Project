@@ -599,7 +599,6 @@ public class Chess {
 		return returnMovesOfThisPiece.containsKey(thatPiecePosition);
 	}
 
-	//TODO test these check/checkmate methods
 	// check if the king is in check
 	public static boolean kingIsInCheck(String targetColor)
 	{
@@ -654,21 +653,48 @@ public class Chess {
 		// checking this king has nowhere to more
 		if(king.populateRegularAndKillMoves().size() == 0)
 		{
-			//check all pieces and see if they can see thisking
-			for(ReturnPiece piece: returnPlay.piecesOnBoard)
-			{
-				if(Chess.thisPieceCanKillThatPiece(((Piece)piece), king))
-				{
-					System.out.println("THE KING IS IN CHECKMATE");
-					return true;
-				}
-			}
+			System.out.println("THE KING IS IN CHECKMATE");
+				return true;
 		}
+
 
 		return false;
 	}
 
+	public static boolean shiftPositionAndCheckIfPieceIsStillInDanger(Piece thisPiece, PieceFile checkPieceFile, int checkPieceRank)
+	{
+		PieceFile originalFile = thisPiece.pieceFile;
+		int originalRank = thisPiece.pieceRank;
+		ReturnPiece savePiece = Chess.getPieceFromPosition("" + checkPieceFile + checkPieceRank);
+		returnPlay.piecesOnBoard.remove(savePiece);
 
+		//changing the position to that piece to similate the new position
+		thisPiece.setPosition(checkPieceFile, checkPieceRank);
+
+		//if the piece is still in danger
+		for(ReturnPiece p : returnPlay.piecesOnBoard)
+		{
+			Piece piece = (Piece) p;
+
+			if(piece.populateRegularAndKillMoves().containsKey(thisPiece.getPosition()))
+			{
+				thisPiece.setPosition(originalFile, originalRank);
+				returnPlay.piecesOnBoard.add(savePiece);
+				return true;
+			}
+		}
+		returnPlay.piecesOnBoard.add(savePiece);
+		thisPiece.setPosition(originalFile, originalRank);
+		return false;
+	}
+
+	public static boolean thisPieceKillMeButICantKillThatPiece(Piece thisPiece, Piece thatPiece)
+	{
+		if (shiftPositionAndCheckIfPieceIsStillInDanger(thisPiece, thatPiece.pieceFile, thatPiece.pieceRank))
+			return true;
+	
+		return false;
+	}
 	/*
 	 * Will return false if the position is not on the board
 	 */
