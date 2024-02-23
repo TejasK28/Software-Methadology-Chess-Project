@@ -53,45 +53,45 @@ public class Rook extends Piece{
     {
        //curr position right
        for(int i = 1; i <= 10; i++)
-       {
-           String checkingPosition = Chess.getStringOfPositionWithChange(currentPosition, i, 0);
+        {
+            String checkingPosition = Chess.getStringOfPositionWithChange(currentPosition, i, 0);
 
-           if(checkingPosition != null)
-           {   
-               boolean weFoundEnemy = Chess.isEnemyForThisPiece(currentPosition, checkingPosition);
+            if(checkingPosition != null)
+            {   
+                if(Chess.isEnemyForThisPiece(currentPosition, checkingPosition)) // an enemy is on this piece so we will add it and stop checking
+                {
+                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    break;
+                }
+                else if (Chess.isAllyForThisPiece(currentPosition, checkingPosition))
+                    break;
+                else if(Chess.isPositionEmpty(checkingPosition))// enemy is not on this piece
+                    moves.put(checkingPosition, null);
+            }
+            else // null space
+                break;
+        }
 
-               if(weFoundEnemy) // an enemy is on this piece so we will add it and stop checking
-               {
-                   moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
-                   break;
-               }
-               else if(!Chess.pieceExistsAt(checkingPosition))// enemy is not on this piece
-                   moves.put(checkingPosition, null);
-           }
-           else // null space
-               break;
-       }
-
-       //curr left
-       for(int i = 1; i <= 10; i++)
-       {
-           String checkingPosition = Chess.getStringOfPositionWithChange(currentPosition, -i, 0);
-
-           if(checkingPosition != null)
-           {   
-               boolean weFoundEnemy = Chess.isEnemyForThisPiece(currentPosition, checkingPosition);
-
-               if(weFoundEnemy) // an enemy is on this piece so we will add it and stop checking
-               {
-                   moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
-                   break;
-               }
-               else if(!Chess.pieceExistsAt(checkingPosition))// enemy is not on this piece
-                   moves.put(checkingPosition, null);
-           }
-           else // null space
-               break;
-       }
+        //curr position left
+        for(int i = 1; i <= 10; i++)
+        {
+            String checkingPosition = Chess.getStringOfPositionWithChange(currentPosition, -i, 0);
+            if(checkingPosition != null)
+            {
+                if(Chess.isEnemyForThisPiece(currentPosition, checkingPosition)) // an enemy is on this piece so we will add it and stop checking
+                {
+                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    break;
+                }
+                else if (Chess.isAllyForThisPiece(currentPosition, checkingPosition))
+                    break;
+                else if(Chess.isPositionEmpty(checkingPosition))// enemy is not on this piece
+                    moves.put(checkingPosition, null);
+            }
+            else // null space
+                break;
+        
+        }
    }
 
     public void vertical(String currentPosition)
@@ -103,14 +103,14 @@ public class Rook extends Piece{
 
             if(checkingPosition != null)
             {   
-                boolean weFoundEnemy = Chess.isEnemyForThisPiece(currentPosition, checkingPosition);
-
-                if(weFoundEnemy) // an enemy is on this piece so we will add it and stop checking
+                if(Chess.isEnemyForThisPiece(currentPosition, checkingPosition)) // an enemy is on this piece so we will add it and stop checking
                 {
                     moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
                     break;
                 }
-                else if(!Chess.pieceExistsAt(checkingPosition))// enemy is not on this piece
+                else if (Chess.isAllyForThisPiece(currentPosition, checkingPosition))
+                    break;
+                else if(Chess.isPositionEmpty(checkingPosition))// enemy is not on this piece
                     moves.put(checkingPosition, null);
             }
             else // null space
@@ -121,22 +121,22 @@ public class Rook extends Piece{
         for(int i = 1; i <= 10; i++)
         {
             String checkingPosition = Chess.getStringOfPositionWithChange(currentPosition, 0, -i);
-
             if(checkingPosition != null)
-            {   
-                boolean weFoundEnemy = Chess.isEnemyForThisPiece(currentPosition, checkingPosition);
-
-                if(weFoundEnemy) // an enemy is on this piece so we will add it and stop checking
+            {
+                if(Chess.isEnemyForThisPiece(currentPosition, checkingPosition)) // an enemy is on this piece so we will add it and stop checking
                 {
                     moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
                     break;
                 }
-                else if(!Chess.pieceExistsAt(checkingPosition))// enemy is not on this piece
+                else if (Chess.isAllyForThisPiece(currentPosition, checkingPosition))
+                    break;
+                else if(Chess.isPositionEmpty(checkingPosition))// enemy is not on this piece
                     moves.put(checkingPosition, null);
             }
             else // null space
                 break;
+        
         }
-    }
+    }    
 
 }

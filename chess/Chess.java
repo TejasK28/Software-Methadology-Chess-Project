@@ -744,6 +744,37 @@ public class Chess {
         return false;
     }
 
+	public static boolean isAllyForThisPiece(String thisPosition, String thatPosition)
+    {
+        Piece thisPiece = ((Piece) Chess.getPieceFromPosition(thisPosition));
+        Piece thatPiece = ((Piece) Chess.getPieceFromPosition(thatPosition));
+
+        if(thisPiece != null && thatPiece != null)
+        {
+            if(thisPiece.getColor().equals(thatPiece.getColor()))
+                return true;
+
+        }
+        
+        return false;
+    }
+
+	/*
+	 * Checks if the position is empty
+	 * expects a valid position
+	 */
+	public static boolean isPositionEmpty(String targetPosition)
+    {
+        Piece thisPiece = ((Piece) Chess.getPieceFromPosition(targetPosition));
+
+        if(thisPiece == null)
+        {
+                return true;
+        }
+        
+        return false;
+    }
+
 
 	
 }
