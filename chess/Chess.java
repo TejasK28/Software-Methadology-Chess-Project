@@ -492,7 +492,10 @@ public class Chess {
 			((Queen)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 		else if(from_piece instanceof King)
 			((King)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-	}
+	
+		 
+			System.out.println("CURREN MOVES: " + ((Piece)from_piece).populateRegularAndKillMoves());
+		}
 
 	// LOGISTIC METHODS
 	/*
@@ -659,7 +662,7 @@ public class Chess {
 			return true;
 
 		}
-		
+
 		return false;
 	}
 

@@ -53,10 +53,7 @@ public class Knight extends Piece {
           * Now we will check left up and down
           */
            checkLeftUpAndDown();
-
-
-           System.out.println(this.pieceType + " AT " + this.getPosition() + " KNIGHT MOVES: " + moves);
-          
+                     
         return moves;
     }
 
