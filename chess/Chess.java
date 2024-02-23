@@ -274,7 +274,6 @@ public class Chess {
 			return returnPlay;
 		
 		return returnPlay;
-
 	}
 	
 	
@@ -545,7 +544,6 @@ public class Chess {
 		return null;
 	}
 
-	// TODO test this method
 	public static String getColorOfPieceFromPosition(String position)
 	{
 		ReturnPiece returnPiece = getPieceFromPosition(position);

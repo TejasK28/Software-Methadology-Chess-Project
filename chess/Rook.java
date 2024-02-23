@@ -44,220 +44,99 @@ public class Rook extends Piece{
         horizontal(this.getPosition());
         vertical(this.getPosition());
 
-        
+
 
         return moves;
     }
 
     public void horizontal(String currentPosition)
     {
-        /*
-         * @ current_file_index : int
-         *  - stores the changing index of the columns(row-way traverse)
-         */
-        int current_file_index = this.pieceFile.ordinal() + 1;
-        
+       //curr position right
+       for(int i = 1; i <= 10; i++)
+       {
+           String checkingPosition = Chess.getStringOfPositionWithChange(currentPosition, i, 0);
 
-        /*
-         * @ current_rank : int
-         *  - stores the current rank
-         */
-        int current_rank = this.pieceRank;
+           if(checkingPosition != null)
+           {   
+               boolean weFoundEnemy = Chess.isEnemyForThisPiece(currentPosition, checkingPosition);
 
-        
-        /*
-         * This while loop checks from the current file & rank to the right until the end
-         */
-        while(current_file_index < 8)
-        {
-            /*
-             * @ current_piecefile : PieceFile
-             *  - stores the pieceFile equivalent of the current file index
-             */
-            PieceFile current_piecefile = PieceFile.values()[current_file_index];
+               if(weFoundEnemy) // an enemy is on this piece so we will add it and stop checking
+               {
+                   moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                   break;
+               }
+               else if(!Chess.pieceExistsAt(checkingPosition))// enemy is not on this piece
+                   moves.put(checkingPosition, null);
+           }
+           else // null space
+               break;
+       }
 
-            /*
-            * @ checking_index : String
-            * - stores the string version of the checking position
-            */
-            String checkingIndex = getStringOfPosition(current_piecefile, current_rank);
+       //curr left
+       for(int i = 1; i <= 10; i++)
+       {
+           String checkingPosition = Chess.getStringOfPositionWithChange(currentPosition, -i, 0);
 
-            String currentindex = getPosition();
+           if(checkingPosition != null)
+           {   
+               boolean weFoundEnemy = Chess.isEnemyForThisPiece(currentPosition, checkingPosition);
 
-            //we are going to default to the same rank, but change the file
-            
-            //we now are safe from messing with our own rook
-
-            //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
-            if(Chess.isEnemyForThisPiece(currentPosition, checkingIndex))
-            {
-                //adding the index we can move to
-                moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
-                break;
-
-            }
-            else if(!Chess.isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
-            {
-                break;
-            }
-            else // free space
-            {
-                moves.put(currentindex, null);
-            }
-
-            ++current_file_index;
-        }
-        
-        current_file_index = this.pieceFile.ordinal() - 1;
-
-        /*
-         * this while loop goes in the left direction
-         */
-        while(current_file_index >= 0)
-        {
-            /*
-             * @ current_piecefile : PieceFile
-             *  - stores the pieceFile equivalent of the current file index
-             */
-            PieceFile current_piecefile = PieceFile.values()[current_file_index];
-
-            /*
-            * @ checking_index : String
-            * - stores the string version of the checking position
-            */
-            String checkingIndex = getStringOfPosition(current_piecefile, current_rank);
-
-            String currentindex = getPosition();
-
-            //we are going to default to the same rank, but change the file
-            
-            //we now are safe from messing with our own rook
-
-            //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
-            if(Chess.isEnemyForThisPiece(currentPosition, checkingIndex))
-            {
-                //adding the index we can move to
-                moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
-                break;
-
-            }
-            else if(!Chess.isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
-            {
-                break;
-            }
-            else // free space
-            {
-                moves.put(currentindex, null);
-            }
-
-            --current_file_index;
-        }
-        
-    }
+               if(weFoundEnemy) // an enemy is on this piece so we will add it and stop checking
+               {
+                   moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                   break;
+               }
+               else if(!Chess.pieceExistsAt(checkingPosition))// enemy is not on this piece
+                   moves.put(checkingPosition, null);
+           }
+           else // null space
+               break;
+       }
+   }
 
     public void vertical(String currentPosition)
     {
-        /*
-         * @ current_file_index : int
-         *  - stores the changing index of the columns(row-way traverse)
-         */
-        int current_file_index = this.pieceFile.ordinal();
-        
-
-        /*
-         * @ current_rank : int
-         *  - stores the current rank
-         */
-        int current_rank = this.pieceRank + 1;
-
-        
-        /*
-         * This while loop checks from the current file & rank up until the end
-         */
-        while(current_file_index <= 8)
+        //curr position up
+        for(int i = 1; i <= 10; i++)
         {
-            /*
-             * @ current_piecefile : PieceFile
-             *  - stores the pieceFile equivalent of the current file index
-             */
-            PieceFile current_piecefile = PieceFile.values()[current_file_index];
+            String checkingPosition = Chess.getStringOfPositionWithChange(currentPosition, 0, i);
 
-            /*
-            * @ checking_index : String
-            * - stores the string version of the checking position
-            */
-            String checkingIndex = getStringOfPosition(current_piecefile, current_rank);
+            if(checkingPosition != null)
+            {   
+                boolean weFoundEnemy = Chess.isEnemyForThisPiece(currentPosition, checkingPosition);
 
-            String currentindex = getPosition();
-
-            //we are going to default to the same rank, but change the file
-            
-            //we now are safe from messing with our own rook
-
-            //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
-            if(Chess.isEnemyForThisPiece(currentPosition, checkingIndex))
-            {
-                //adding the index we can move to
-                moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
+                if(weFoundEnemy) // an enemy is on this piece so we will add it and stop checking
+                {
+                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    break;
+                }
+                else if(!Chess.pieceExistsAt(checkingPosition))// enemy is not on this piece
+                    moves.put(checkingPosition, null);
+            }
+            else // null space
                 break;
-
-            }
-            else if(!Chess.isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
-            {
-                break;
-            }
-            else // free space
-            {
-                moves.put(currentindex, null);
-            }
-
-            ++current_rank;
         }
-        
-        current_rank = this.pieceRank - 1;
-        /*
-         * this while loop goes in the down direction
-         */
-        while(current_file_index > 0)
+
+        //curr position down
+        for(int i = 1; i <= 10; i++)
         {
-            /*
-             * @ current_piecefile : PieceFile
-             *  - stores the pieceFile equivalent of the current file index
-             */
-            PieceFile current_piecefile = PieceFile.values()[current_file_index];
+            String checkingPosition = Chess.getStringOfPositionWithChange(currentPosition, 0, -i);
 
-            /*
-            * @ checking_index : String
-            * - stores the string version of the checking position
-            */
-            String checkingIndex = getStringOfPosition(current_piecefile, current_rank);
+            if(checkingPosition != null)
+            {   
+                boolean weFoundEnemy = Chess.isEnemyForThisPiece(currentPosition, checkingPosition);
 
-            String currentindex = getPosition();
-
-            //we are going to default to the same rank, but change the file
-            
-            //we now are safe from messing with our own rook
-
-            //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
-            if(Chess.isEnemyForThisPiece(currentPosition, checkingIndex))
-            {
-                //adding the index we can move to
-                moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
+                if(weFoundEnemy) // an enemy is on this piece so we will add it and stop checking
+                {
+                    moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    break;
+                }
+                else if(!Chess.pieceExistsAt(checkingPosition))// enemy is not on this piece
+                    moves.put(checkingPosition, null);
+            }
+            else // null space
                 break;
-
-            }
-            else if(!Chess.isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
-            {
-                break;
-            }
-            else // free space
-            {
-                moves.put(currentindex, null);
-            }
-
-            --current_rank;;
         }
-        
     }
 
 }

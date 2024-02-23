@@ -37,8 +37,7 @@ public class Pawn extends Piece
     {
         // this clears the hashmap
         moves.clear();
-
-
+        
         //white
         if(this.color.equals(white))
         {
