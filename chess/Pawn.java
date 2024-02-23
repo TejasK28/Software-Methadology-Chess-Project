@@ -13,7 +13,7 @@ public class Pawn extends Piece
      *  ex. W or B
      */
     boolean canBeEnPessanted;
-    int lastMoved;
+    int moveCount;
 
     // PAWN CONSTRUCTOR
     public Pawn(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
@@ -23,16 +23,16 @@ public class Pawn extends Piece
         this.pieceRank = pieceRank;
 
         this.color = pieceType.toString().toUpperCase().substring(0, 1);
-        canBeEnPessanted = false;
-        lastMoved = Chess.globalMoveCount;
+        this.moveCount = 0;
 
         //TODO TESTING
         moves = new HashMap<String, ReturnPiece>();
     }
 
-    // TODO NEW MOVE HELPER METHODS
 
-    public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
+    //OLD VERSION
+
+     public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
     {
         // this clears the hashmap
         moves.clear();
@@ -267,4 +267,8 @@ public class Pawn extends Piece
         return moves;
     }
 
+
+
+
+ 
 }

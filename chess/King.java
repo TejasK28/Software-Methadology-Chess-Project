@@ -18,7 +18,6 @@ public class King extends Piece{
         
         moves.clear();
         
-        
         // populate the moves hashmap with the appropriate moves for standard/kill plays
         // consider 8 directions: up, down, left, right, up-right, up-left, down-right, down-left
         for (int fileChange = -1; fileChange <= 1; fileChange++) {
@@ -47,4 +46,15 @@ public class King extends Piece{
         }
         return moves;
     }
+
+    /*
+     * TODO implement canCastle
+     * but we need to implement check first
+     */
+    public boolean canCastle()
+    {
+        return false;
+    }
+
+
 }

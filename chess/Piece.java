@@ -15,7 +15,7 @@ public class Piece extends ReturnPiece
     String white = "W";
     String black = "B";
 
-    HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
+    public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
         return null;
     };
 

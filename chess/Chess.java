@@ -1,6 +1,5 @@
 package chess;
 
-import java.util.ArrayList;
 import chess.ReturnPiece.PieceFile;
 import chess.ReturnPiece.PieceType;
 import java.util.*;
@@ -120,6 +119,9 @@ public class Chess {
 		 */
 		if(strArr.length >= 2)
 			disectFromPosition(move);
+		else if(strArr.length  == 1) // possible resign
+			if(resignPrompted() != null)
+				return returnPlay;
 
 		
 		
@@ -133,16 +135,8 @@ public class Chess {
 		}
 		else
 			returnPlay.message = null;
+	
 		
-
-
-		/*
-		 * If statement that identifies a resign statement from the user
-		 * 
-		 * Will return a ReturnPlay object accordingly with the appropriate message
-		 */
-		if(resignPrompted() != null)
-			return returnPlay;
 			
 	 
 		/*
@@ -164,7 +158,7 @@ public class Chess {
 			} 
 
 			// check if white is in check. If so, this move must undo the check
-			if(isKingInCheck(white))
+			if(kingIsInCheck(white))
 			{
 				// if the move does not undo the check, then it is an illegal move
 				Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
@@ -174,7 +168,7 @@ public class Chess {
 				// simulate the move
 				from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 
-				if(isKingInCheck(black))
+				if(kingIsInCheck(black))
 				{	
 					// move the piece back
 					from_piece.setPosition(originalFile, originalRank);
@@ -187,7 +181,7 @@ public class Chess {
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 
 			// check for check
-			if(isKingInCheck(black))
+			if(kingIsInCheck(black))
 			{
 				returnPlay.message = ReturnPlay.Message.CHECK;
 				// check for checkmate
@@ -214,7 +208,7 @@ public class Chess {
 		else // Black's turn
 		{	
 			
-			if(getColorOfPieceFromPosition(move_from_column + move_from_row).equals("W"))
+			if(getColorOfPieceFromPosition(move_from_column + move_from_row).equals(white))
 			{
 				System.out.println("ILLEGAL MOVE YOURE PLAYING FOR THE WRONG SIDE");
 				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
@@ -222,7 +216,7 @@ public class Chess {
 			}
 
 			// check if the black in check, If so, this move must undo the check
-			if(isKingInCheck(black))
+			if(kingIsInCheck(black))
 			{
 				// if the move does not undo the check, then it is an illegal move
 				Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
@@ -232,7 +226,7 @@ public class Chess {
 				// simulate the move
 				from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 
-				if(isKingInCheck(black))
+				if(kingIsInCheck(black))
 				{	
 					// move the piece back
 					from_piece.setPosition(originalFile, originalRank);
@@ -244,7 +238,7 @@ public class Chess {
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 			
 			// check for check
-			if(isKingInCheck(white))
+			if(kingIsInCheck(white))
 			{
 				returnPlay.message = ReturnPlay.Message.CHECK;
 				// check for checkmate
@@ -255,8 +249,6 @@ public class Chess {
 				return returnPlay;
 			}
 
-
-			
 			// set the last moved piece
 			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
 			
@@ -562,7 +554,7 @@ public class Chess {
 		if(strArr[0].equals("resign"))
 		{
 			// TODO delete print statement
-			System.out.println(whosPlaying.toString().toUpperCase() + " IS RSIGNING");
+			System.out.println(whosPlaying.toString().toUpperCase() + " IS RESIGNING");
 			if(whosPlaying == Player.white)
 				returnPlay.message = ReturnPlay.Message.RESIGN_BLACK_WINS;
 			else
@@ -593,39 +585,46 @@ public class Chess {
 		return "" + file + rank;
 	}
 
-	// check if the king is in check
-	public static boolean isKingInCheck(String color)
+	/*
+	 * This method will take in 2 pieces and will return true if 
+	 * this piece can see that piece in its move map
+	 */
+	public static boolean thisPieceCanKillThatPiece(Piece thisPiece, Piece thatPiece)
 	{
-		// get the king
-		King king = null;
+		Map<String, ReturnPiece> returnMovesOfThisPiece = thisPiece.populateRegularAndKillMoves();
+		String thatPiecePosition = thatPiece.getPosition();
+
+		return returnMovesOfThisPiece.containsKey(thatPiecePosition);
+	}
+
+	//TODO test these check/checkmate methods
+	// check if the king is in check
+	public static boolean kingIsInCheck(String targetColor)
+	{
+		/*
+		 * First get the king of the color we are checking
+		 */
+
+		 King king = null;
+	
 		for(ReturnPiece piece : returnPlay.piecesOnBoard)
 		{
-			if(piece instanceof King && piece.toString().split(":")[1].substring(0,1).equals(color))
+			//if the piece is an instance of king
+			//and the piece is the correct color
+			//save that instance of a king
+			//break the loop
+			if(piece instanceof King && ((King)piece).color.equals(targetColor))
 			{
 				king = (King) piece;
 				break;
 			}
 		}
 
-		// check if the king is in check
+		System.out.println("KING FOUND: " + king);
+
 		for(ReturnPiece piece : returnPlay.piecesOnBoard)
 		{
-			if(piece.toString().split(":")[1].substring(0,1).equals(color)){
-				// print passing
-				continue;
-			}
-
-			// cast the piece to the appropriate piece
-			Piece casted_piece = (Piece) piece;
-			// print the type of piece and the piece itself
-			// System.out.println("THE PIECE IS: " + casted_piece.toString());
-			// // get the valid moves of the piece
-			// HashMap<String, ReturnPiece> validMoves = casted_piece.populateRegularAndKillMoves();
-			// // print the valid moves
-			// System.out.println("THE VALID MOVES ARE: " + validMoves);
-
-			// check if the piece can move to the king's position
-			if (casted_piece.isValidMove(king.pieceFile, king.pieceRank))
+			if(thisPieceCanKillThatPiece((Piece)piece, king)) // TODO currently here before checking out a bug in the pawn class
 			{
 				System.out.println("THE KING IS IN CHECK");
 				return true;
@@ -687,7 +686,7 @@ public class Chess {
 					casted_piece.pieceFile = newFile;
 					casted_piece.pieceRank = newRank;
 					// check if the king is still in check
-					if(!isKingInCheck(color))
+					if(!kingIsInCheck(color))
 					{
 						// if the king is not in check, then it is not checkmate
 						// move the piece back
@@ -709,6 +708,56 @@ public class Chess {
 		System.out.println("THE KING IS IN CHECKMATE");
 		return true;
 	}
+
+
+	public static boolean positionIsWithinBoundsOfBoard(String position)
+	{
+		String [] positionArray = position.split("");
+		
+		try
+		{
+			PieceFile file = PieceFile.valueOf(positionArray[0]);
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
+
+		int rank = Integer.parseInt(positionArray[1]);
+
+
+		if(rank <= 0 || rank > 8 )
+			return false;
+
+
+		return true;
+	}
+
+
+	/*
+	 * will return null if the position is invalid
+	 * otherwise will return a new string with the change
+	 */
+	public static String getStringOfPositionWithChange(String position, int x, int y)
+	{
+		
+		
+			if(PieceFile.valueOf(position.substring(0,1)).ordinal() + x < 0 || PieceFile.valueOf(position.substring(0,1)).ordinal() + x >= 8)
+			{
+				return null;
+			}
+
+			if(Integer.parseInt(position.split("")[1]) < 1 || Integer.parseInt(position.split("")[1]) > 8)
+			{
+				return null;
+			}
+
+			return "" + PieceFile.values()[PieceFile.valueOf(position.split("")[0].toLowerCase()).ordinal() + x] + (Integer.parseInt(position.split("")[1]) + y);
+	}
+
+
+
+
 }
 
 
