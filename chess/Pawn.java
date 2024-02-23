@@ -32,7 +32,7 @@ public class Pawn extends Piece
 
 
     //OLD VERSION
-
+    @Override
      public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
     {
         // this clears the hashmap

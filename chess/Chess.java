@@ -122,8 +122,6 @@ public class Chess {
 		else if(strArr.length  == 1) // possible resign
 			if(resignPrompted() != null)
 				return returnPlay;
-
-		
 		
 		//handles a wrong move with a message
 		//ensures the input space and output spaces are valid or else we will return a illegal move error
@@ -135,10 +133,7 @@ public class Chess {
 		}
 		else
 			returnPlay.message = null;
-	
-		
-			
-	 
+
 		/*
 		 * This code will allow any piece on the board to move anywhere without any rules
 		 * 
@@ -256,13 +251,13 @@ public class Chess {
 			}
 
 		 }
-
-
+		
 		 /*
 		  * This is the if statement to test a draw 
 		  * This is here because a draw is performed after the move is executed unlike resign
 		  */
-		if(drawPrompted() != null)
+		
+		  if(drawPrompted() != null)
 			return returnPlay;
 		
 		return returnPlay;
@@ -494,10 +489,13 @@ public class Chess {
 	 */
 	public static void switchPlayer()
 	{
-		if(whosPlaying == Player.black)
-			whosPlaying = Player.white;
-		else
-			whosPlaying = Player.black;
+		//TODO UNCOMMENT THIS
+		// TODO NEEDED CODE
+
+		// if(whosPlaying == Player.black)
+		// 	whosPlaying = Player.white;
+		// else
+		// 	whosPlaying = Player.black;
 		
 		returnPlay.message = null; // reset the message when we switch
 	}
@@ -585,9 +583,8 @@ public class Chess {
 	 */
 	public static boolean thisPieceCanKillThatPiece(Piece thisPiece, Piece thatPiece)
 	{
-		Map<String, ReturnPiece> returnMovesOfThisPiece = thisPiece.populateRegularAndKillMoves();
+		Map<String, ReturnPiece> returnMovesOfThisPiece = thisPiece.moves;
 		String thatPiecePosition = thatPiece.getPosition();
-
 		return returnMovesOfThisPiece.containsKey(thatPiecePosition);
 	}
 
@@ -615,11 +612,11 @@ public class Chess {
 
 		for(ReturnPiece piece : returnPlay.piecesOnBoard)
 		{
+			if(piece == king)
+				continue;
+
 			if(thisPieceCanKillThatPiece((Piece)piece, king)) // TODO currently here before checking out a bug in the pawn class
 			{
-
-				System.out.println("THIS PIECE MOVES: " + ((Piece)piece).moves);
-				System.out.println("KINGS POSITION: " + king);
 				System.out.println("THE KING IS IN CHECK");
 				return true;
 			}
@@ -838,6 +835,8 @@ public class Chess {
 
 		 return false; // meaning the potion is not safe
 	}
+	
+
 	
 }
 
