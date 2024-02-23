@@ -30,6 +30,7 @@ public class Pawn extends Piece
     }
 
 
+
     //OLD VERSION
 
      public HashMap<String, ReturnPiece> populateRegularAndKillMoves()

@@ -524,6 +524,7 @@ public class Chess {
 	
 	/*
 	 * Static method to be used to check whic piece is in some position of the board
+	 * will return null if nothing exists
 	 */
 	public static ReturnPiece getPieceFromPosition(String position)
 	{
@@ -762,6 +763,8 @@ public class Chess {
 			return "" + PieceFile.values()[PieceFile.valueOf(position.split("")[0].toLowerCase()).ordinal() + x] + (Integer.parseInt(position.split("")[1]) + y);
 	}
 
+
+	
 }
 
 
