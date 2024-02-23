@@ -710,10 +710,17 @@ public class Chess {
 	}
 
 
+	/*
+	 * Will return false if the position is not on the board
+	 */
 	public static boolean positionIsWithinBoundsOfBoard(String position)
 	{
 		String [] positionArray = position.split("");
-		
+
+		if(positionArray.length >= 3) // negative number
+			return false;
+
+
 		try
 		{
 			PieceFile file = PieceFile.valueOf(positionArray[0]);
@@ -747,16 +754,13 @@ public class Chess {
 				return null;
 			}
 
-			if(Integer.parseInt(position.split("")[1]) < 1 || Integer.parseInt(position.split("")[1]) > 8)
+			if(Integer.parseInt(position.split("")[1]) + y < 1 || Integer.parseInt(position.split("")[1]) + y > 8)
 			{
 				return null;
 			}
 
 			return "" + PieceFile.values()[PieceFile.valueOf(position.split("")[0].toLowerCase()).ordinal() + x] + (Integer.parseInt(position.split("")[1]) + y);
 	}
-
-
-
 
 }
 
