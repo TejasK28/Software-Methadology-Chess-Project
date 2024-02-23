@@ -4,7 +4,6 @@ import java.util.*;
 
 //using Return Piece in Chess.java implement king class
 public class King extends Piece{
-
     // constructor
     public King(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
         this.pieceType = pieceType; // Wk or Bk
@@ -16,6 +15,10 @@ public class King extends Piece{
     }
 
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
+        
+        moves.clear();
+        
+        
         // populate the moves hashmap with the appropriate moves for standard/kill plays
         // consider 8 directions: up, down, left, right, up-right, up-left, down-right, down-left
         for (int fileChange = -1; fileChange <= 1; fileChange++) {

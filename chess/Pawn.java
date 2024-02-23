@@ -34,6 +34,10 @@ public class Pawn extends Piece
 
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
     {
+        // this clears the hashmap
+        moves.clear();
+
+
         //white
         if(Chess.whosPlaying == Chess.Player.white)
         {
@@ -86,10 +90,6 @@ public class Pawn extends Piece
             }
         }
 
-
-        // print moves
-        //System.out.println("MOVES: " + moves);
-        
 
         //check for the next column
         PieceFile nextColumn;

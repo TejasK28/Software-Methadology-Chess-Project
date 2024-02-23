@@ -14,9 +14,13 @@ public class Queen extends Piece{
         this.rook = new Rook(this.pieceType, this.pieceFile, this.pieceRank);
 
         this.color = pieceType.toString().toUpperCase().substring(0, 1);
+
+        moves = new HashMap<String, ReturnPiece>();
     }
 
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
+
+        moves.clear();
         // set new position for the bishop and rook
         this.bishop.setPosition(this.pieceFile, this.pieceRank);
         this.rook.setPosition(this.pieceFile, this.pieceRank);

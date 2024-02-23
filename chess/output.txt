@@ -12,12 +12,12 @@ wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: a7 a5, ReturnPlay.message: null
+Move: g8 f6, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB bN bR 8
-## bp bp bp bp bp bp bp 7
-   ##    ##    ##    ## 6
-bp    ##    ##    ##    5
+bR bN bB bQ bK bB    bR 8
+bp bp bp bp bp bp bp bp 7
+   ##    ##    bN    ## 6
+##    ##    ##    ##    5
    ##    ## wp ##    ## 4
 ##    ##    ##    ##    3
 wp wp wp wp    wp wp wp 2
@@ -25,80 +25,15 @@ wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: white
-Move: d1 h5, ReturnPlay.message: null
+Move: b1 c3, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB bN bR 8
-## bp bp bp bp bp bp bp 7
-   ##    ##    ##    ## 6
-bp    ##    ##    ## wQ 5
+bR bN bB bQ bK bB    bR 8
+bp bp bp bp bp bp bp bp 7
+   ##    ##    bN    ## 6
+##    ##    ##    ##    5
    ##    ## wp ##    ## 4
-##    ##    ##    ##    3
+##    wN    ##    ##    3
 wp wp wp wp    wp wp wp 2
-wR wN wB    wK wB wN wR 1
- a  b  c  d  e  f  g  h
-
-Turn: black
-Move: a5 a4, ReturnPlay.message: null
-BOARD
-bR bN bB bQ bK bB bN bR 8
-## bp bp bp bp bp bp bp 7
-   ##    ##    ##    ## 6
-##    ##    ##    ## wQ 5
-bp ##    ## wp ##    ## 4
-##    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
-wR wN wB    wK wB wN wR 1
- a  b  c  d  e  f  g  h
-
-Turn: white
-Move: f1 c4, ReturnPlay.message: null
-BOARD
-bR bN bB bQ bK bB bN bR 8
-## bp bp bp bp bp bp bp 7
-   ##    ##    ##    ## 6
-##    ##    ##    ## wQ 5
-bp ## wB ## wp ##    ## 4
-##    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
-wR wN wB    wK    wN wR 1
- a  b  c  d  e  f  g  h
-
-Turn: black
-Move: a4 a3, ReturnPlay.message: null
-BOARD
-bR bN bB bQ bK bB bN bR 8
-## bp bp bp bp bp bp bp 7
-   ##    ##    ##    ## 6
-##    ##    ##    ## wQ 5
-   ## wB ## wp ##    ## 4
-bp    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
-wR wN wB    wK    wN wR 1
- a  b  c  d  e  f  g  h
-
-Turn: white
-Move: h5 f7, ReturnPlay.message: CHECK
-BOARD
-bR bN bB bQ bK bB bN bR 8
-## bp bp bp bp wQ bp bp 7
-   ##    ##    ##    ## 6
-##    ##    ##    ##    5
-   ## wB ## wp ##    ## 4
-bp    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
-wR wN wB    wK    wN wR 1
- a  b  c  d  e  f  g  h
-
-Turn: white
-Move: e8 f7, ReturnPlay.message: ILLEGAL_MOVE
-BOARD
-bR bN bB bQ bK bB bN bR 8
-## bp bp bp bp wQ bp bp 7
-   ##    ##    ##    ## 6
-##    ##    ##    ##    5
-   ## wB ## wp ##    ## 4
-bp    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
-wR wN wB    wK    wN wR 1
+wR    wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 

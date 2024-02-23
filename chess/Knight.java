@@ -15,7 +15,7 @@ public class Knight extends Piece {
         this.pieceRank = pieceRank;
         this.color = pieceType.toString().toUpperCase().substring(0, 1);
 
-        this.moves = new HashMap<String, ReturnPiece>();
+        moves = new HashMap<String, ReturnPiece>();
     }
 
     /*
@@ -55,14 +55,14 @@ public class Knight extends Piece {
            checkLeftUpAndDown();
 
 
-           System.out.println(this.pieceType + " AT " + this.getPosition() + " KNIGHT MOVES: " + this.moves);
+           System.out.println(this.pieceType + " AT " + this.getPosition() + " KNIGHT MOVES: " + moves);
           
            if(moves.size() > 8)
             {
-                System.out.println("KNIGHT ERROR : WE HAVE MORE THAN 8 MOVES");
+                System.out.println(moves);
             }
 
-        return this.moves;
+        return moves;
     }
 
 
@@ -90,7 +90,7 @@ public class Knight extends Piece {
            //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
            if(Chess.pieceExistsAt(checkingPosition) && isEnemyForThisPiece(currentPosition, checkingPosition))
            {
-               this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+               moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
            }  
            else if(Chess.pieceExistsAt(checkingPosition) && !(isEnemyForThisPiece(currentPosition, checkingPosition))) 
            { // else there is a piece but it's the same color as ours
@@ -98,7 +98,7 @@ public class Knight extends Piece {
            }
            else // in all other case (free space)
            {
-               this.moves.put(checkingPosition, null);
+               moves.put(checkingPosition, null);
            }
 
         }
@@ -112,7 +112,7 @@ public class Knight extends Piece {
            //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
            if(Chess.pieceExistsAt(checkingPosition) && isEnemyForThisPiece(currentPosition, checkingPosition))
            {
-               this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+               moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
            }   
            else if(Chess.pieceExistsAt(checkingPosition) && !(isEnemyForThisPiece(currentPosition, checkingPosition))) 
            { // else there is a piece but it's the same color as ours
@@ -120,7 +120,7 @@ public class Knight extends Piece {
            }
            else // in all other case (free space)
            {
-               this.moves.put(checkingPosition, null);
+               moves.put(checkingPosition, null);
            }
 
         }
@@ -150,7 +150,7 @@ public class Knight extends Piece {
            //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
            if(Chess.pieceExistsAt(checkingPosition) && isEnemyForThisPiece(currentPosition, checkingPosition))
            {
-               this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+               moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
            }  
            else if(Chess.pieceExistsAt(checkingPosition) && !(isEnemyForThisPiece(currentPosition, checkingPosition))) 
            { // else there is a piece but it's the same color as ours
@@ -158,7 +158,7 @@ public class Knight extends Piece {
            }
            else // in all other case (free space)
            {
-               this.moves.put(checkingPosition, null);
+               moves.put(checkingPosition, null);
            }
 
         }
@@ -172,7 +172,7 @@ public class Knight extends Piece {
            //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
            if(Chess.pieceExistsAt(checkingPosition) && isEnemyForThisPiece(currentPosition, checkingPosition))
            {
-               this.moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+               moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
            }   
            else if(Chess.pieceExistsAt(checkingPosition) && !(isEnemyForThisPiece(currentPosition, checkingPosition))) 
            { // else there is a piece but it's the same color as ours
@@ -180,13 +180,12 @@ public class Knight extends Piece {
            }
            else // in all other case (free space)
            {
-               this.moves.put(checkingPosition, null);
+               moves.put(checkingPosition, null);
            }
 
         }
     }
     
-
     /*
      * This method will check the right up and down positions of the knight
      */
@@ -217,7 +216,7 @@ public class Knight extends Piece {
             //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
             if(Chess.pieceExistsAt(checkingPositionUp) && isEnemyForThisPiece(currentPosition, checkingPositionUp))
             {
-                this.moves.put(checkingPositionUp, Chess.getPieceFromPosition(checkingPositionUp));
+                moves.put(checkingPositionUp, Chess.getPieceFromPosition(checkingPositionUp));
             }  
             else if(Chess.pieceExistsAt(checkingPositionUp) && !(isEnemyForThisPiece(currentPosition, checkingPositionUp))) 
             { // else there is a piece but it's the same color as ours
@@ -225,7 +224,7 @@ public class Knight extends Piece {
             }
             else // in all other case (free space)
             {
-                this.moves.put(checkingPositionUp, null);
+                moves.put(checkingPositionUp, null);
             }
  
          }
@@ -238,7 +237,7 @@ public class Knight extends Piece {
             //this if statement check for the down
             if(Chess.pieceExistsAt(checkingPositionDown) && isEnemyForThisPiece(currentPosition, checkingPositionDown))
             {
-                this.moves.put(checkingPositionDown, Chess.getPieceFromPosition(checkingPositionDown));
+                moves.put(checkingPositionDown, Chess.getPieceFromPosition(checkingPositionDown));
             }  
             else if(Chess.pieceExistsAt(checkingPositionDown) && !(isEnemyForThisPiece(currentPosition, checkingPositionDown))) 
             { // else there is a piece but it's the same color as ours
@@ -246,13 +245,11 @@ public class Knight extends Piece {
             }
             else // in all other case (free space)
             {
-                this.moves.put(checkingPositionDown, null);
+                moves.put(checkingPositionDown, null);
 }
          }
     
      }
- 
-     
      
      public void checkLeftUpAndDown()
      {
@@ -280,7 +277,7 @@ public class Knight extends Piece {
             //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
             if(Chess.pieceExistsAt(checkingPositionUp) && isEnemyForThisPiece(currentPosition, checkingPositionUp))
             {
-                this.moves.put(checkingPositionUp, Chess.getPieceFromPosition(checkingPositionUp));
+                moves.put(checkingPositionUp, Chess.getPieceFromPosition(checkingPositionUp));
             }  
             else if(Chess.pieceExistsAt(checkingPositionUp) && !(isEnemyForThisPiece(currentPosition, checkingPositionUp))) 
             { // else there is a piece but it's the same color as ours
@@ -288,7 +285,7 @@ public class Knight extends Piece {
             }
             else // in all other case (free space)
             {
-                this.moves.put(checkingPositionUp, null);
+                moves.put(checkingPositionUp, null);
             }
          }
 
@@ -300,7 +297,7 @@ public class Knight extends Piece {
             //this if statement check for the down
             if(Chess.pieceExistsAt(checkingPositionDown) && isEnemyForThisPiece(currentPosition, checkingPositionDown))
             {
-                this.moves.put(checkingPositionDown, Chess.getPieceFromPosition(checkingPositionDown));
+                moves.put(checkingPositionDown, Chess.getPieceFromPosition(checkingPositionDown));
             }  
             else if(Chess.pieceExistsAt(checkingPositionDown) && !(isEnemyForThisPiece(currentPosition, checkingPositionDown))) 
             { // else there is a piece but it's the same color as ours
@@ -308,7 +305,7 @@ public class Knight extends Piece {
             }
             else // in all other case (free space)
             {
-                this.moves.put(checkingPositionDown, null);
+                moves.put(checkingPositionDown, null);
 }
          }
     

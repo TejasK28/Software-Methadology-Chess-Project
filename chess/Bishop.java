@@ -11,12 +11,13 @@ public class Bishop extends Piece {
         this.pieceRank = pieceRank;
 
         this.color = pieceType.toString().toUpperCase().substring(0, 1);
-        
+
+        moves = new HashMap<String, ReturnPiece>();
     }
 
 
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
-        moves = new HashMap<String, ReturnPiece>();
+        moves.clear();
         // populate the moves hashmap with the appropriate moves for standard/kill plays
         // consider 4 directions: up-right, up-left, down-right, down-left
         // once hit a piece, stop

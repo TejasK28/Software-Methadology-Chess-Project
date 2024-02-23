@@ -1,5 +1,5 @@
 package chess;
-import java.util.*;
+import java.util.HashMap;
 
 public class Rook extends Piece{
     /*
@@ -18,12 +18,10 @@ public class Rook extends Piece{
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
 
-        this.moves = new HashMap<String, ReturnPiece>();
+        moves = new HashMap<String, ReturnPiece>();
         this.color = pieceType.toString().toUpperCase().substring(0, 1);
     }
     
-    //move method inherited from Piece Class
-
 
     /*
      * populateRegularMovesAndKillMoves
@@ -39,10 +37,14 @@ public class Rook extends Piece{
         /*
          * Call 2 methods to popoulate the proper moves based on color and indeitify kill moves
          */
+
+        moves.clear();
+
+
         horizontal(this.getPosition());
         vertical(this.getPosition());
 
-        return this.moves;
+        return moves;
     }
 
 
@@ -89,7 +91,7 @@ public class Rook extends Piece{
             if(isEnemyForThisPiece(currentPosition, checkingIndex))
             {
                 //adding the index we can move to
-                this.moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
+                moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
                 break;
 
             }
@@ -99,7 +101,7 @@ public class Rook extends Piece{
             }
             else // free space
             {
-                this.moves.put(currentindex, null);
+                moves.put(currentindex, null);
             }
 
             ++current_file_index;
@@ -134,7 +136,7 @@ public class Rook extends Piece{
             if(isEnemyForThisPiece(currentPosition, checkingIndex))
             {
                 //adding the index we can move to
-                this.moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
+                moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
                 break;
 
             }
@@ -144,7 +146,7 @@ public class Rook extends Piece{
             }
             else // free space
             {
-                this.moves.put(currentindex, null);
+                moves.put(currentindex, null);
             }
 
             --current_file_index;
@@ -195,7 +197,7 @@ public class Rook extends Piece{
             if(isEnemyForThisPiece(currentPosition, checkingIndex))
             {
                 //adding the index we can move to
-                this.moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
+                moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
                 break;
 
             }
@@ -205,7 +207,7 @@ public class Rook extends Piece{
             }
             else // free space
             {
-                this.moves.put(currentindex, null);
+                moves.put(currentindex, null);
             }
 
             ++current_rank;
@@ -239,7 +241,7 @@ public class Rook extends Piece{
             if(isEnemyForThisPiece(currentPosition, checkingIndex))
             {
                 //adding the index we can move to
-                this.moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
+                moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
                 break;
 
             }
@@ -249,7 +251,7 @@ public class Rook extends Piece{
             }
             else // free space
             {
-                this.moves.put(currentindex, null);
+                moves.put(currentindex, null);
             }
 
             --current_rank;;
