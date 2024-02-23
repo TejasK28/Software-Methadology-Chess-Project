@@ -28,6 +28,10 @@ public class Knight extends Piece {
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() 
     {
         /*
+         * Ensures out map is cleared everytime before a move
+         */
+        moves.clear();
+        /*
          * We will check top left & right first
          * 
          * We will bounds check & add to moves accordingly
@@ -49,7 +53,14 @@ public class Knight extends Piece {
           * Now we will check left up and down
           */
            checkLeftUpAndDown();
+
+
+           System.out.println(this.pieceType + " AT " + this.getPosition() + " KNIGHT MOVES: " + this.moves);
           
+           if(moves.size() > 8)
+            {
+                System.out.println("KNIGHT ERROR : WE HAVE MORE THAN 8 MOVES");
+            }
 
         return this.moves;
     }
@@ -131,7 +142,7 @@ public class Knight extends Piece {
         int checkingLeftFileIndex = this.pieceFile.ordinal() - 1;
         int checkingRightFileIndex = this.pieceFile.ordinal() + 1;
         //if top left is valid
-        if(checkingLeftFileIndex >= 0 && checkingRank <= 8)
+        if(checkingLeftFileIndex >= 0 && checkingRank >= 1)
         {
            //get the position of the checking position
            String checkingPosition = getStringOfPosition(PieceFile.values()[checkingLeftFileIndex], checkingRank);
@@ -153,7 +164,7 @@ public class Knight extends Piece {
         }
 
         //if top right is valid
-        if(checkingRightFileIndex < 8 && checkingRank <= 8)
+        if(checkingRightFileIndex < 8 && checkingRank >= 1)
         {
            //get the position of the checking position
            String checkingPosition = getStringOfPosition(PieceFile.values()[checkingRightFileIndex], checkingRank);
@@ -197,14 +208,12 @@ public class Knight extends Piece {
           */
          int checkingRightFileIndex = this.pieceFile.ordinal() + 2;
         
-         //if right up and down is valid
+         //if right up  is valid
          if(checkingRightFileIndex < 8 && checkingRankUp <= 8)
          {
             //get the position of the checking position for UP AND DOWN
             String checkingPositionUp = getStringOfPosition(PieceFile.values()[checkingRightFileIndex], checkingRankUp);
-            
-            String checkingPositionDown = getStringOfPosition(PieceFile.values()[checkingRightFileIndex], checkingRankDown);
-
+        
             //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
             if(Chess.pieceExistsAt(checkingPositionUp) && isEnemyForThisPiece(currentPosition, checkingPositionUp))
             {
@@ -217,49 +226,12 @@ public class Knight extends Piece {
             else // in all other case (free space)
             {
                 this.moves.put(checkingPositionUp, null);
-            }
-
-
-            //this if statement check for the down
-            if(Chess.pieceExistsAt(checkingPositionDown) && isEnemyForThisPiece(currentPosition, checkingPositionDown))
-            {
-                this.moves.put(checkingPositionDown, Chess.getPieceFromPosition(checkingPositionDown));
-            }  
-            else if(Chess.pieceExistsAt(checkingPositionDown) && !(isEnemyForThisPiece(currentPosition, checkingPositionDown))) 
-            { // else there is a piece but it's the same color as ours
-                //we don't do anything as that space is invalid to move to or take
-            }
-            else // in all other case (free space)
-            {
-                this.moves.put(checkingPositionDown, null);
             }
  
          }
 
-
-                  //if right up and down is valid
-         if(checkingRightFileIndex < 8 && checkingRankUp <= 8)
-         {
-            //get the position of the checking position for UP AND DOWN
-            String checkingPositionUp = getStringOfPosition(PieceFile.values()[checkingRightFileIndex], checkingRankUp);
-
-            //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
-            if(Chess.pieceExistsAt(checkingPositionUp) && isEnemyForThisPiece(currentPosition, checkingPositionUp))
-            {
-                this.moves.put(checkingPositionUp, Chess.getPieceFromPosition(checkingPositionUp));
-            }  
-            else if(Chess.pieceExistsAt(checkingPositionUp) && !(isEnemyForThisPiece(currentPosition, checkingPositionUp))) 
-            { // else there is a piece but it's the same color as ours
-                //we don't do anything as that space is invalid to move to or take
-            }
-            else // in all other case (free space)
-            {
-                this.moves.put(checkingPositionUp, null);
-            }
-         }
-
          //if statement ot check left down
-         if(checkingRightFileIndex < 8 && checkingRankDown > 0)
+         if(checkingRightFileIndex < 8 && checkingRankDown >= 1)
          {
             String checkingPositionDown = getStringOfPosition(PieceFile.values()[checkingRightFileIndex], checkingRankDown);
 
@@ -281,6 +253,7 @@ public class Knight extends Piece {
      }
  
      
+     
      public void checkLeftUpAndDown()
      {
          /*
@@ -296,13 +269,13 @@ public class Knight extends Piece {
          /*
           * Checks file + 2 to the right
           */
-         int checkingRightFileIndex = this.pieceFile.ordinal() + 2;
+         int checkingLeftFileIndex = this.pieceFile.ordinal() - 2;
         
          //if right up and down is valid
-         if(checkingRightFileIndex < 8 && checkingRankUp <= 8)
+         if(checkingLeftFileIndex >= 0 && checkingRankUp <= 8)
          {
             //get the position of the checking position for UP AND DOWN
-            String checkingPositionUp = getStringOfPosition(PieceFile.values()[checkingRightFileIndex], checkingRankUp);
+            String checkingPositionUp = getStringOfPosition(PieceFile.values()[checkingLeftFileIndex], checkingRankUp);
 
             //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
             if(Chess.pieceExistsAt(checkingPositionUp) && isEnemyForThisPiece(currentPosition, checkingPositionUp))
@@ -320,9 +293,9 @@ public class Knight extends Piece {
          }
 
          //if statement ot check left down
-         if(checkingRightFileIndex < 8 && checkingRankDown > 0)
+         if(checkingLeftFileIndex >= 0 && checkingRankDown >= 1)
          {
-            String checkingPositionDown = getStringOfPosition(PieceFile.values()[checkingRightFileIndex], checkingRankDown);
+            String checkingPositionDown = getStringOfPosition(PieceFile.values()[checkingLeftFileIndex], checkingRankDown);
 
             //this if statement check for the down
             if(Chess.pieceExistsAt(checkingPositionDown) && isEnemyForThisPiece(currentPosition, checkingPositionDown))

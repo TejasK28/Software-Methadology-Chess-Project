@@ -94,11 +94,11 @@ public class Piece extends ReturnPiece
         if(thisPiece != null && thatPiece != null)
         {
             if(thisPiece.getColor().equals(thatPiece.getColor()))
-                return true;
+                return false;
 
         }
         
-        return false;
+        return true;
     }
 
 
