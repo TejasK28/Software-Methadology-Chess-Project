@@ -397,6 +397,7 @@ public class Chess {
 			// TODO promotion
 			Pawn current_pawn = ((Pawn)from_piece);
 			current_pawn.move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+			System.out.println("CURREN MOVES: " + ((Piece)from_piece).populateRegularAndKillMoves());
 
 			//Promotion implementation
 			//default promotion to queen
@@ -494,7 +495,6 @@ public class Chess {
 			((King)from_piece).move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 	
 		 
-			System.out.println("CURREN MOVES: " + ((Piece)from_piece).populateRegularAndKillMoves());
 		}
 
 	// LOGISTIC METHODS
@@ -624,8 +624,6 @@ public class Chess {
 			}
 		}
 
-		System.out.println("KING FOUND: " + king);
-
 		for(ReturnPiece piece : returnPlay.piecesOnBoard)
 		{
 			if(thisPieceCanKillThatPiece((Piece)piece, king)) // TODO currently here before checking out a bug in the pawn class
@@ -655,12 +653,18 @@ public class Chess {
 				break;
 			}
 		}
-
+		// checking this king has nowhere to more
 		if(king.populateRegularAndKillMoves().size() == 0)
 		{
-			System.out.println("THE KING IS IN CHECKMATE");
-			return true;
-
+			//check all pieces and see if they can see thisking
+			for(ReturnPiece piece: returnPlay.piecesOnBoard)
+			{
+				if(Chess.thisPieceCanKillThatPiece(((Piece)piece), king))
+				{
+					System.out.println("THE KING IS IN CHECKMATE");
+					return true;
+				}
+			}
 		}
 
 		return false;

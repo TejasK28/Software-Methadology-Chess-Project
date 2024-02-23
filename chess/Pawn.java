@@ -53,6 +53,8 @@ public class Pawn extends Piece
                     {
                         moves.put(getStringOfPosition(this.pieceFile, newRank), null); // moves hashmap will have the straight path moves if spaces exist
                     }
+                    else
+                        break;
                 }
             }
             else // if we are on the second move and so on we can only move once
@@ -64,6 +66,7 @@ public class Pawn extends Piece
                     moves.put(getStringOfPosition(this.pieceFile, newRank), null); // moves hashmap will have the straight path moves if spaces exist
                 }
             }
+
         }
         else // black turn
         {
@@ -78,7 +81,10 @@ public class Pawn extends Piece
                     {
                         moves.put(getStringOfPosition(this.pieceFile, newRank), null); // moves hashmap will have the straight path moves if spaces exist
                     }
+                    else
+                        break;
                 }
+
             }
             else // if we are on the second move and so on we can only move once
             {
@@ -89,10 +95,9 @@ public class Pawn extends Piece
                     moves.put(getStringOfPosition(this.pieceFile, newRank), null); // moves hashmap will have the straight path moves if spaces exist
                 }
             }
+
+
         } // end of blacks turn
-
-
-
 
         //TESTING POSSIBLE KILLS
 
@@ -268,7 +273,6 @@ public class Pawn extends Piece
             
         // }
         //}
-
         return moves;
     }
 
