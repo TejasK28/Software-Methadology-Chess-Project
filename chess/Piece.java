@@ -79,27 +79,7 @@ public class Piece extends ReturnPiece
         this.pieceRank = rank;
     }
 
-    /*
-     * Takes in the current piece position and the checking piece position
-     * 
-     * will return true if the 2 colors differ
-     * 
-     * will return false if the 2 colors are the the same
-     */
-    public boolean isEnemyForThisPiece(String thisPosition, String thatPosition)
-    {
-        Piece thisPiece = ((Piece) Chess.getPieceFromPosition(thisPosition));
-        Piece thatPiece = ((Piece) Chess.getPieceFromPosition(thatPosition));
-
-        if(thisPiece != null && thatPiece != null)
-        {
-            if(thisPiece.getColor().equals(thatPiece.getColor()))
-                return false;
-
-        }
-        
-        return true;
-    }
+    
 
 
 }

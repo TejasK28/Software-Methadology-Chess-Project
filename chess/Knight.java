@@ -57,11 +57,6 @@ public class Knight extends Piece {
 
            System.out.println(this.pieceType + " AT " + this.getPosition() + " KNIGHT MOVES: " + moves);
           
-           if(moves.size() > 8)
-            {
-                System.out.println(moves);
-            }
-
         return moves;
     }
 
@@ -88,11 +83,11 @@ public class Knight extends Piece {
            String checkingPosition = getStringOfPosition(PieceFile.values()[checkingLeftFileIndex], checkingRank);
            
            //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
-           if(Chess.pieceExistsAt(checkingPosition) && isEnemyForThisPiece(currentPosition, checkingPosition))
+           if(Chess.pieceExistsAt(checkingPosition) && Chess.isEnemyForThisPiece(currentPosition, checkingPosition))
            {
                moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
            }  
-           else if(Chess.pieceExistsAt(checkingPosition) && !(isEnemyForThisPiece(currentPosition, checkingPosition))) 
+           else if(Chess.pieceExistsAt(checkingPosition) && !(Chess.isEnemyForThisPiece(currentPosition, checkingPosition))) 
            { // else there is a piece but it's the same color as ours
                //we don't do anything as that space is invalid to move to or take
            }
@@ -110,11 +105,11 @@ public class Knight extends Piece {
            String checkingPosition = getStringOfPosition(PieceFile.values()[checkingRightFileIndex], checkingRank);
            
            //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
-           if(Chess.pieceExistsAt(checkingPosition) && isEnemyForThisPiece(currentPosition, checkingPosition))
+           if(Chess.pieceExistsAt(checkingPosition) && Chess.isEnemyForThisPiece(currentPosition, checkingPosition))
            {
                moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
            }   
-           else if(Chess.pieceExistsAt(checkingPosition) && !(isEnemyForThisPiece(currentPosition, checkingPosition))) 
+           else if(Chess.pieceExistsAt(checkingPosition) && !(Chess.isEnemyForThisPiece(currentPosition, checkingPosition))) 
            { // else there is a piece but it's the same color as ours
                //we don't do anything as that space is invalid to move to or take
            }
@@ -148,11 +143,11 @@ public class Knight extends Piece {
            String checkingPosition = getStringOfPosition(PieceFile.values()[checkingLeftFileIndex], checkingRank);
            
            //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
-           if(Chess.pieceExistsAt(checkingPosition) && isEnemyForThisPiece(currentPosition, checkingPosition))
+           if(Chess.pieceExistsAt(checkingPosition) && Chess.isEnemyForThisPiece(currentPosition, checkingPosition))
            {
                moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
            }  
-           else if(Chess.pieceExistsAt(checkingPosition) && !(isEnemyForThisPiece(currentPosition, checkingPosition))) 
+           else if(Chess.pieceExistsAt(checkingPosition) && !(Chess.isEnemyForThisPiece(currentPosition, checkingPosition))) 
            { // else there is a piece but it's the same color as ours
                //we don't do anything as that space is invalid to move to or take
            }
@@ -170,11 +165,11 @@ public class Knight extends Piece {
            String checkingPosition = getStringOfPosition(PieceFile.values()[checkingRightFileIndex], checkingRank);
            
            //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
-           if(Chess.pieceExistsAt(checkingPosition) && isEnemyForThisPiece(currentPosition, checkingPosition))
+           if(Chess.pieceExistsAt(checkingPosition) && Chess.isEnemyForThisPiece(currentPosition, checkingPosition))
            {
                moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
            }   
-           else if(Chess.pieceExistsAt(checkingPosition) && !(isEnemyForThisPiece(currentPosition, checkingPosition))) 
+           else if(Chess.pieceExistsAt(checkingPosition) && !(Chess.isEnemyForThisPiece(currentPosition, checkingPosition))) 
            { // else there is a piece but it's the same color as ours
                //we don't do anything as that space is invalid to move to or take
            }
@@ -214,11 +209,11 @@ public class Knight extends Piece {
             String checkingPositionUp = getStringOfPosition(PieceFile.values()[checkingRightFileIndex], checkingRankUp);
         
             //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
-            if(Chess.pieceExistsAt(checkingPositionUp) && isEnemyForThisPiece(currentPosition, checkingPositionUp))
+            if(Chess.pieceExistsAt(checkingPositionUp) && Chess.isEnemyForThisPiece(currentPosition, checkingPositionUp))
             {
                 moves.put(checkingPositionUp, Chess.getPieceFromPosition(checkingPositionUp));
             }  
-            else if(Chess.pieceExistsAt(checkingPositionUp) && !(isEnemyForThisPiece(currentPosition, checkingPositionUp))) 
+            else if(Chess.pieceExistsAt(checkingPositionUp) && !(Chess.isEnemyForThisPiece(currentPosition, checkingPositionUp))) 
             { // else there is a piece but it's the same color as ours
                 //we don't do anything as that space is invalid to move to or take
             }
@@ -235,11 +230,11 @@ public class Knight extends Piece {
             String checkingPositionDown = getStringOfPosition(PieceFile.values()[checkingRightFileIndex], checkingRankDown);
 
             //this if statement check for the down
-            if(Chess.pieceExistsAt(checkingPositionDown) && isEnemyForThisPiece(currentPosition, checkingPositionDown))
+            if(Chess.pieceExistsAt(checkingPositionDown) && Chess.isEnemyForThisPiece(currentPosition, checkingPositionDown))
             {
                 moves.put(checkingPositionDown, Chess.getPieceFromPosition(checkingPositionDown));
             }  
-            else if(Chess.pieceExistsAt(checkingPositionDown) && !(isEnemyForThisPiece(currentPosition, checkingPositionDown))) 
+            else if(Chess.pieceExistsAt(checkingPositionDown) && !(Chess.isEnemyForThisPiece(currentPosition, checkingPositionDown))) 
             { // else there is a piece but it's the same color as ours
                 //we don't do anything as that space is invalid to move to or take
             }
@@ -275,11 +270,11 @@ public class Knight extends Piece {
             String checkingPositionUp = getStringOfPosition(PieceFile.values()[checkingLeftFileIndex], checkingRankUp);
 
             //if that piece is occupied by the enemy, we will add that piece to the moves hashmap
-            if(Chess.pieceExistsAt(checkingPositionUp) && isEnemyForThisPiece(currentPosition, checkingPositionUp))
+            if(Chess.pieceExistsAt(checkingPositionUp) && Chess.isEnemyForThisPiece(currentPosition, checkingPositionUp))
             {
                 moves.put(checkingPositionUp, Chess.getPieceFromPosition(checkingPositionUp));
             }  
-            else if(Chess.pieceExistsAt(checkingPositionUp) && !(isEnemyForThisPiece(currentPosition, checkingPositionUp))) 
+            else if(Chess.pieceExistsAt(checkingPositionUp) && !(Chess.isEnemyForThisPiece(currentPosition, checkingPositionUp))) 
             { // else there is a piece but it's the same color as ours
                 //we don't do anything as that space is invalid to move to or take
             }
@@ -295,11 +290,11 @@ public class Knight extends Piece {
             String checkingPositionDown = getStringOfPosition(PieceFile.values()[checkingLeftFileIndex], checkingRankDown);
 
             //this if statement check for the down
-            if(Chess.pieceExistsAt(checkingPositionDown) && isEnemyForThisPiece(currentPosition, checkingPositionDown))
+            if(Chess.pieceExistsAt(checkingPositionDown) && Chess.isEnemyForThisPiece(currentPosition, checkingPositionDown))
             {
                 moves.put(checkingPositionDown, Chess.getPieceFromPosition(checkingPositionDown));
             }  
-            else if(Chess.pieceExistsAt(checkingPositionDown) && !(isEnemyForThisPiece(currentPosition, checkingPositionDown))) 
+            else if(Chess.pieceExistsAt(checkingPositionDown) && !(Chess.isEnemyForThisPiece(currentPosition, checkingPositionDown))) 
             { // else there is a piece but it's the same color as ours
                 //we don't do anything as that space is invalid to move to or take
             }

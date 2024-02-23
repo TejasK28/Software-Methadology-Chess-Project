@@ -44,9 +44,10 @@ public class Rook extends Piece{
         horizontal(this.getPosition());
         vertical(this.getPosition());
 
+        
+
         return moves;
     }
-
 
     public void horizontal(String currentPosition)
     {
@@ -88,14 +89,14 @@ public class Rook extends Piece{
             //we now are safe from messing with our own rook
 
             //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
-            if(isEnemyForThisPiece(currentPosition, checkingIndex))
+            if(Chess.isEnemyForThisPiece(currentPosition, checkingIndex))
             {
                 //adding the index we can move to
                 moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
                 break;
 
             }
-            else if(!isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
+            else if(!Chess.isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
             {
                 break;
             }
@@ -133,14 +134,14 @@ public class Rook extends Piece{
             //we now are safe from messing with our own rook
 
             //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
-            if(isEnemyForThisPiece(currentPosition, checkingIndex))
+            if(Chess.isEnemyForThisPiece(currentPosition, checkingIndex))
             {
                 //adding the index we can move to
                 moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
                 break;
 
             }
-            else if(!isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
+            else if(!Chess.isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
             {
                 break;
             }
@@ -194,14 +195,14 @@ public class Rook extends Piece{
             //we now are safe from messing with our own rook
 
             //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
-            if(isEnemyForThisPiece(currentPosition, checkingIndex))
+            if(Chess.isEnemyForThisPiece(currentPosition, checkingIndex))
             {
                 //adding the index we can move to
                 moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
                 break;
 
             }
-            else if(!isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
+            else if(!Chess.isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
             {
                 break;
             }
@@ -238,14 +239,14 @@ public class Rook extends Piece{
             //we now are safe from messing with our own rook
 
             //if the position to the right is an enemy, we can add the piece to a hashmap and break; 
-            if(isEnemyForThisPiece(currentPosition, checkingIndex))
+            if(Chess.isEnemyForThisPiece(currentPosition, checkingIndex))
             {
                 //adding the index we can move to
                 moves.put(checkingIndex, Chess.getPieceFromPosition(checkingIndex));
                 break;
 
             }
-            else if(!isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
+            else if(!Chess.isEnemyForThisPiece(currentPosition, checkingIndex)) // if the position we are checking is our own color
             {
                 break;
             }
