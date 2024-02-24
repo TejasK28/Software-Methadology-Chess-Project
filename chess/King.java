@@ -35,10 +35,12 @@ public class King extends Piece{
 
     @Override
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
-        
         moves.clear();
         castlingList.clear();
 
+        /*
+         * Populate the valid moves
+         */
         for(int i = -1; i < 2; i++)
         {
             for(int j = 1; j >= -1; j--)
@@ -62,17 +64,15 @@ public class King extends Piece{
         System.out.println("MOVES:"  + moves);
         
         //removing any moves that would result in a check
-        for(String position : moves.keySet())
-        {
-            if(Chess.getPieceFromPosition(position) != null)
-                if(Chess.isEnemyButICantKillIt((Piece)Chess.getPieceFromPosition(this.getPosition()), (Piece)Chess.getPieceFromPosition(position)))
-                {
-                    moves.remove(position);
-                }
+        Iterator<String> iterator = moves.keySet().iterator();
+        while (iterator.hasNext()) {
+            String position = iterator.next();
+            if (Chess.getPieceFromPosition(position) != null && Chess.isEnemyButICantKillIt((Piece) Chess.getPieceFromPosition(this.getPosition()), (Piece) Chess.getPieceFromPosition(position))) {
+                iterator.remove(); // Safe removal using iterator
+            }
         }
-        
 
-        //call addcastle moves to check for possibility of castling
+        //call add castle moves to check for possibility of castling
         if(this.moveCount == 0 && (rightRook.moveCount == 0 || leftRook.moveCount == 0))
             addCastleMovesIfPossible();
         
@@ -80,6 +80,8 @@ public class King extends Piece{
         return moves;
     }
 
+    
+   
     /*
      * TODO implement canCastle
      * but we need to implement check first

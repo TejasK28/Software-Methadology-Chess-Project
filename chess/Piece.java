@@ -28,6 +28,11 @@ public class Piece extends ReturnPiece
         }
         return moves.containsKey(getStringOfPosition(newFile, newRank));
     }
+    
+    public HashMap<String, ReturnPiece> getMoves()
+    {
+        return moves;
+    }
 
     public void move(PieceFile newFile, int newRank) 
     {

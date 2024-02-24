@@ -142,7 +142,7 @@ public class Chess {
 		 * Remember that we will update the message of the ReturnPlay via the clases of the pieces themselves
 		 */
 
-		 whosPlaying = Player.black;//TODO DELETE THIS
+		 //whosPlaying = Player.white;//TODO DELETE THIS
 
 		if(whosPlaying == Player.white) // white's turn
 		{
@@ -491,10 +491,10 @@ public class Chess {
 		//TODO UNCOMMENT THIS
 		// TODO NEEDED CODE
 
-		// if(whosPlaying == Player.black)
-		// 	whosPlaying = Player.white;
-		// else
-		// 	whosPlaying = Player.black;
+		if(whosPlaying == Player.black)
+			whosPlaying = Player.white;
+		else
+			whosPlaying = Player.black;
 		
 		returnPlay.message = null; // reset the message when we switch
 	}
@@ -615,7 +615,7 @@ public class Chess {
 				continue;
 			Piece p = (Piece)piece;
 
-			if(p.populateRegularAndKillMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
+			if(p.getMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
 			{
 				System.out.println("THE KING IS IN CHECK");
 				return true;
@@ -639,14 +639,81 @@ public class Chess {
 				break;
 			}
 		}
-		// checking this king has nowhere to more
-		if(king.populateRegularAndKillMoves().size() == 0)
+		// checking this king has nowhere to move and the checking piece can't be killed
+		if(king.getMoves().size() == 0 && !pieceCanBeKilled(getPieceThatIsCheckingKing(color)))
 		{
 			System.out.println("THE KING IS IN CHECKMATE");
 				return true;
 		}
 
 
+
+
+		return false;
+	}
+
+	/*
+	 * Return the instance of king
+	 */
+	public static King getKing(String color)
+	{
+		for(ReturnPiece piece : returnPlay.piecesOnBoard)
+		{
+			if(piece instanceof King)
+			{
+				King king = (King) piece;;
+
+				if(king.getColor().equals(color))
+					return king;
+			}
+		}
+
+		return null;
+	}
+
+	/*
+	 * Method to find the piece that is checking the king
+	 */
+	public static Piece getPieceThatIsCheckingKing(String color)
+	{
+		for(ReturnPiece p : returnPlay.piecesOnBoard)
+		{
+			if(p instanceof King)
+				continue;
+
+			Piece piece = (Piece) p;
+			String positionOfKing = getKing(color).getPosition();
+
+			if(!piece.getColor().equals(color) && piece.getMoves().containsKey(positionOfKing)) // if we are the enemy and the piece sees the king
+			{
+				return piece;
+			}
+		}
+
+
+		return null;
+	}
+	/*
+	* Will return true if a certain piece can be killed by the other team
+	*/
+	public static boolean pieceCanBeKilled(Piece targetPiece)
+	{
+		String enemyColor = targetPiece.getColor();
+		String targetPosition = targetPiece.getPosition();
+
+		for(ReturnPiece p : returnPlay.piecesOnBoard)
+			{
+				if(p instanceof King)
+					continue;
+				
+				Piece piece = (Piece) p;
+
+				if(!piece.getColor().equals(enemyColor)) // if the piece is the ally
+				{
+					if(piece.getMoves().containsKey(targetPosition)) // if the ally can kill the enemy
+						return true;
+				}
+			}
 		return false;
 	}
 
@@ -671,7 +738,7 @@ public class Chess {
 
 			Piece piece = (Piece) p;
 
-			if(piece.populateRegularAndKillMoves().containsKey(thisPiece.getPosition()))
+			if(piece.getMoves().containsKey(thisPiece.getPosition()))
 			{
 				thisPiece.setPosition(originalFile, originalRank);
 				returnPlay.piecesOnBoard.add(savePiece);
@@ -829,7 +896,7 @@ public class Chess {
 
 				if(!piece.getColor().equals(thisColor)) // if the piece is the enemy
 				{
-					if(!piece.populateRegularAndKillMoves().containsKey(targetPosition))
+					if(!piece.getMoves().containsKey(targetPosition))
 						return true;
 				}
 			}
