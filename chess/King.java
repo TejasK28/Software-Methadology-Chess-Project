@@ -32,9 +32,6 @@ public class King extends Piece{
             rightRook = (Rook)Chess.getPieceFromPosition("h8");
             leftRook = (Rook)Chess.getPieceFromPosition("a8");
         }
-
-
-        System.out.println("IM KING: " + this + " : my POSITION IS : " + this.getColor() );
         
     }
 
@@ -79,8 +76,6 @@ public class King extends Piece{
         // Call add castle moves to check for the possibility of castling
         if (!inCheck && this.moveCount == 0 && (rightRook.moveCount == 0 || leftRook.moveCount == 0))
             addCastleMovesIfPossible();
-
-            System.out.println("IM KING: " + this + " : my POSITION IS : " + this.getColor() );
             // Returns the moves
         return moves;
     }

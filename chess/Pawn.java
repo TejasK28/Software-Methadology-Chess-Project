@@ -142,7 +142,7 @@ public class Pawn extends Piece
             {
                 // handle enpessant
                 // print last moved piece
-                System.out.println("LAST MOVED PIECE: " + Chess.lastMovedPiece);
+                //System.out.println("LAST MOVED PIECE: " + Chess.lastMovedPiece);
                 if(prevFile != null && Chess.pieceExistsAt(getStringOfPosition(prevFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(prevFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
                 {
 
