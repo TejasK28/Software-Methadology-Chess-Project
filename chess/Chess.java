@@ -142,7 +142,7 @@ public class Chess {
 		 * Remember that we will update the message of the ReturnPlay via the clases of the pieces themselves
 		 */
 
-		 whosPlaying = Player.black;//TODO DELETE THIS
+		//  whosPlaying = Player.black;//TODO DELETE THIS
 
 		if(whosPlaying == Player.white) // white's turn
 		{
@@ -491,10 +491,10 @@ public class Chess {
 		//TODO UNCOMMENT THIS
 		// TODO NEEDED CODE
 
-		// if(whosPlaying == Player.black)
-		// 	whosPlaying = Player.white;
-		// else
-		// 	whosPlaying = Player.black;
+		if(whosPlaying == Player.black)
+			whosPlaying = Player.white;
+		else
+			whosPlaying = Player.black;
 		
 		returnPlay.message = null; // reset the message when we switch
 	}
