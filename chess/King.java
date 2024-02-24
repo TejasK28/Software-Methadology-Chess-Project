@@ -20,9 +20,17 @@ public class King extends Piece{
 
         this.color = pieceType.toString().toUpperCase().substring(0, 1);
         moves = new HashMap<String, ReturnPiece>();
-
-        rightRook = (Rook)Chess.getPieceFromPosition("h1");
-        leftRook = (Rook)Chess.getPieceFromPosition("a1");
+        if(color.equals(white))
+        {
+            rightRook = (Rook)Chess.getPieceFromPosition("h1");
+            leftRook = (Rook)Chess.getPieceFromPosition("a1");
+        }
+        else
+        {
+            rightRook = (Rook)Chess.getPieceFromPosition("h8");
+            leftRook = (Rook)Chess.getPieceFromPosition("a8");
+        }
+        
     }
 
     @Override
@@ -31,32 +39,27 @@ public class King extends Piece{
         moves.clear();
         castlingList.clear();
 
-        // populate the moves hashmap with the appropriate moves for standard/kill plays
-        // consider 8 directions: up, down, left, right, up-right, up-left, down-right, down-left
-        for (int fileChange = -1; fileChange <= 1; fileChange++) {
-            for (int rankChange = -1; rankChange <= 1; rankChange++) {
-                // Skip the case where fileChange and rankChange are both 0, as this corresponds to the King's current position
-                if (fileChange == 0 && rankChange == 0) {
-                    continue;
-                }
+        for(int i = -1; i < 2; i++)
+        {
+            for(int j = 1; j >= -1; j--)
+            {
+                String checkingPosition = Chess.getStringOfPositionWithChange(this.getPosition(), i, j);
 
-                PieceFile newFile = PieceFile.values()[this.pieceFile.ordinal() + fileChange];
-                int newRank = this.pieceRank + rankChange;
-
-                // Check if the new file and rank are within the board's boundaries
-                if (newFile.ordinal() > 0 && newFile.ordinal() < 8 && newRank > 0 && newRank < 8) {
-                    String newPosition = getStringOfPosition(newFile, newRank);
-                    // If the new position is not occupied, add it to the moves with null as value
-                    if (!Chess.pieceExistsAt(newPosition)) {
-                        moves.put(newPosition, null);
-                    }         
-                    // If the new position is occupied by an opponent's piece, add it to the moves
-                    else if (!Chess.getColorOfPieceFromPosition(getStringOfPosition(newFile, newRank)).equals(this.color)) {
-                        moves.put(newPosition, Chess.getPieceFromPosition(newPosition));
+                if(checkingPosition != null && !checkingPosition.equals(this.getPosition()))
+                {
+                    if(Chess.isEnemyForThisPiece(this.getPosition(), checkingPosition))
+                    {
+                        moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
+                    }
+                    else if(Chess.isPositionEmpty(checkingPosition))
+                    {
+                        moves.put(checkingPosition, null);
                     }
                 }
             }
         }
+
+        System.out.println("MOVES:"  + moves);
         
         //removing any moves that would result in a check
         for(String position : moves.keySet())
@@ -130,6 +133,52 @@ public class King extends Piece{
                 }
             }
          }
+
+         /*
+          * Now we focus on black right side and black left side
+          */
+
+
+          if(!Chess.kingIsInCheck(this.getColor()) && this.getColor().equals(black) && this.moveCount == 0 && rightRook.moveCount == 0)
+         {
+            String firstPosToRight = Chess.getStringOfPositionWithChange(this.getPosition(), 1, 0);
+            String secondPosToRight = Chess.getStringOfPositionWithChange(this.getPosition(), 2, 0);
+
+            //3
+            if(firstPosToRight != null && secondPosToRight != null)
+            {
+                if(Chess.isPositionSafeFor(firstPosToRight, black) && Chess.isPositionSafeFor(secondPosToRight, black))
+                {
+                    //we are putting the castle move in the moves hashmap 
+                    //and the local hashmap for castling
+                    moves.put(secondPosToRight, null);
+                    castlingList.put(secondPosToRight, rightRook);
+                }
+            }
+         }
+
+         //this implementation takes care of the left side white castle
+         if(!Chess.kingIsInCheck(this.getColor()) && this.getColor().equals(black) && this.moveCount == 0 && leftRook.moveCount == 0)
+         {
+            String firstPosToLeft = Chess.getStringOfPositionWithChange(this.getPosition(), -1, 0);
+            String secondPosToLeft = Chess.getStringOfPositionWithChange(this.getPosition(), -2, 0);
+
+            //3
+            if(firstPosToLeft != null && secondPosToLeft != null)
+            {
+                if(Chess.isPositionSafeFor(firstPosToLeft, black) && Chess.isPositionSafeFor(secondPosToLeft, black))
+                {
+                    //we are putting the castle move in the moves hashmap 
+                    //and the local hashmap for castling
+                    moves.put(secondPosToLeft, null);
+                    castlingList.put(secondPosToLeft, leftRook);
+                }
+            }
+         }
+
+         /*
+          * End of castling implemenmtation for black
+          */
     }
 
     /*
@@ -172,6 +221,24 @@ public class King extends Piece{
                     Rook r = castlingList.get(moveToPosition);
                     PieceFile rookFile = PieceFile.d;
                     int rookRank = 1;
+                    r.setPosition(rookFile, rookRank);
+                }
+            }
+            else // handling the case for black castling
+            {
+                //castling black rightside
+                if(castlingList.containsKey(moveToPosition) && castlingList.get(moveToPosition)==rightRook)
+                {
+                    Rook r = castlingList.get(moveToPosition);
+                    PieceFile rookFile = PieceFile.f;
+                    int rookRank = 8;
+                    r.setPosition(rookFile, rookRank);
+                } // castling black left side
+                else if(castlingList.containsKey(moveToPosition)&& castlingList.get(moveToPosition)==leftRook)
+                {
+                    Rook r = castlingList.get(moveToPosition);
+                    PieceFile rookFile = PieceFile.d;
+                    int rookRank = 8;
                     r.setPosition(rookFile, rookRank);
                 }
             }

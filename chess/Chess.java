@@ -142,6 +142,8 @@ public class Chess {
 		 * Remember that we will update the message of the ReturnPlay via the clases of the pieces themselves
 		 */
 
+		 whosPlaying = Player.black;//TODO DELETE THIS
+
 		if(whosPlaying == Player.white) // white's turn
 		{
 			// if we are playing the wrong side
@@ -376,7 +378,6 @@ public class Chess {
 	public static void movePieceFromTo(String move_from_column, String move_from_row, String move_to_column, String move_to_row)
 	{
 		ReturnPiece from_piece = getPieceFromPosition(move_from_column + move_from_row );
-		System.out.println("CURRENT MOVES: " + ((Piece)from_piece).populateRegularAndKillMoves());
 
 		 if(from_piece instanceof Pawn)
 		 {
