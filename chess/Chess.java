@@ -144,6 +144,8 @@ public class Chess {
 
 		//  //whosPlaying = Player.white;//TODO DELETE THIS
 
+		System.out.println("BEFORE MOVE POSSIBLE PLAYS: " + ((Piece)getPieceFromPosition("" + move_from_column + move_from_row)).populateRegularAndKillMoves());
+
 		if(whosPlaying == Player.white) // white's turn
 		{
 			// if we are playing the wrong side
@@ -157,17 +159,23 @@ public class Chess {
 			if(kingIsInCheck(white))
 			{
 				// if the move does not undo the check, then it is an illegal move
-				Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
-				PieceFile originalFile = from_piece.pieceFile;
-				int originalRank = from_piece.pieceRank;
+				// Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
+				// PieceFile originalFile = from_piece.pieceFile;
+				// int originalRank = from_piece.pieceRank;
 
-				// simulate the move
-				from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+				// // simulate the move
+				// from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 
-				if(kingIsInCheck(black))
-				{	
-					// move the piece back
-					from_piece.setPosition(originalFile, originalRank);
+				// if(kingIsInCheck(black))
+				// {	
+				// 	// move the piece back
+				// 	from_piece.setPosition(originalFile, originalRank);
+				// 	returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+				// 	return returnPlay;
+				// }
+
+				if(willMovePutKingInCheck(white, PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row)))
+				{
 					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 					return returnPlay;
 				}
@@ -176,17 +184,23 @@ public class Chess {
 			// move the piece
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 
-			// check for check
 			if(kingIsInCheck(black))
 			{
 				returnPlay.message = ReturnPlay.Message.CHECK;
-				// check for checkmate
-				if(isKingInCheckmate(black))
-				{
-					returnPlay.message = ReturnPlay.Message.CHECKMATE_WHITE_WINS;
-				}
 				return returnPlay;
 			}
+
+			// check for check
+			// if(kingIsInCheck(black))
+			// {
+			// 	returnPlay.message = ReturnPlay.Message.CHECK;
+			// 	// check for checkmate
+			// 	if(isKingInCheckmate(black))
+			// 	{
+			// 		returnPlay.message = ReturnPlay.Message.CHECKMATE_WHITE_WINS;
+			// 	}
+			// 	return returnPlay;
+			// }
 
 			// set the last moved piece
 			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
@@ -207,38 +221,50 @@ public class Chess {
 			}
 
 			// check if the black in check, If so, this move must undo the check
-			if(kingIsInCheck(black))
-			{
+			
+
 				// if the move does not undo the check, then it is an illegal move
-				Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
-				PieceFile originalFile = from_piece.pieceFile;
-				int originalRank = from_piece.pieceRank;
+				//Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
+				//PieceFile originalFile = from_piece.pieceFile;
+				//int originalRank = from_piece.pieceRank;
 
 				// simulate the move
-				from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+				//from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 
-				if(kingIsInCheck(black))
-				{	
-					// move the piece back
-					from_piece.setPosition(originalFile, originalRank);
+				// if(kingIsInCheck(black))
+				// {	
+				// 	// move the piece back
+				// 	from_piece.setPosition(originalFile, originalRank);
+				// 	returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+				// 	return returnPlay;
+				// }
+			//}
+
+			if(willMovePutKingInCheck(black, PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row)))
+				{
 					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 					return returnPlay;
 				}
-			}
 
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
-			
-			// check for check
+
 			if(kingIsInCheck(white))
 			{
 				returnPlay.message = ReturnPlay.Message.CHECK;
-				// check for checkmate
-				if(isKingInCheckmate(white))
-				{
-					returnPlay.message = ReturnPlay.Message.CHECKMATE_BLACK_WINS;
-				}
 				return returnPlay;
 			}
+			
+			// check for check
+			// if(kingIsInCheck(white))
+			// {
+			// 	returnPlay.message = ReturnPlay.Message.CHECK;
+			// 	// check for checkmate
+			// 	if(isKingInCheckmate(white))
+			// 	{
+			// 		returnPlay.message = ReturnPlay.Message.CHECKMATE_BLACK_WINS;
+			// 	}
+			// 	return returnPlay;
+			// }
 
 			// set the last moved piece
 			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
@@ -513,6 +539,46 @@ public class Chess {
 		return false;
 	}
 	
+
+	public static boolean willMovePutKingInCheck(String kingColor, PieceFile moveToFile, int moveToRank)
+	{
+		/*
+		 * The idea of this method is we will
+		 * 1) get the king of the desired color
+		 * 2) set position of king to the movetoPosition
+		 * 3) check if we are still in check
+		 * 4) revert the original position
+		 */
+
+		 //1
+		 King king = getKing(kingColor);
+		 PieceFile originalPieceFile = king.pieceFile;
+		 int originalRank = king.pieceRank;
+		 Piece secondPiece = null;
+
+		 if(getPieceFromPosition(getStringOfPosition(moveToFile, moveToRank)) != null)
+		 {
+			secondPiece = (Piece)getPieceFromPosition(getStringOfPosition(moveToFile, moveToRank));
+
+			secondPiece.setPosition(originalPieceFile, originalRank);
+		 }
+
+		 //2
+		 king.setPosition(moveToFile, moveToRank);
+
+		 //3 -- if the king is still in check
+		 if(kingIsInCheck(kingColor))
+		 {
+			king.setPosition(originalPieceFile, originalRank);
+			if(secondPiece != null)
+				secondPiece.setPosition(moveToFile, moveToRank);
+			return true;
+		 }
+		 king.setPosition(originalPieceFile, originalRank);
+		 if(secondPiece != null)
+				secondPiece.setPosition(moveToFile, moveToRank);
+		 return false;
+	}
 	/*
 	 * Static method to be used to check whic piece is in some position of the board
 	 * will return null if nothing exists
@@ -594,33 +660,23 @@ public class Chess {
 		 * First get the king of the color we are checking
 		 */
 
-		 King king = null;
+		 King king = getKing(targetColor);
 	
 		for(ReturnPiece piece : returnPlay.piecesOnBoard)
 		{
-			//if the piece is an instance of king
-			//and the piece is the correct color
-			//save that instance of a king
-			//break the loop
-			if(piece instanceof King && ((King)piece).color.equals(targetColor))
-			{
-				king = (King) piece;
-				break;
-			}
-		}
-
-		for(ReturnPiece piece : returnPlay.piecesOnBoard)
-		{
-			if(piece == king)
-				continue;
-			
 			Piece p = (Piece)piece;
 
+			if(piece instanceof King) // prevents calling king's moves because king should already be popoulating valid moves
+				continue;
+		
 			if(p.populateRegularAndKillMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
 			{
+				king.inCheck = true; // WE CHANEG THE KING's BOOLEAN IN CHECK TO TRUE
 				System.out.println("THE KING IS IN CHECK");
 				return true;
 			}
+			else
+				king.inCheck = false; // WE CAHNGE THE KING's BOOLEAN IN CHECK TO FALSE
 		}
 
 		return false;
@@ -631,15 +687,8 @@ public class Chess {
 	public static boolean isKingInCheckmate(String color)
 	{
 		// get the king
-		King king = null;
-		for(ReturnPiece piece : returnPlay.piecesOnBoard)
-		{
-			if(piece instanceof King && ((Piece)piece).getColor().equals(color))
-			{
-				king = (King)piece;
-				break;
-			}
-		}
+		King king = getKing(color);
+		
 		// checking this king has nowhere to move and the checking piece can't be killed
 		if(king.populateRegularAndKillMoves().size() == 0 && !pieceCanBeKilled(getPieceThatIsCheckingKing(color)))
 		{
@@ -738,9 +787,10 @@ public class Chess {
 		//if the piece is still in danger
 		for(ReturnPiece p : returnPlay.piecesOnBoard)
 		{
-			if(p == thisPiece) continue;
-
 			Piece piece = (Piece) p;
+
+			if(piece instanceof King) continue;
+
 
 			if(piece.populateRegularAndKillMoves().containsKey(thisPiece.getPosition()))
 			{
@@ -882,6 +932,7 @@ public class Chess {
 
 	/*
 	 * Method to check if a certain position is safe for a color
+	 * ONLY TO BE USED BY KING CASTLING
 	 */
 	public static boolean isPositionSafeFor(String targetPosition, String thisColor)
 	{

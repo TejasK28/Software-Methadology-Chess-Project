@@ -41,46 +41,46 @@ public class King extends Piece{
         castlingList.clear();
 
         /*
-         * Populate the valid moves
-         */
-        for(int i = -1; i < 2; i++)
-        {
-            for(int j = 1; j >= -1; j--)
-            {
+        * Populate the valid moves
+        */
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                // Skip the current king's position
+                if (i == 0 && j == 0) {
+                    continue;
+                }
+
                 String checkingPosition = Chess.getStringOfPositionWithChange(this.getPosition(), i, j);
 
-                if(checkingPosition != null && !checkingPosition.equals(this.getPosition()))
-                {
-                    if(Chess.isEnemyForThisPiece(this.getPosition(), checkingPosition))
-                    {
+                if (checkingPosition != null && !checkingPosition.equals(this.getPosition())) {
+                    if (Chess.isEnemyForThisPiece(this.getPosition(), checkingPosition)) {
                         moves.put(checkingPosition, Chess.getPieceFromPosition(checkingPosition));
-                    }
-                    else if(Chess.isPositionEmpty(checkingPosition))
-                    {
+                    } else if (Chess.isPositionEmpty(checkingPosition)) {
                         moves.put(checkingPosition, null);
                     }
                 }
             }
         }
 
-        System.out.println("MOVES:"  + moves);
-        
-        //removing any moves that would result in a check
+        // Remove moves that would result in a check
         Iterator<String> iterator = moves.keySet().iterator();
         while (iterator.hasNext()) {
             String position = iterator.next();
             if (Chess.getPieceFromPosition(position) != null && Chess.isEnemyButICantKillIt((Piece) Chess.getPieceFromPosition(this.getPosition()), (Piece) Chess.getPieceFromPosition(position))) {
-                iterator.remove(); // Safe removal using iterator
+                iterator.remove(); // if there's an enemy and I can't kill it
+            } else if (Chess.willMovePutKingInCheck(this.color, PieceFile.valueOf(position.split("")[0]), Integer.parseInt(position.split("")[1]))) {
+                iterator.remove(); // if the moveToPiece will put the king in check then remove
             }
         }
 
-        //call add castle moves to check for possibility of castling
-        if(this.moveCount == 0 && (rightRook.moveCount == 0 || leftRook.moveCount == 0))
+        // Call add castle moves to check for the possibility of castling
+        if (!inCheck && this.moveCount == 0 && (rightRook.moveCount == 0 || leftRook.moveCount == 0))
             addCastleMovesIfPossible();
-        
-            //returns the moves
+
+        // Returns the moves
         return moves;
     }
+
 
     
    
@@ -103,7 +103,7 @@ public class King extends Piece{
          //1
          //2
          //4
-         if(this.getColor().equals(white) && this.moveCount == 0 && rightRook.moveCount == 0)
+         if(!inCheck && this.getColor().equals(white) && this.moveCount == 0 && rightRook.moveCount == 0)
          {
             String firstPosToRight = Chess.getStringOfPositionWithChange(this.getPosition(), 1, 0);
             String secondPosToRight = Chess.getStringOfPositionWithChange(this.getPosition(), 2, 0);
