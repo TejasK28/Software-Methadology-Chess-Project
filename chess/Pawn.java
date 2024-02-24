@@ -29,9 +29,6 @@ public class Pawn extends Piece
         moves = new HashMap<String, ReturnPiece>();
     }
 
-
-
-    //OLD VERSION
     @Override
      public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
     {
@@ -339,9 +336,5 @@ public class Pawn extends Piece
         }
         
     }
-
-
-
-
  
 }

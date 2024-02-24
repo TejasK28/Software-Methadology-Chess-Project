@@ -65,7 +65,7 @@ public class King extends Piece{
         for(String position : moves.keySet())
         {
             if(Chess.getPieceFromPosition(position) != null)
-                if(Chess.thisPieceKillMeButICantKillThatPiece((Piece)Chess.getPieceFromPosition(this.getPosition()), (Piece)Chess.getPieceFromPosition(position)))
+                if(Chess.isEnemyButICantKillIt((Piece)Chess.getPieceFromPosition(this.getPosition()), (Piece)Chess.getPieceFromPosition(position)))
                 {
                     moves.remove(position);
                 }

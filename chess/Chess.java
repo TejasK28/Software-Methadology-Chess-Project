@@ -668,7 +668,7 @@ public class Chess {
 		for(ReturnPiece p : returnPlay.piecesOnBoard)
 		{
 			if(p == thisPiece) continue;
-			
+
 			Piece piece = (Piece) p;
 
 			if(piece.populateRegularAndKillMoves().containsKey(thisPiece.getPosition()))
@@ -689,7 +689,7 @@ public class Chess {
 	 * 
 	 * this is mainly for the use of the KING
 	 */
-	public static boolean thisPieceKillMeButICantKillThatPiece(Piece thisPiece, Piece thatPiece)
+	public static boolean isEnemyButICantKillIt(Piece thisPiece, Piece thatPiece)
 	{
 		if (shiftPositionAndCheckIfPieceIsStillInDanger(thisPiece, thatPiece.pieceFile, thatPiece.pieceRank))
 			return true;
