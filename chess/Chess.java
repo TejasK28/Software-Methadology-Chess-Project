@@ -611,8 +611,9 @@ public class Chess {
 
 		for(ReturnPiece piece : returnPlay.piecesOnBoard)
 		{
-			if(piece instanceof King)
+			if(piece == king)
 				continue;
+			
 			Piece p = (Piece)piece;
 
 			if(p.populateRegularAndKillMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
@@ -726,7 +727,10 @@ public class Chess {
 		PieceFile originalFile = thisPiece.pieceFile;
 		int originalRank = thisPiece.pieceRank;
 		ReturnPiece savePiece = Chess.getPieceFromPosition("" + checkPieceFile + checkPieceRank);
-		returnPlay.piecesOnBoard.remove(savePiece);
+		//instead of removing, null the fields
+		//returnPlay.piecesOnBoard.remove(savePiece);
+		savePiece.pieceRank = thisPiece.pieceRank;
+		savePiece.pieceFile = thisPiece.pieceFile;;
 
 		//changing the position to that piece to similate the new position
 		thisPiece.setPosition(checkPieceFile, checkPieceRank);
@@ -741,12 +745,16 @@ public class Chess {
 			if(piece.populateRegularAndKillMoves().containsKey(thisPiece.getPosition()))
 			{
 				thisPiece.setPosition(originalFile, originalRank);
-				returnPlay.piecesOnBoard.add(savePiece);
+				savePiece.pieceRank = checkPieceRank;
+				savePiece.pieceFile = checkPieceFile;
+				//returnPlay.piecesOnBoard.add(savePiece);
 				return true;
 			}
 		}
-		returnPlay.piecesOnBoard.add(savePiece);
+		//returnPlay.piecesOnBoard.add(savePiece);
 		thisPiece.setPosition(originalFile, originalRank);
+		savePiece.pieceRank = checkPieceRank;
+		savePiece.pieceFile = checkPieceFile;
 		return false;
 	}
 

@@ -8,6 +8,7 @@ public class King extends Piece{
      */
     Rook rightRook;
     Rook leftRook;
+    boolean inCheck;
 
     Map<String, Rook> castlingList;
 
@@ -17,6 +18,7 @@ public class King extends Piece{
         this.pieceRank = pieceRank;
         this.moveCount = 0;
         this.castlingList = new HashMap<>();
+        this.inCheck = false;
 
         this.color = pieceType.toString().toUpperCase().substring(0, 1);
         moves = new HashMap<String, ReturnPiece>();
@@ -101,7 +103,7 @@ public class King extends Piece{
          //1
          //2
          //4
-         if(this.getColor().equals(white) && this.moveCount == 0 && rightRook.moveCount == 0 && !Chess.kingIsInCheck(this.getColor()))
+         if(this.getColor().equals(white) && this.moveCount == 0 && rightRook.moveCount == 0)
          {
             String firstPosToRight = Chess.getStringOfPositionWithChange(this.getPosition(), 1, 0);
             String secondPosToRight = Chess.getStringOfPositionWithChange(this.getPosition(), 2, 0);
@@ -120,7 +122,7 @@ public class King extends Piece{
          }
 
          //this implementation takes care of the left side white castle
-         if(!Chess.kingIsInCheck(this.getColor()) && this.getColor().equals(white) && this.moveCount == 0 && leftRook.moveCount == 0)
+         if(!inCheck && this.getColor().equals(white) && this.moveCount == 0 && leftRook.moveCount == 0 && !inCheck)
          {
             String firstPosToLeft = Chess.getStringOfPositionWithChange(this.getPosition(), -1, 0);
             String secondPosToLeft = Chess.getStringOfPositionWithChange(this.getPosition(), -2, 0);
@@ -143,7 +145,7 @@ public class King extends Piece{
           */
 
 
-          if(!Chess.kingIsInCheck(this.getColor()) && this.getColor().equals(black) && this.moveCount == 0 && rightRook.moveCount == 0)
+          if(!inCheck && this.getColor().equals(black) && this.moveCount == 0 && rightRook.moveCount == 0)
          {
             String firstPosToRight = Chess.getStringOfPositionWithChange(this.getPosition(), 1, 0);
             String secondPosToRight = Chess.getStringOfPositionWithChange(this.getPosition(), 2, 0);
@@ -162,7 +164,7 @@ public class King extends Piece{
          }
 
          //this implementation takes care of the left side white castle
-         if(!Chess.kingIsInCheck(this.getColor()) && this.getColor().equals(black) && this.moveCount == 0 && leftRook.moveCount == 0)
+         if(!inCheck && this.getColor().equals(black) && this.moveCount == 0 && leftRook.moveCount == 0)
          {
             String firstPosToLeft = Chess.getStringOfPositionWithChange(this.getPosition(), -1, 0);
             String secondPosToLeft = Chess.getStringOfPositionWithChange(this.getPosition(), -2, 0);
