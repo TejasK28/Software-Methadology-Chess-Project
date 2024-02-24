@@ -97,7 +97,7 @@ public class King extends Piece{
          //1
          //2
          //4
-         if(!Chess.kingIsInCheck(this.getColor()) && this.getColor().equals(white) && this.moveCount == 0 && rightRook.moveCount == 0)
+         if(this.getColor().equals(white) && this.moveCount == 0 && rightRook.moveCount == 0 && !Chess.kingIsInCheck(this.getColor()))
          {
             String firstPosToRight = Chess.getStringOfPositionWithChange(this.getPosition(), 1, 0);
             String secondPosToRight = Chess.getStringOfPositionWithChange(this.getPosition(), 2, 0);

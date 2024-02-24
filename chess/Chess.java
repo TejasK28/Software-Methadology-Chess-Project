@@ -149,7 +149,6 @@ public class Chess {
 			// if we are playing the wrong side
 			if(getColorOfPieceFromPosition(move_from_column + move_from_row).equals(black)) 
 			{
-				System.out.println("ILLEGAL MOVE YOURE PLAYING FOR THE WRONG SIDE");
 				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE; // illegal move
 				return returnPlay; // returning the returnPlay
 			} 
@@ -203,7 +202,6 @@ public class Chess {
 			
 			if(getColorOfPieceFromPosition(move_from_column + move_from_row).equals(white))
 			{
-				System.out.println("ILLEGAL MOVE YOURE PLAYING FOR THE WRONG SIDE");
 				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 				return returnPlay;
 			}
@@ -613,10 +611,11 @@ public class Chess {
 
 		for(ReturnPiece piece : returnPlay.piecesOnBoard)
 		{
-			if(piece == king)
+			if(piece instanceof King)
 				continue;
+			Piece p = (Piece)piece;
 
-			if(thisPieceCanKillThatPiece((Piece)piece, king)) // TODO currently here before checking out a bug in the pawn class
+			if(p.populateRegularAndKillMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
 			{
 				System.out.println("THE KING IS IN CHECK");
 				return true;
