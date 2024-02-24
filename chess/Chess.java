@@ -615,7 +615,7 @@ public class Chess {
 				continue;
 			Piece p = (Piece)piece;
 
-			if(p.getMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
+			if(p.populateRegularAndKillMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
 			{
 				System.out.println("THE KING IS IN CHECK");
 				return true;
@@ -640,7 +640,7 @@ public class Chess {
 			}
 		}
 		// checking this king has nowhere to move and the checking piece can't be killed
-		if(king.getMoves().size() == 0 && !pieceCanBeKilled(getPieceThatIsCheckingKing(color)))
+		if(king.populateRegularAndKillMoves().size() == 0 && !pieceCanBeKilled(getPieceThatIsCheckingKing(color)))
 		{
 			System.out.println("THE KING IS IN CHECKMATE");
 				return true;
@@ -684,7 +684,7 @@ public class Chess {
 			Piece piece = (Piece) p;
 			String positionOfKing = getKing(color).getPosition();
 
-			if(!piece.getColor().equals(color) && piece.getMoves().containsKey(positionOfKing)) // if we are the enemy and the piece sees the king
+			if(!piece.getColor().equals(color) && piece.populateRegularAndKillMoves().containsKey(positionOfKing)) // if we are the enemy and the piece sees the king
 			{
 				return piece;
 			}
@@ -710,7 +710,7 @@ public class Chess {
 
 				if(!piece.getColor().equals(enemyColor)) // if the piece is the ally
 				{
-					if(piece.getMoves().containsKey(targetPosition)) // if the ally can kill the enemy
+					if(piece.populateRegularAndKillMoves().containsKey(targetPosition)) // if the ally can kill the enemy
 						return true;
 				}
 			}
@@ -738,7 +738,7 @@ public class Chess {
 
 			Piece piece = (Piece) p;
 
-			if(piece.getMoves().containsKey(thisPiece.getPosition()))
+			if(piece.populateRegularAndKillMoves().containsKey(thisPiece.getPosition()))
 			{
 				thisPiece.setPosition(originalFile, originalRank);
 				returnPlay.piecesOnBoard.add(savePiece);
@@ -896,7 +896,7 @@ public class Chess {
 
 				if(!piece.getColor().equals(thisColor)) // if the piece is the enemy
 				{
-					if(!piece.getMoves().containsKey(targetPosition))
+					if(!piece.populateRegularAndKillMoves().containsKey(targetPosition))
 						return true;
 				}
 			}
