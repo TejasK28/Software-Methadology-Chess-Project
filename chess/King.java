@@ -73,8 +73,10 @@ public class King extends Piece{
         
 
         //call addcastle moves to check for possibility of castling
+        if(this.moveCount == 0 && (rightRook.moveCount == 0 || leftRook.moveCount == 0))
             addCastleMovesIfPossible();
-        //returns the moves
+        
+            //returns the moves
         return moves;
     }
 

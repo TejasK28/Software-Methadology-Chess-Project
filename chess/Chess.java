@@ -667,6 +667,8 @@ public class Chess {
 		//if the piece is still in danger
 		for(ReturnPiece p : returnPlay.piecesOnBoard)
 		{
+			if(p == thisPiece) continue;
+			
 			Piece piece = (Piece) p;
 
 			if(piece.populateRegularAndKillMoves().containsKey(thisPiece.getPosition()))
