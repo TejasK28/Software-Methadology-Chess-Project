@@ -154,7 +154,6 @@ public class Chess {
 				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE; // illegal move
 				return returnPlay; // returning the returnPlay
 			} 
-
 			// check if white is in check. If so, this move must undo the check
 			if(kingIsInCheck(white))
 			{
@@ -240,12 +239,15 @@ public class Chess {
 				// }
 			//}
 
-			if(willMovePutKingInCheck(black, PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row)))
+			if(kingIsInCheck(black))
+			{
+				if(willMovePutKingInCheck(black, PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row)))
 				{
 					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 					return returnPlay;
 				}
-
+			}
+			
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 
 			if(kingIsInCheck(white))
@@ -668,7 +670,7 @@ public class Chess {
 
 			if(piece instanceof King) // prevents calling king's moves because king should already be popoulating valid moves
 				continue;
-		
+			System.out.println("KING POSITION: " + king);
 			if(p.populateRegularAndKillMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
 			{
 				king.inCheck = true; // WE CHANEG THE KING's BOOLEAN IN CHECK TO TRUE
