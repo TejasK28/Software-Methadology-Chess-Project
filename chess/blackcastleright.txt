@@ -19,5 +19,4 @@ g8 e7
 f1 e2
 f8 g7
 c1 e3
-e8 g8
-resign
+e8 g8 draw?

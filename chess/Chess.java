@@ -669,7 +669,8 @@ public class Chess {
 		{
 			if(strArr[2].equals("draw?"))
 			{
-				System.out.println(whosPlaying.toString().toUpperCase() + " WANTS A DRAW");
+				String oppositeColor = whosPlaying.toString().substring(0,1).toUpperCase().equals(white) ? black : white;
+				System.out.println(oppositeColor + " WANTS A DRAW");
 				returnPlay.message = ReturnPlay.Message.DRAW;
 				return returnPlay;
 			}
