@@ -791,7 +791,7 @@ public class Chess {
 			Piece piece = (Piece) p;
 
 			if(piece instanceof King) continue;
-
+			if(Chess.getPieceFromPosition("" + originalFile + originalRank) != null && Chess.getPieceFromPosition("" + originalFile + originalRank) == piece) continue;
 
 			if(piece.populateRegularAndKillMoves().containsKey(thisPiece.getPosition()))
 			{
