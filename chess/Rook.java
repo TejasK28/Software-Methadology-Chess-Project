@@ -35,6 +35,8 @@ public class Rook extends Piece{
     @Override
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
     {
+        if(this.pieceRank == 9)
+            return new HashMap<String, ReturnPiece>();
         /*
          * Call 2 methods to popoulate the proper moves based on color and indeitify kill moves
          */

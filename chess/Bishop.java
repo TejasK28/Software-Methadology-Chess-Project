@@ -17,6 +17,8 @@ public class Bishop extends Piece {
 
 
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
+        if(this.pieceRank == 9)
+            return new HashMap<String, ReturnPiece>();
         moves.clear();
         // populate the moves hashmap with the appropriate moves for standard/kill plays
         // consider 4 directions: up-right, up-left, down-right, down-left

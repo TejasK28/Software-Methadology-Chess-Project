@@ -160,43 +160,43 @@ public class Chess {
 				return returnPlay; // returning the returnPlay
 			} 
 			// check if white is in check. If so, this move must undo the check
-			if(kingIsInCheck(white))
-			{
-				System.out.println("White king is in check");
-				// if the move does not undo the check, then it is an illegal move
-				Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
-				PieceFile originalFile = from_piece.pieceFile;
-				int originalRank = from_piece.pieceRank;
-				// // simulate the move
-				Piece to_Piece = null;
-				if((Piece) getPieceFromPosition(move_to_column + move_from_row) != null)
-				{
-					to_Piece = (Piece) getPieceFromPosition(move_to_column + move_from_row);
-					returnPlay.piecesOnBoard.remove(to_Piece);
-				}
+			// if(kingIsInCheck(white))
+			// {
+			// 	System.out.println("White king is in check");
+			// 	// if the move does not undo the check, then it is an illegal move
+			// 	Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
+			// 	PieceFile originalFile = from_piece.pieceFile;
+			// 	int originalRank = from_piece.pieceRank;
+			// 	// // simulate the move
+			// 	Piece to_Piece = null;
+			// 	if((Piece) getPieceFromPosition(move_to_column + move_from_row) != null)
+			// 	{
+			// 		to_Piece = (Piece) getPieceFromPosition(move_to_column + move_from_row);
+			// 		returnPlay.piecesOnBoard.remove(to_Piece);
+			// 	}
 
-				from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+			// 	from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 
-				if(kingIsInCheck(white))
-				{	
-					// move the piece back
-					from_piece.setPosition(originalFile, originalRank);
-					if(to_Piece != null)
-						to_Piece.setPosition(PieceFile.a, 9);
-					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
-					return returnPlay;
-				}
-				if(to_Piece != null)
-					to_Piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-				from_piece.setPosition(originalFile, originalRank);
-			}
+			// 	if(kingIsInCheck(white))
+			// 	{	
+			// 		// move the piece back
+			// 		from_piece.setPosition(originalFile, originalRank);
+			// 		if(to_Piece != null)
+			// 			to_Piece.setPosition(PieceFile.a, 9);
+			// 		returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+			// 		return returnPlay;
+			// 	}
+			// 	if(to_Piece != null)
+			// 		to_Piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+			// 	from_piece.setPosition(originalFile, originalRank);
+			// }
 
 
 			//TODO checking if we can perform an illegal move since it will put king in check
 			if(isLegalMoveThatPutsKingInCheck(getKing(white), (Piece)Chess.getPieceFromPosition("" + move_from_column + move_from_row), ("" + move_to_column + move_to_row)))
 			{
 				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
-				System.out.println("THIS MOVE WILL PUT KING INTO CHECK");
+				System.out.println("THIS MOVE WILL PUT WHITE KING INTO CHECK");
 				return returnPlay;
 			}
 
@@ -248,40 +248,40 @@ public class Chess {
 			//}
 			System.out.println("it's black piece.");
 
-			if(kingIsInCheck(black))
-			{
+			// if(kingIsInCheck(black))
+			// {
 
 				
-				// if the move does not undo the check, then it is an illegal move
-				Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
-				PieceFile originalFile = from_piece.pieceFile;
-				int originalRank = from_piece.pieceRank;
+			// 	// if the move does not undo the check, then it is an illegal move
+			// 	Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
+			// 	PieceFile originalFile = from_piece.pieceFile;
+			// 	int originalRank = from_piece.pieceRank;
 				
-				Piece to_Piece = null;
-				if((Piece) getPieceFromPosition(move_to_column + move_from_row) != null)
-				{
-					to_Piece = (Piece) getPieceFromPosition(move_to_column + move_from_row);
-					to_Piece.setPosition(PieceFile.a, 9);
-				}
+			// 	Piece to_Piece = null;
+			// 	if((Piece) getPieceFromPosition(move_to_column + move_from_row) != null)
+			// 	{
+			// 		to_Piece = (Piece) getPieceFromPosition(move_to_column + move_from_row);
+			// 		to_Piece.setPosition(PieceFile.a, 9);
+			// 	}
 				
 			
-				// simulate the move
-				from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+			// 	// simulate the move
+			// 	from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 
-				//TODO SIMULATE PIECE BUGS
-				if(kingIsInCheck(black))
-				{	
-					// move the piece back
-					from_piece.setPosition(originalFile, originalRank);
-					if(to_Piece != null)
-						to_Piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
-					return returnPlay;
-				} 
-				if(to_Piece != null)
-					to_Piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-				from_piece.setPosition(originalFile, originalRank);
-			}
+			// 	//TODO SIMULATE PIECE BUGS
+			// 	if(kingIsInCheck(black))
+			// 	{	
+			// 		// move the piece back
+			// 		from_piece.setPosition(originalFile, originalRank);
+			// 		if(to_Piece != null)
+			// 			to_Piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+			// 		returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+			// 		return returnPlay;
+			// 	} 
+			// 	if(to_Piece != null)
+			// 		to_Piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+			// 	from_piece.setPosition(originalFile, originalRank);
+			// }
 
 			//TODO checking if we can perform an illegal move since it will put king in check
 			if(isLegalMoveThatPutsKingInCheck(getKing(black), (Piece)Chess.getPieceFromPosition("" + move_from_column + move_from_row), ("" + move_to_column + move_to_row)))
@@ -347,14 +347,29 @@ public class Chess {
 		 //it should get reverted at the end
 		 PieceFile orignalFile = toMovePiece.pieceFile;
 		 int originalRank = toMovePiece.pieceRank;
+
+		 Piece savePiece = null;
+
+		 if(Chess.getPieceFromPosition(moveToPosition) != null)
+		 {
+			savePiece = (Piece) Chess.getPieceFromPosition(moveToPosition);
+			savePiece.setPosition(PieceFile.a, 9);
+			System.out.println("SAVE PIECE IS: " + savePiece);
+
+		 }
+
 		 toMovePiece.setPosition(PieceFile.valueOf(moveToPosition.substring(0,1)), Integer.parseInt(moveToPosition.substring(1, 2)));
 
 		 if(kingIsInCheck(king.color))
 		 {
 			toMovePiece.setPosition(orignalFile, originalRank);
+			if(savePiece != null)
+			savePiece.setPosition(PieceFile.valueOf(moveToPosition.substring(0,1)), Integer.parseInt(moveToPosition.substring(1, 2)));
 			return true;
 		 }
 
+		 if(savePiece != null)
+		 savePiece.setPosition(PieceFile.valueOf(moveToPosition.substring(0,1)), Integer.parseInt(moveToPosition.substring(1, 2)));
 		 toMovePiece.setPosition(orignalFile, originalRank);
 		 return false;
 	}
@@ -753,6 +768,7 @@ public class Chess {
 			//System.out.println(p + " : P MOVES: " + p.populateRegularAndKillMoves());
 			if(p.populateRegularAndKillMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
 			{
+				System.out.println(p + "CAN KILL THE KING");
 				king.inCheck = true; // WE CHANEG THE KING's BOOLEAN IN CHECK TO TRUE
 				System.out.println("THE KING IS IN CHECK");
 				return true;

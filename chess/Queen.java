@@ -26,6 +26,8 @@ public class Queen extends Piece{
     }
 
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
+        if(this.pieceRank == 9)
+            return new HashMap<String, ReturnPiece>();
 
         moves.clear();
         // set new position for the bishop and rook

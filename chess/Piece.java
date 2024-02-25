@@ -16,6 +16,8 @@ public class Piece extends ReturnPiece
     String black = "B";
 
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
+        if(this.pieceRank == 9)
+            return new HashMap<String, ReturnPiece>();
         return null;
     };
 

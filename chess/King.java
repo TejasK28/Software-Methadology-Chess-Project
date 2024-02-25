@@ -40,6 +40,8 @@ public class King extends Piece{
 
     @Override
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
+        if(this.pieceRank == 9)
+            return new HashMap<String, ReturnPiece>();
         moves.clear();
         castlingList.clear();
 
@@ -73,7 +75,8 @@ public class King extends Piece{
 
         Set<Map.Entry<String, ReturnPiece>> movesEntries = new HashSet<>(moves.entrySet());
 
-        for (Map.Entry<String, ReturnPiece> entry : movesEntries) {
+        for (Map.Entry<String, ReturnPiece> entry : movesEntries) 
+        {
             String position = entry.getKey();
             ReturnPiece returnPiece = entry.getValue();
 
@@ -105,6 +108,8 @@ public class King extends Piece{
                     }
                 }
             } else {
+                //TODO JUST TESTING SOMETHING
+
                 // set original position
                 PieceFile originalFile = this.pieceFile;
                 int originalRank = this.pieceRank;

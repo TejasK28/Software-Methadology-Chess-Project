@@ -27,6 +27,8 @@ public class Knight extends Piece {
      */
     public HashMap<String, ReturnPiece> populateRegularAndKillMoves() 
     {
+        if(this.pieceRank == 9)
+            return new HashMap<String, ReturnPiece>();
         /*
          * Ensures out map is cleared everytime before a move
          */

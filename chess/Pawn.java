@@ -31,6 +31,9 @@ public class Pawn extends Piece
     @Override
      public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
     {
+        if(this.pieceRank == 9)
+            return new HashMap<String, ReturnPiece>();
+            
         // this clears the hashmap
         moves.clear();
         
