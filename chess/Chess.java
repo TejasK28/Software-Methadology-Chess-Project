@@ -683,7 +683,10 @@ public class Chess {
 
 			if(piece instanceof King) // prevents calling king's moves because king should already be popoulating valid moves
 				continue;
+<<<<<<< HEAD
 			// System.out.println("KING POSITION: " + king);
+=======
+>>>>>>> 7dcb893c10e385508ce1fd7930dbe0ad6867ed23
 			if(p.populateRegularAndKillMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
 			{
 				king.inCheck = true; // WE CHANEG THE KING's BOOLEAN IN CHECK TO TRUE
@@ -805,7 +808,7 @@ public class Chess {
 			Piece piece = (Piece) p;
 
 			if(piece instanceof King) continue;
-
+			if(Chess.getPieceFromPosition("" + originalFile + originalRank) != null && ((Piece)Chess.getPieceFromPosition("" + originalFile + originalRank)) == piece) continue;
 
 			if(piece.populateRegularAndKillMoves().containsKey(thisPiece.getPosition()))
 			{
@@ -873,7 +876,6 @@ public class Chess {
 	 */
 	public static String getStringOfPositionWithChange(String position, int x, int y)
 	{
-		
 		
 			if(PieceFile.valueOf(position.substring(0,1)).ordinal() + x < 0 || PieceFile.valueOf(position.substring(0,1)).ordinal() + x >= 8)
 			{
