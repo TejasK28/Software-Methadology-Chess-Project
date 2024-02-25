@@ -200,6 +200,35 @@ public class Chess {
 				return returnPlay;
 			}
 
+			//TODO ADDING THIS TO PREVENT ADJ KINGS
+			/*
+			 * we check the ordnal if we move the king to make sure the king doesnt end up adj to another king
+			 */
+			if(((Piece)getPieceFromPosition(move_from_column + move_from_row)) instanceof King)
+			{
+				King blackKing = getKing(black);
+
+				double whitex = PieceFile.valueOf(move_to_column).ordinal();
+				double blackx = blackKing.pieceFile.ordinal();
+
+				double whitey = Integer.parseInt(move_to_row) - 1;
+				double blacky = blackKing.pieceRank - 1;
+				System.out.println("WHIETX, WHITY" + whitex + "," + whitey);
+				System.out.println("BLACKx, BLACy" + blackx + "," + blacky);
+
+				//these positions should be in the logical values
+
+				int distance = (int)Math.sqrt((blacky - whitey) * (blacky - whitey) + (blackx - whitex) * (blackx - whitex));
+				System.out.println("THE DISTANCE IS: " + distance);
+				if(distance <= 1)
+				{
+					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+					System.out.println("CANT PUT 2 KINGS ADJ");
+					return returnPlay;
+				}
+
+			}
+
 			// move the piece
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 
@@ -284,11 +313,39 @@ public class Chess {
 			// }
 
 			//TODO checking if we can perform an illegal move since it will put king in check
+
 			if(isLegalMoveThatPutsKingInCheck(getKing(black), (Piece)Chess.getPieceFromPosition("" + move_from_column + move_from_row), ("" + move_to_column + move_to_row)))
 			{
 				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 				System.out.println("THIS MOVE WILL PUT KING INTO CHECK");
 				return returnPlay;
+			}
+
+			//TODO ADDING THIS TO PREVENT ADJ KINGS
+			/*
+			 * we check the ordnal if we move the king to make sure the king doesnt end up adj to another king
+			 */
+			if(((Piece)getPieceFromPosition(move_from_column + move_from_row)) instanceof King)
+			{
+				King whiteKing = getKing(white);
+
+				double whitex = whiteKing.pieceFile.ordinal();
+				double blackx = PieceFile.valueOf(move_to_column).ordinal();
+
+				double whitey = whiteKing.pieceRank - 1;
+				double blacky = Integer.parseInt(move_to_row) - 1;
+
+				//these positions should be in the logical values
+
+				int distance = (int)Math.sqrt((blacky - whitey) * (blacky - whitey) + (blackx - whitex) * (blackx - whitex));
+				System.out.println("THE DISTANCE IS: " + distance);
+				if(distance <= 1)
+				{
+					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+					System.out.println("CANT PUT 2 KINGS ADJ");
+					return returnPlay;
+				}
+
 			}
 
 			System.out.println("Calliing movePieceFromTo");
