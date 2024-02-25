@@ -34,7 +34,7 @@ public class King extends Piece{
         }
 
 
-        System.out.println("IM KING: " + this + " : my POSITION IS : " + this.getColor() );
+        // System.out.println("IM KING: " + this + " : my POSITION IS : " + this.getColor() );
         
     }
 
@@ -65,23 +65,67 @@ public class King extends Piece{
             }
         }
 
-        // Remove moves that would result in a check
-        Iterator<String> iterator = moves.keySet().iterator();
-        while (iterator.hasNext()) {
-            String position = iterator.next();
-            if (Chess.getPieceFromPosition(position) != null && Chess.isEnemyButICantKillIt((Piece) Chess.getPieceFromPosition(this.getPosition()), (Piece) Chess.getPieceFromPosition(position))) {
-                iterator.remove(); // if there's an enemy and I can't kill it
-            } else if (Chess.willMovePutKingInCheck(this.color, PieceFile.valueOf(position.split("")[0]), Integer.parseInt(position.split("")[1]))) {
-                iterator.remove(); // if the moveToPiece will put the king in check then remove
+        // print possible moves
+        System.out.println("Possible moves for " + this + " : " + moves);
+        
+        // print pieces on board
+        System.out.println("Pieces on board: " + Chess.returnPlay.piecesOnBoard);
+
+        Set<Map.Entry<String, ReturnPiece>> movesEntries = new HashSet<>(moves.entrySet());
+
+        for (Map.Entry<String, ReturnPiece> entry : movesEntries) {
+            String position = entry.getKey();
+            ReturnPiece returnPiece = entry.getValue();
+
+            if (returnPiece != null) {
+                // looping through the opponent pieces to see if they can move to the king's possible moves
+                for (ReturnPiece p : Chess.returnPlay.piecesOnBoard) {
+                    Piece piece = (Piece) p;
+                    // print piece
+                    // System.out.println("Piece: " + piece);
+                    if (piece.getColor().equals(this.color)) {
+                        continue;
+                    } else {
+                        // get the piece of the position
+                        Piece pieceAtPosition = (Piece) Chess.getPieceFromPosition(position);
+                        // change color to the opposite
+                        String oppositeColor = this.color.equals(white) ? black : white;
+                        // change color
+                        piece.color = this.color;
+
+                        if (piece.isValidMove(PieceFile.valueOf(position.split("")[0]), Integer.parseInt(position.split("")[1]))) {
+                            moves.remove(position);
+                            // change color back
+                            piece.color = oppositeColor;
+                            break;
+                        }
+                        piece.color = oppositeColor;
+                    }
+                }
+            } else {
+                // set original position
+                PieceFile originalFile = this.pieceFile;
+                int originalRank = this.pieceRank;
+                // set new position
+                this.setPosition(PieceFile.valueOf(position.split("")[0]), Integer.parseInt(position.split("")[1]));
+
+                // Check if the king is still in check after the move
+                if (Chess.kingIsInCheck(this.color)) {
+                    moves.remove(position);
+                }
+                this.setPosition(originalFile, originalRank);
             }
         }
 
         // Call add castle moves to check for the possibility of castling
         if (!inCheck && this.moveCount == 0 && (rightRook.moveCount == 0 || leftRook.moveCount == 0))
+        {
             addCastleMovesIfPossible();
+        }
 
-            System.out.println("IM KING: " + this + " : my POSITION IS : " + this.getColor() );
-            // Returns the moves
+        // print possible moves
+        System.out.println("Final Possible moves for " + this + " : " + moves);
+
         return moves;
     }
 
@@ -198,13 +242,19 @@ public class King extends Piece{
     @Override
     public void move(PieceFile newFile, int newRank) 
     {
+        System.out.println("IM KING: " + this + " : my POSITION IS : " + this.getColor());
+        System.out.println("what the heck");
         HashMap<String, ReturnPiece> moves = populateRegularAndKillMoves();
         String moveToPosition = getStringOfPosition(newFile, newRank);
-
+        // print possible moves
+        System.out.println("Possible moves for " + this + " : " + moves);
+        
         if(moves.containsKey(moveToPosition))//moves the piece if it is included in the moves hashmap
         {
+            System.out.println("removing piece at position: " + moves.get(moveToPosition));
             if(moves.get(moveToPosition) != null) // movement is not null so we remove
             {
+                
                 Chess.returnPlay.piecesOnBoard.remove(moves.get(moveToPosition));
             }
 
