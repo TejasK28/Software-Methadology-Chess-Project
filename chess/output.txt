@@ -38,11 +38,11 @@ wR wN wB wQ wK    wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: d7 d6, ReturnPlay.message: null
+Move: d7 d6, ReturnPlay.message: ILLEGAL_MOVE
 BOARD
 bR bN bB bQ bK bB bN bR 8
-bp bp bp    ## bp bp bp 7
-   ##    bp    ##    ## 6
+bp bp bp bp ## bp bp bp 7
+   ##    ##    ##    ## 6
 ## wB ##    bp    ##    5
    ##    ## wp ##    ## 4
 ##    ##    ##    ##    3

@@ -191,6 +191,15 @@ public class Chess {
 				from_piece.setPosition(originalFile, originalRank);
 			}
 
+
+			//TODO checking if we can perform an illegal move since it will put king in check
+			if(isLegalMoveThatPutsKingInCheck(getKing(white), (Piece)Chess.getPieceFromPosition("" + move_from_column + move_from_row), ("" + move_to_column + move_to_row)))
+			{
+				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+				System.out.println("THIS MOVE WILL PUT KING INTO CHECK");
+				return returnPlay;
+			}
+
 			// move the piece
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 
@@ -274,6 +283,14 @@ public class Chess {
 				from_piece.setPosition(originalFile, originalRank);
 			}
 
+			//TODO checking if we can perform an illegal move since it will put king in check
+			if(isLegalMoveThatPutsKingInCheck(getKing(black), (Piece)Chess.getPieceFromPosition("" + move_from_column + move_from_row), ("" + move_to_column + move_to_row)))
+			{
+				returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
+				System.out.println("THIS MOVE WILL PUT KING INTO CHECK");
+				return returnPlay;
+			}
+
 			System.out.println("Calliing movePieceFromTo");
 			movePieceFromTo(move_from_column, move_from_row, move_to_column, move_to_row);
 
@@ -316,6 +333,30 @@ public class Chess {
 		}
 
 		return returnPlay;
+	}
+
+		/*
+		 * This method will first simulate a move for the piece and check if in doing so, the king goes into a check, if so, we can't have that so we return true
+		 */
+
+	public static boolean isLegalMoveThatPutsKingInCheck(King king, Piece toMovePiece, String moveToPosition)
+	{
+		
+		 //first we will simulate a move for the piece
+		 //this line should move the piece to the desired posotion
+		 //it should get reverted at the end
+		 PieceFile orignalFile = toMovePiece.pieceFile;
+		 int originalRank = toMovePiece.pieceRank;
+		 toMovePiece.setPosition(PieceFile.valueOf(moveToPosition.substring(0,1)), Integer.parseInt(moveToPosition.substring(1, 2)));
+
+		 if(kingIsInCheck(king.color))
+		 {
+			toMovePiece.setPosition(orignalFile, originalRank);
+			return true;
+		 }
+
+		 toMovePiece.setPosition(orignalFile, originalRank);
+		 return false;
 	}
 	
 	
@@ -600,7 +641,6 @@ public class Chess {
 		 if(getPieceFromPosition(getStringOfPosition(moveToFile, moveToRank)) != null)
 		 {
 			secondPiece = (Piece)getPieceFromPosition(getStringOfPosition(moveToFile, moveToRank));
-
 			secondPiece.setPosition(originalPieceFile, originalRank);
 		 }
 
