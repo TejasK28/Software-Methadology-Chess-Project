@@ -168,15 +168,26 @@ public class Chess {
 				PieceFile originalFile = from_piece.pieceFile;
 				int originalRank = from_piece.pieceRank;
 				// // simulate the move
+				Piece to_Piece = null;
+				if((Piece) getPieceFromPosition(move_to_column + move_from_row) != null)
+				{
+					to_Piece = (Piece) getPieceFromPosition(move_to_column + move_from_row);
+					returnPlay.piecesOnBoard.remove(to_Piece);
+				}
+
 				from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 
 				if(kingIsInCheck(white))
 				{	
 					// move the piece back
 					from_piece.setPosition(originalFile, originalRank);
+					if(to_Piece != null)
+						returnPlay.piecesOnBoard.add(to_Piece);
 					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 					return returnPlay;
 				}
+				if(to_Piece != null)
+						returnPlay.piecesOnBoard.add(to_Piece);
 				from_piece.setPosition(originalFile, originalRank);
 			}
 
@@ -236,18 +247,30 @@ public class Chess {
 				Piece from_piece = (Piece) getPieceFromPosition(move_from_column + move_from_row);
 				PieceFile originalFile = from_piece.pieceFile;
 				int originalRank = from_piece.pieceRank;
-
+				
+				Piece to_Piece = null;
+				if((Piece) getPieceFromPosition(move_to_column + move_from_row) != null)
+				{
+					to_Piece = (Piece) getPieceFromPosition(move_to_column + move_from_row);
+					returnPlay.piecesOnBoard.remove(to_Piece);
+				}
+				
+			
 				// simulate the move
 				from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
+
 
 				if(kingIsInCheck(black))
 				{	
 					// move the piece back
 					from_piece.setPosition(originalFile, originalRank);
+					if(to_Piece != null)
+						returnPlay.piecesOnBoard.add(to_Piece);
 					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 					return returnPlay;
 				} 
-
+				if(to_Piece != null)
+						returnPlay.piecesOnBoard.add(to_Piece);
 				from_piece.setPosition(originalFile, originalRank);
 			}
 

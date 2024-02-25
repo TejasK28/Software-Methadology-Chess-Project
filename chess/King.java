@@ -88,7 +88,7 @@ public class King extends Piece{
                     } else {
                         // get the piece of the position
                         Piece pieceAtPosition = (Piece) Chess.getPieceFromPosition(position);
-                        // change color to the opposite
+                        // change color to the opposite 
                         String oppositeColor = this.color.equals(white) ? black : white;
                         // change color
                         piece.color = this.color;
