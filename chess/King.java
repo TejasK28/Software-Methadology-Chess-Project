@@ -88,6 +88,7 @@ public class King extends Piece{
                     } else {
                         // get the piece of the position
                         Piece pieceAtPosition = (Piece) Chess.getPieceFromPosition(position);
+
                         // change color to the opposite 
                         String oppositeColor = this.color.equals(white) ? black : white;
                         // change color
@@ -100,6 +101,7 @@ public class King extends Piece{
                             break;
                         }
                         piece.color = oppositeColor;
+                        
                     }
                 }
             } else {
@@ -107,13 +109,29 @@ public class King extends Piece{
                 PieceFile originalFile = this.pieceFile;
                 int originalRank = this.pieceRank;
                 // set new position
+                
+                //TODO TESTING A BUG
+                Piece savePiece = null;
+                if(Chess.getPieceFromPosition(position) != null)
+                {
+                    savePiece = (Piece) Chess.getPieceFromPosition(position);
+                    Chess.returnPlay.piecesOnBoard.remove(savePiece);
+                }
+
                 this.setPosition(PieceFile.valueOf(position.split("")[0]), Integer.parseInt(position.split("")[1]));
+
 
                 // Check if the king is still in check after the move
                 if (Chess.kingIsInCheck(this.color)) {
                     moves.remove(position);
                 }
                 this.setPosition(originalFile, originalRank);
+                //TODO TESTING A BUG
+                if(savePiece != null)
+                {
+                    Chess.returnPlay.piecesOnBoard.add(savePiece);
+                }
+
             }
         }
 
