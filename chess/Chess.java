@@ -683,10 +683,7 @@ public class Chess {
 
 			if(piece instanceof King) // prevents calling king's moves because king should already be popoulating valid moves
 				continue;
-<<<<<<< HEAD
 			// System.out.println("KING POSITION: " + king);
-=======
->>>>>>> 7dcb893c10e385508ce1fd7930dbe0ad6867ed23
 			if(p.populateRegularAndKillMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
 			{
 				king.inCheck = true; // WE CHANEG THE KING's BOOLEAN IN CHECK TO TRUE
