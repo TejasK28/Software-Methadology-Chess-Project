@@ -1,234 +1,234 @@
 Turn: white
-Move: e2 e4, ReturnPlay.message: null
+Move: a2 a4, ReturnPlay.message: null
 BOARD
 bR bN bB bQ bK bB bN bR 8
 bp bp bp bp bp bp bp bp 7
    ##    ##    ##    ## 6
 ##    ##    ##    ##    5
-   ##    ## wp ##    ## 4
+wp ##    ##    ##    ## 4
 ##    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
+   wp wp wp wp wp wp wp 2
 wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: h7 h5, ReturnPlay.message: null
+Move: b7 b5, ReturnPlay.message: null
 BOARD
 bR bN bB bQ bK bB bN bR 8
-bp bp bp bp bp bp bp    7
+bp    bp bp bp bp bp bp 7
    ##    ##    ##    ## 6
-##    ##    ##    ## bp 5
-   ##    ## wp ##    ## 4
+## bp ##    ##    ##    5
+wp ##    ##    ##    ## 4
 ##    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
+   wp wp wp wp wp wp wp 2
 wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: white
-Move: d1 h5, ReturnPlay.message: null
+Move: a4 b5, ReturnPlay.message: null
 BOARD
 bR bN bB bQ bK bB bN bR 8
-bp bp bp bp bp bp bp    7
+bp    bp bp bp bp bp bp 7
    ##    ##    ##    ## 6
-##    ##    ##    ## wQ 5
-   ##    ## wp ##    ## 4
+## wp ##    ##    ##    5
+   ##    ##    ##    ## 4
 ##    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
-wR wN wB    wK wB wN wR 1
+   wp wp wp wp wp wp wp 2
+wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: h8 h6, ReturnPlay.message: null
+Move: a7 a5, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB bN ## 8
-bp bp bp bp bp bp bp    7
-   ##    ##    ##    bR 6
-##    ##    ##    ## wQ 5
-   ##    ## wp ##    ## 4
+bR bN bB bQ bK bB bN bR 8
+##    bp bp bp bp bp bp 7
+   ##    ##    ##    ## 6
+bp wp ##    ##    ##    5
+   ##    ##    ##    ## 4
 ##    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
-wR wN wB    wK wB wN wR 1
+   wp wp wp wp wp wp wp 2
+wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: white
-Move: h5 h6, ReturnPlay.message: null
+Move: b5 a6, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB bN ## 8
-bp bp bp bp bp bp bp    7
-   ##    ##    ##    wQ 6
+bR bN bB bQ bK bB bN bR 8
+##    bp bp bp bp bp bp 7
+wp ##    ##    ##    ## 6
 ##    ##    ##    ##    5
-   ##    ## wp ##    ## 4
+   ##    ##    ##    ## 4
 ##    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
-wR wN wB    wK wB wN wR 1
+   wp wp wp wp wp wp wp 2
+wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: g8 f6, ReturnPlay.message: null
+Move: a8 a6, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB    ## 8
-bp bp bp bp bp bp bp    7
-   ##    ##    bN    wQ 6
+   bN bB bQ bK bB bN bR 8
+##    bp bp bp bp bp bp 7
+bR ##    ##    ##    ## 6
 ##    ##    ##    ##    5
-   ##    ## wp ##    ## 4
+   ##    ##    ##    ## 4
 ##    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
-wR wN wB    wK wB wN wR 1
- a  b  c  d  e  f  g  h
-
-Turn: white
-Move: h6 g7, ReturnPlay.message: null
-BOARD
-bR bN bB bQ bK bB    ## 8
-bp bp bp bp bp bp wQ    7
-   ##    ##    bN    ## 6
-##    ##    ##    ##    5
-   ##    ## wp ##    ## 4
-##    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
-wR wN wB    wK wB wN wR 1
- a  b  c  d  e  f  g  h
-
-Turn: black
-Move: f6 e4, ReturnPlay.message: null
-BOARD
-bR bN bB bQ bK bB    ## 8
-bp bp bp bp bp bp wQ    7
-   ##    ##    ##    ## 6
-##    ##    ##    ##    5
-   ##    ## bN ##    ## 4
-##    ##    ##    ##    3
-wp wp wp wp    wp wp wp 2
-wR wN wB    wK wB wN wR 1
+   wp wp wp wp wp wp wp 2
+wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: white
 Move: h2 h4, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB    ## 8
-bp bp bp bp bp bp wQ    7
-   ##    ##    ##    ## 6
+   bN bB bQ bK bB bN bR 8
+##    bp bp bp bp bp bp 7
+bR ##    ##    ##    ## 6
 ##    ##    ##    ##    5
-   ##    ## bN ##    wp 4
+   ##    ##    ##    wp 4
 ##    ##    ##    ##    3
-wp wp wp wp    wp wp ## 2
-wR wN wB    wK wB wN wR 1
+   wp wp wp wp wp wp ## 2
+wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: a7 a6, ReturnPlay.message: null
+Move: a6 a1, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB    ## 8
-## bp bp bp bp bp wQ    7
-bp ##    ##    ##    ## 6
+   bN bB bQ bK bB bN bR 8
+##    bp bp bp bp bp bp 7
+   ##    ##    ##    ## 6
 ##    ##    ##    ##    5
-   ##    ## bN ##    wp 4
+   ##    ##    ##    wp 4
 ##    ##    ##    ##    3
-wp wp wp wp    wp wp ## 2
-wR wN wB    wK wB wN wR 1
+   wp wp wp wp wp wp ## 2
+bR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: white
-Move: h4 h5, ReturnPlay.message: null
+Move: g2 g3, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB    ## 8
-## bp bp bp bp bp wQ    7
-bp ##    ##    ##    ## 6
-##    ##    ##    ## wp 5
-   ##    ## bN ##    ## 4
-##    ##    ##    ##    3
-wp wp wp wp    wp wp ## 2
-wR wN wB    wK wB wN wR 1
+   bN bB bQ bK bB bN bR 8
+##    bp bp bp bp bp bp 7
+   ##    ##    ##    ## 6
+##    ##    ##    ##    5
+   ##    ##    ##    wp 4
+##    ##    ##    wp    3
+   wp wp wp wp wp    ## 2
+bR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: a6 a5, ReturnPlay.message: null
+Move: c7 c5, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB    ## 8
-## bp bp bp bp bp wQ    7
+   bN bB bQ bK bB bN bR 8
+##    ## bp bp bp bp bp 7
    ##    ##    ##    ## 6
-bp    ##    ##    ## wp 5
-   ##    ## bN ##    ## 4
-##    ##    ##    ##    3
-wp wp wp wp    wp wp ## 2
-wR wN wB    wK wB wN wR 1
+##    bp    ##    ##    5
+   ##    ##    ##    wp 4
+##    ##    ##    wp    3
+   wp wp wp wp wp    ## 2
+bR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: white
-Move: h5 h6, ReturnPlay.message: null
+Move: f2 f4, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB    ## 8
-## bp bp bp bp bp wQ    7
-   ##    ##    ##    wp 6
-bp    ##    ##    ##    5
-   ##    ## bN ##    ## 4
-##    ##    ##    ##    3
-wp wp wp wp    wp wp ## 2
-wR wN wB    wK wB wN wR 1
+   bN bB bQ bK bB bN bR 8
+##    ## bp bp bp bp bp 7
+   ##    ##    ##    ## 6
+##    bp    ##    ##    5
+   ##    ##    wp    wp 4
+##    ##    ##    wp    3
+   wp wp wp wp ##    ## 2
+bR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: a5 a4, ReturnPlay.message: null
+Move: c5 c4, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB    ## 8
-## bp bp bp bp bp wQ    7
-   ##    ##    ##    wp 6
+   bN bB bQ bK bB bN bR 8
+##    ## bp bp bp bp bp 7
+   ##    ##    ##    ## 6
 ##    ##    ##    ##    5
-bp ##    ## bN ##    ## 4
-##    ##    ##    ##    3
-wp wp wp wp    wp wp ## 2
-wR wN wB    wK wB wN wR 1
+   ## bp ##    wp    wp 4
+##    ##    ##    wp    3
+   wp wp wp wp ##    ## 2
+bR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: white
-Move: h6 h7, ReturnPlay.message: null
+Move: e2 e4, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB    ## 8
-## bp bp bp bp bp wQ wp 7
+   bN bB bQ bK bB bN bR 8
+##    ## bp bp bp bp bp 7
    ##    ##    ##    ## 6
 ##    ##    ##    ##    5
-bp ##    ## bN ##    ## 4
-##    ##    ##    ##    3
-wp wp wp wp    wp wp ## 2
-wR wN wB    wK wB wN wR 1
+   ## bp ## wp wp    wp 4
+##    ##    ##    wp    3
+   wp wp wp    ##    ## 2
+bR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: a4 a3, ReturnPlay.message: null
+Move: c4 c3, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB    ## 8
-## bp bp bp bp bp wQ wp 7
+   bN bB bQ bK bB bN bR 8
+##    ## bp bp bp bp bp 7
    ##    ##    ##    ## 6
 ##    ##    ##    ##    5
-   ##    ## bN ##    ## 4
-bp    ##    ##    ##    3
-wp wp wp wp    wp wp ## 2
-wR wN wB    wK wB wN wR 1
+   ##    ## wp wp    wp 4
+##    bp    ##    wp    3
+   wp wp wp    ##    ## 2
+bR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: white
-Move: h7 h8 B, ReturnPlay.message: null
+Move: d1 h5, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK bB    wB 8
-## bp bp bp bp bp wQ    7
+   bN bB bQ bK bB bN bR 8
+##    ## bp bp bp bp bp 7
    ##    ##    ##    ## 6
-##    ##    ##    ##    5
-   ##    ## bN ##    ## 4
-bp    ##    ##    ##    3
-wp wp wp wp    wp wp ## 2
-wR wN wB    wK wB wN wR 1
+##    ##    ##    ## wQ 5
+   ##    ## wp wp    wp 4
+##    bp    ##    wp    3
+   wp wp wp    ##    ## 2
+bR wN wB    wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: resign, ReturnPlay.message: RESIGN_WHITE_WINS
+Move: c3 d2, ReturnPlay.message: CHECK
 BOARD
-bR bN bB bQ bK bB    wB 8
-## bp bp bp bp bp wQ    7
+   bN bB bQ bK bB bN bR 8
+##    ## bp bp bp bp bp 7
    ##    ##    ##    ## 6
-##    ##    ##    ##    5
-   ##    ## bN ##    ## 4
-bp    ##    ##    ##    3
-wp wp wp wp    wp wp ## 2
-wR wN wB    wK wB wN wR 1
+##    ##    ##    ## wQ 5
+   ##    ## wp wp    wp 4
+##    ##    ##    wp    3
+   wp wp bp    ##    ## 2
+bR wN wB    wK wB wN wR 1
+ a  b  c  d  e  f  g  h
+
+Turn: white
+Move: e1 f2, ReturnPlay.message: null
+BOARD
+   bN bB bQ bK bB bN bR 8
+##    ## bp bp bp bp bp 7
+   ##    ##    ##    ## 6
+##    ##    ##    ## wQ 5
+   ##    ## wp wp    wp 4
+##    ##    ##    wp    3
+   wp wp bp    wK    ## 2
+bR wN wB    ## wB wN wR 1
+ a  b  c  d  e  f  g  h
+
+Turn: black
+Move: d2 c1 N, ReturnPlay.message: null
+BOARD
+   bN bB bQ bK bB bN bR 8
+##    ## bp bp bp bp bp 7
+   ##    ##    ##    ## 6
+##    ##    ##    ## wQ 5
+   ##    ## wp wp    wp 4
+##    ##    ##    wp    3
+   wp wp ##    wK    ## 2
+bR wN bN    ## wB wN wR 1
  a  b  c  d  e  f  g  h
 
