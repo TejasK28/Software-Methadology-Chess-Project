@@ -860,7 +860,6 @@ public class Chess {
 	public static String getStringOfPositionWithChange(String position, int x, int y)
 	{
 		
-		
 			if(PieceFile.valueOf(position.substring(0,1)).ordinal() + x < 0 || PieceFile.valueOf(position.substring(0,1)).ordinal() + x >= 8)
 			{
 				return null;

@@ -82,7 +82,6 @@ public class King extends Piece{
 
 
     
-   
     /*
      * TODO implement canCastle
      * but we need to implement check first
