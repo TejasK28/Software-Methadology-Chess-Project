@@ -182,12 +182,12 @@ public class Chess {
 					// move the piece back
 					from_piece.setPosition(originalFile, originalRank);
 					if(to_Piece != null)
-						returnPlay.piecesOnBoard.add(to_Piece);
+						to_Piece.setPosition(null, -1);
 					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 					return returnPlay;
 				}
 				if(to_Piece != null)
-						returnPlay.piecesOnBoard.add(to_Piece);
+					to_Piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 				from_piece.setPosition(originalFile, originalRank);
 			}
 
@@ -252,25 +252,25 @@ public class Chess {
 				if((Piece) getPieceFromPosition(move_to_column + move_from_row) != null)
 				{
 					to_Piece = (Piece) getPieceFromPosition(move_to_column + move_from_row);
-					returnPlay.piecesOnBoard.remove(to_Piece);
+					to_Piece.setPosition(null, -1);
 				}
 				
 			
 				// simulate the move
 				from_piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 
-
+				//TODO SIMULATE PIECE BUGS
 				if(kingIsInCheck(black))
 				{	
 					// move the piece back
 					from_piece.setPosition(originalFile, originalRank);
 					if(to_Piece != null)
-						returnPlay.piecesOnBoard.add(to_Piece);
+						to_Piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 					return returnPlay;
 				} 
 				if(to_Piece != null)
-						returnPlay.piecesOnBoard.add(to_Piece);
+					to_Piece.setPosition(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
 				from_piece.setPosition(originalFile, originalRank);
 			}
 
@@ -440,7 +440,7 @@ public class Chess {
 			// TODO promotion
 			Pawn current_pawn = ((Pawn)from_piece);
 			current_pawn.move(PieceFile.valueOf(move_to_column), Integer.parseInt(move_to_row));
-	
+			System.out.println("PAWN MOVED");
 			//Promotion implementation
 			//default promotion to queen
 			/*
@@ -449,79 +449,82 @@ public class Chess {
 			 */
 			//{WP, WR, WN, WB, WQ, WK, 
 			//BP, BR, BN, BB, BK, BQ};
-			if(current_pawn.pieceRank == 8 && strArr.length == 3)
+			if(current_pawn.pieceRank == 8)
 			{
-				switch(strArr[2].toUpperCase())
+				if(strArr.length == 3)
 				{
-					//rook
-					case "R":
-						returnPlay.piecesOnBoard.add(new Rook(PieceType.WR,current_pawn.pieceFile, current_pawn.pieceRank));
-						returnPlay.piecesOnBoard.remove(current_pawn);
-						break;
-
-					//Knight
-					case "N":
-						returnPlay.piecesOnBoard.add(new Rook(PieceType.WN,current_pawn.pieceFile, current_pawn.pieceRank));
-						returnPlay.piecesOnBoard.remove(current_pawn);
-						break;
-
-					//bishop
-					case "B":
-						returnPlay.piecesOnBoard.add(new Rook(PieceType.WB,current_pawn.pieceFile, current_pawn.pieceRank));
-						returnPlay.piecesOnBoard.remove(current_pawn);
-						break;
-
-					//queen
-					case "Q":
-						returnPlay.piecesOnBoard.add(new Rook(PieceType.WQ,current_pawn.pieceFile, current_pawn.pieceRank));
-						returnPlay.piecesOnBoard.remove(current_pawn);
-						break;
+					switch(strArr[2].toUpperCase())
+					{
+						//rook
+						case "R":
+							returnPlay.piecesOnBoard.add(new Rook(PieceType.WR,current_pawn.pieceFile, current_pawn.pieceRank));
+							returnPlay.piecesOnBoard.remove(current_pawn);
+							break;
+	
+						//Knight
+						case "N":
+							returnPlay.piecesOnBoard.add(new Rook(PieceType.WN,current_pawn.pieceFile, current_pawn.pieceRank));
+							returnPlay.piecesOnBoard.remove(current_pawn);
+							break;
+	
+						//bishop
+						case "B":
+							returnPlay.piecesOnBoard.add(new Rook(PieceType.WB,current_pawn.pieceFile, current_pawn.pieceRank));
+							returnPlay.piecesOnBoard.remove(current_pawn);
+							break;
+	
+						//queen
+						case "Q":
+							returnPlay.piecesOnBoard.add(new Rook(PieceType.WQ,current_pawn.pieceFile, current_pawn.pieceRank));
+							returnPlay.piecesOnBoard.remove(current_pawn);
+							break;
+					}
 				}
-			}
-			else if(current_pawn.pieceRank == 1 && strArr.length == 3)// take care of black's promotion at the end
-			{
-				switch(strArr[2].toUpperCase())
+				else//default queen promotion for pawn
 				{
-					//rook
-					case "R":
-						returnPlay.piecesOnBoard.add(new Rook(PieceType.BR,current_pawn.pieceFile, current_pawn.pieceRank));
-						returnPlay.piecesOnBoard.remove(current_pawn);
-						break;
-
-					//Knight
-					case "N":
-						returnPlay.piecesOnBoard.add(new Rook(PieceType.BN,current_pawn.pieceFile, current_pawn.pieceRank));
-						returnPlay.piecesOnBoard.remove(current_pawn);
-						break;
-
-					//bishop
-					case "B":
-						returnPlay.piecesOnBoard.add(new Rook(PieceType.BB,current_pawn.pieceFile, current_pawn.pieceRank));
-						returnPlay.piecesOnBoard.remove(current_pawn);
-						break;
-
-					//queen
-					case "Q":
-						returnPlay.piecesOnBoard.add(new Rook(PieceType.BQ,current_pawn.pieceFile, current_pawn.pieceRank));
-						returnPlay.piecesOnBoard.remove(current_pawn);
-						break;
-				}
-			}
-			else // then we will default to queen for the respective color
-			{
-				if(current_pawn.pieceRank == 8 && current_pawn.color.equals(white))
-				{
-					//adds a white queen in the place of the old pawn and removes old pawn
-					returnPlay.piecesOnBoard.add(new Queen(PieceType.WQ,current_pawn.pieceFile, current_pawn.pieceRank));
+					returnPlay.piecesOnBoard.add(new Rook(PieceType.WQ,current_pawn.pieceFile, current_pawn.pieceRank));
 					returnPlay.piecesOnBoard.remove(current_pawn);
 				}
-				else if(((Pawn)from_piece).pieceRank == 1 && ((Pawn)from_piece).color.equals(black))
+				
+			}
+			else if(current_pawn.pieceRank == 1)// take care of black's promotion at the end
+			{
+				if(strArr.length == 3)
 				{
-					returnPlay.piecesOnBoard.add(new Queen(PieceType.BQ,current_pawn.pieceFile, current_pawn.pieceRank));
+					switch(strArr[2].toUpperCase())
+					{
+						//rook
+						case "R":
+							returnPlay.piecesOnBoard.add(new Rook(PieceType.BR,current_pawn.pieceFile, current_pawn.pieceRank));
+							returnPlay.piecesOnBoard.remove(current_pawn);
+							break;
+	
+						//Knight
+						case "N":
+							returnPlay.piecesOnBoard.add(new Rook(PieceType.BN,current_pawn.pieceFile, current_pawn.pieceRank));
+							returnPlay.piecesOnBoard.remove(current_pawn);
+							break;
+	
+						//bishop
+						case "B":
+							returnPlay.piecesOnBoard.add(new Rook(PieceType.BB,current_pawn.pieceFile, current_pawn.pieceRank));
+							returnPlay.piecesOnBoard.remove(current_pawn);
+							break;
+	
+						//queen
+						case "Q":
+							returnPlay.piecesOnBoard.add(new Rook(PieceType.BQ,current_pawn.pieceFile, current_pawn.pieceRank));
+							returnPlay.piecesOnBoard.remove(current_pawn);
+							break;
+					}
+				}
+				else//default queen promotion for pawn for black
+				{
+					returnPlay.piecesOnBoard.add(new Rook(PieceType.BQ,current_pawn.pieceFile, current_pawn.pieceRank));
 					returnPlay.piecesOnBoard.remove(current_pawn);
 				}
+				
 			}
-
 			
 		}
 		else if(from_piece instanceof Rook) {
@@ -699,14 +702,14 @@ public class Chess {
 		 */
 
 		 King king = getKing(targetColor);
-	
 		for(ReturnPiece piece : returnPlay.piecesOnBoard)
 		{
 			Piece p = (Piece)piece;
 
 			if(piece instanceof King) // prevents calling king's moves because king should already be popoulating valid moves
 				continue;
-			// System.out.println("KING POSITION: " + king);
+			//System.out.println("KING POSITION: " + king);
+			//System.out.println(p + " : P MOVES: " + p.populateRegularAndKillMoves());
 			if(p.populateRegularAndKillMoves().containsKey(king.getPosition())) // TODO currently here before checking out a bug in the pawn class
 			{
 				king.inCheck = true; // WE CHANEG THE KING's BOOLEAN IN CHECK TO TRUE
@@ -716,7 +719,7 @@ public class Chess {
 			else
 				king.inCheck = false; // WE CAHNGE THE KING's BOOLEAN IN CHECK TO FALSE
 		}
-
+		king.inCheck = false;
 		return false;
 	}
 

@@ -107,7 +107,7 @@ public class Pawn extends Piece
         }
 
         //now we will check for kill pieces for white
-        if(Chess.whosPlaying == Chess.Player.white)
+        if(this.color.equals(white))
         {
             if (this.pieceRank < 8)  {
                 int plusOneRank = this.pieceRank + 1;
@@ -224,7 +224,7 @@ public class Pawn extends Piece
             }
             
         }
-
+        //System.out.println("POSSIBLE KILLS:" + moves);
         // System.out.println("PAWN MOVES for " + this + " : " + moves) ;
 
         return moves;
@@ -295,4 +295,10 @@ public class Pawn extends Piece
         
     }
  
+
+    @Override
+    public void incrementMoveCount()
+    {
+        ++moveCount;
+    }
 }

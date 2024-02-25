@@ -64,6 +64,10 @@ public class Piece extends ReturnPiece
 
     public String getPosition() 
     {
+        //System.out.println("MY FILE IS: " + pieceFile + " " + pieceRank);
+        if(this.pieceFile == null)
+            return null;
+        
         return "" + this.pieceFile + this.pieceRank;
     }
     /*
