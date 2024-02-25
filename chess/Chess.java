@@ -182,7 +182,7 @@ public class Chess {
 					// move the piece back
 					from_piece.setPosition(originalFile, originalRank);
 					if(to_Piece != null)
-						to_Piece.setPosition(null, -1);
+						to_Piece.setPosition(PieceFile.a, 9);
 					returnPlay.message = ReturnPlay.Message.ILLEGAL_MOVE;
 					return returnPlay;
 				}
@@ -252,7 +252,7 @@ public class Chess {
 				if((Piece) getPieceFromPosition(move_to_column + move_from_row) != null)
 				{
 					to_Piece = (Piece) getPieceFromPosition(move_to_column + move_from_row);
-					to_Piece.setPosition(null, -1);
+					to_Piece.setPosition(PieceFile.a, 9);
 				}
 				
 			
@@ -899,7 +899,6 @@ public class Chess {
 	 */
 	public static String getStringOfPositionWithChange(String position, int x, int y)
 	{
-		
 			if(PieceFile.valueOf(position.substring(0,1)).ordinal() + x < 0 || PieceFile.valueOf(position.substring(0,1)).ordinal() + x >= 8)
 			{
 				return null;
