@@ -247,11 +247,19 @@ public class Chess {
 			// set the last moved piece
 			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
 			
+			
+
 			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE) // if the move was successful
 			{
 				switchPlayer(); //switch player & null the message
 				++globalMoveCount; // increment the globalMoveCount
 			}
+
+			/*
+			 * This checks for draw
+			 */
+			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE && drawPrompted() != null)
+				return returnPlay;
 		}
 		else // Black's turn
 		{	
@@ -372,22 +380,26 @@ public class Chess {
 			lastMovedPiece = getPieceFromPosition(move_to_column + move_to_row);
 			
 
+			
+
 			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE) // if the move was successful
 			{
 				switchPlayer(); //switch player & null the message
 				++globalMoveCount; // increment the globalMoveCount
 			}
 
+			/*
+			 * This checks for draw
+			 */
+			if(returnPlay.message != ReturnPlay.Message.ILLEGAL_MOVE && drawPrompted() != null)
+				return returnPlay;
+
 			
 		
-			/*
-			* This is the if statement to test a draw 
-			* This is here because a draw is performed after the move is executed unlike resign
-			*/
-		
-		  if(drawPrompted() != null)
-			return returnPlay;
+			
 		}
+
+		
 
 		return returnPlay;
 	}
