@@ -114,6 +114,7 @@ public class Chess {
 		/*
 		 * Disecting the individal positions from and to
 		 */
+		move = move.strip();
 		strArr = move.split(" ");
 
 		/*
