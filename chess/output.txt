@@ -1,65 +1,65 @@
 Turn: white
-Move: g2 g3, ReturnPlay.message: null
+Move: g2 g4, ReturnPlay.message: null
 BOARD
 bR bN bB bQ bK bB bN bR 8
 bp bp bp bp bp bp bp bp 7
    ##    ##    ##    ## 6
 ##    ##    ##    ##    5
-   ##    ##    ##    ## 4
-##    ##    ##    wp    3
+   ##    ##    ## wp ## 4
+##    ##    ##    ##    3
 wp wp wp wp wp wp    wp 2
 wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: e7 e6, ReturnPlay.message: null
+Move: g7 g6, ReturnPlay.message: null
 BOARD
 bR bN bB bQ bK bB bN bR 8
-bp bp bp bp ## bp bp bp 7
-   ##    ## bp ##    ## 6
+bp bp bp bp bp bp ## bp 7
+   ##    ##    ## bp ## 6
 ##    ##    ##    ##    5
-   ##    ##    ##    ## 4
-##    ##    ##    wp    3
+   ##    ##    ## wp ## 4
+##    ##    ##    ##    3
 wp wp wp wp wp wp    wp 2
 wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: white
-Move: g1 h3, ReturnPlay.message: null
+Move: g4 g5, ReturnPlay.message: null
 BOARD
 bR bN bB bQ bK bB bN bR 8
-bp bp bp bp ## bp bp bp 7
-   ##    ## bp ##    ## 6
-##    ##    ##    ##    5
+bp bp bp bp bp bp ## bp 7
+   ##    ##    ## bp ## 6
+##    ##    ##    wp    5
    ##    ##    ##    ## 4
-##    ##    ##    wp wN 3
+##    ##    ##    ##    3
 wp wp wp wp wp wp    wp 2
-wR wN wB wQ wK wB ## wR 1
+wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: black
-Move: f8 b4, ReturnPlay.message: null
+Move: f7 f5, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK ## bN bR 8
-bp bp bp bp ## bp bp bp 7
-   ##    ## bp ##    ## 6
-##    ##    ##    ##    5
-   bB    ##    ##    ## 4
-##    ##    ##    wp wN 3
+bR bN bB bQ bK bB bN bR 8
+bp bp bp bp bp    ## bp 7
+   ##    ##    ## bp ## 6
+##    ##    ## bp wp    5
+   ##    ##    ##    ## 4
+##    ##    ##    ##    3
 wp wp wp wp wp wp    wp 2
-wR wN wB wQ wK wB ## wR 1
+wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 
 Turn: white
-Move: d2 d3, ReturnPlay.message: ILLEGAL_MOVE
+Move: g5 f6, ReturnPlay.message: null
 BOARD
-bR bN bB bQ bK ## bN bR 8
-bp bp bp bp ## bp bp bp 7
-   ##    ## bp ##    ## 6
+bR bN bB bQ bK bB bN bR 8
+bp bp bp bp bp    ## bp 7
+   ##    ##    wp bp ## 6
 ##    ##    ##    ##    5
-   bB    ##    ##    ## 4
-##    ##    ##    wp wN 3
+   ##    ##    ##    ## 4
+##    ##    ##    ##    3
 wp wp wp wp wp wp    wp 2
-wR wN wB wQ wK wB ## wR 1
+wR wN wB wQ wK wB wN wR 1
  a  b  c  d  e  f  g  h
 

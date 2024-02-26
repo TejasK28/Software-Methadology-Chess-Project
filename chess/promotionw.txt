@@ -6,8 +6,8 @@ c2 c4
 e5 d4
 e4 e5
 e8 f7
-e5 e6
+e5 e6 
 f7 f6
 e6 e7
 d7 d5
-e7 e8 N
+e7 e8
