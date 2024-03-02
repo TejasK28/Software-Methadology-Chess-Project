@@ -1,12 +1,9 @@
 /*
- * The idea of this is to have all the pieces classes implement
- * this Piece interface which will house the methods all the pieces will need
- * 
- * Interface will update as we go
- */
+ * The idea of this is to have all the pieces classes extend
+ * this Piece class which will house the methods all the pieces will need
+*/
 
 package chess;
-import chess.ReturnPiece.PieceFile;
 import java.util.*;
 
 
@@ -18,7 +15,9 @@ public class Piece extends ReturnPiece
     String white = "W";
     String black = "B";
 
-    HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
+    public HashMap<String, ReturnPiece> populateRegularAndKillMoves() {
+        if(this.pieceRank == 9)
+            return new HashMap<String, ReturnPiece>();
         return null;
     };
 
@@ -31,8 +30,14 @@ public class Piece extends ReturnPiece
         }
         return moves.containsKey(getStringOfPosition(newFile, newRank));
     }
+    
+    public HashMap<String, ReturnPiece> getMoves()
+    {
+        return moves;
+    }
 
-    public void move(PieceFile newFile, int newRank) {
+    public void move(PieceFile newFile, int newRank) 
+    {
         HashMap<String, ReturnPiece> moves = populateRegularAndKillMoves();
 
         if(moves.containsKey(getStringOfPosition(newFile, newRank)))//moves the piece if it is included in the moves hashmap
@@ -46,7 +51,7 @@ public class Piece extends ReturnPiece
             this.pieceFile = newFile;
             this.pieceRank = newRank;
             //increment move count
-            moveCount++;
+            incrementMoveCount();
         }
         else
         {
@@ -61,6 +66,10 @@ public class Piece extends ReturnPiece
 
     public String getPosition() 
     {
+        //System.out.println("MY FILE IS: " + pieceFile + " " + pieceRank);
+        if(this.pieceFile == null)
+            return null;
+        
         return "" + this.pieceFile + this.pieceRank;
     }
     /*
@@ -75,4 +84,17 @@ public class Piece extends ReturnPiece
     {
         return this.color;
     }
+    // setter method for position
+    public void setPosition(PieceFile file, int rank) {
+        this.pieceFile = file;
+        this.pieceRank = rank;
+    }
+
+    public void incrementMoveCount()
+    {
+        ++moveCount;
+    }
+    
+
+
 }

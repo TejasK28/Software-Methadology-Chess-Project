@@ -13,7 +13,6 @@ public class Pawn extends Piece
      *  ex. W or B
      */
     boolean canBeEnPessanted;
-    int lastMoved;
 
     // PAWN CONSTRUCTOR
     public Pawn(PieceType pieceType, PieceFile pieceFile, int pieceRank) {
@@ -21,22 +20,26 @@ public class Pawn extends Piece
         this.pieceType = pieceType; // Wp or Bp
         this.pieceFile = pieceFile;
         this.pieceRank = pieceRank;
-        moveCount = 0;
-        color = this.pieceType.toString().substring(0,1).toUpperCase();
-        canBeEnPessanted = false;
-        lastMoved = Chess.globalMoveCount;
+
+        this.color = pieceType.toString().toUpperCase().substring(0, 1);
+        this.moveCount = 0;
 
         //TODO TESTING
         moves = new HashMap<String, ReturnPiece>();
     }
 
-    // TODO NEW MOVE HELPER METHODS
-
-    public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
+    @Override
+     public HashMap<String, ReturnPiece> populateRegularAndKillMoves()
     {
+        if(this.pieceRank == 9)
+            return new HashMap<String, ReturnPiece>();
+            
+        // this clears the hashmap
+        moves.clear();
+        
+        // basic pawn moves for white and black
         //white
-
-        if(Chess.whosPlaying == Chess.Player.white)
+        if(this.color.equals(white))
         {
             //Handling the first 2/1 unobstructed spaces
             if(this.moveCount == 0)// add 2 moves on the first move
@@ -49,6 +52,8 @@ public class Pawn extends Piece
                     {
                         moves.put(getStringOfPosition(this.pieceFile, newRank), null); // moves hashmap will have the straight path moves if spaces exist
                     }
+                    else
+                        break;
                 }
             }
             else // if we are on the second move and so on we can only move once
@@ -61,7 +66,7 @@ public class Pawn extends Piece
                 }
             }
         }
-        else
+        else // black turn
         {
             //Handling the first 2/1 unobstructed spaces
             if(this.moveCount == 0)// add 2 moves on the first move
@@ -74,7 +79,10 @@ public class Pawn extends Piece
                     {
                         moves.put(getStringOfPosition(this.pieceFile, newRank), null); // moves hashmap will have the straight path moves if spaces exist
                     }
+                    else
+                        break;
                 }
+
             }
             else // if we are on the second move and so on we can only move once
             {
@@ -85,82 +93,49 @@ public class Pawn extends Piece
                     moves.put(getStringOfPosition(this.pieceFile, newRank), null); // moves hashmap will have the straight path moves if spaces exist
                 }
             }
+        } // end of blacks turn
+
+        // System.out.println("PAWN BASIC MOVES: " + moves);
+
+        // kill moves 
+        PieceFile prevFile = null;
+        PieceFile nextFile = null;
+
+        if (this.pieceFile.ordinal() > 0) {
+            prevFile = PieceFile.values()[this.pieceFile.ordinal() - 1];
         }
 
-
-        // print moves
-        System.out.println("MOVES: " + moves);
-        
-
-        //check for the next column
-        PieceFile nextColumn;
-        int nextColumnIndex = this.pieceFile.ordinal() + 1;
-
-        if(nextColumnIndex < 8) // if the next column is within the width of the board
-        {
-            nextColumn = PieceFile.values()[this.pieceFile.ordinal() + 1];
+        if (this.pieceFile.ordinal() < PieceFile.values().length - 1) {
+            nextFile = PieceFile.values()[this.pieceFile.ordinal() + 1];
         }
-        else // otherwise nextColumn is null
-        {
-            nextColumn = null;
-        }
-
-        //check for the previous columns
-        PieceFile previousColumn;
-        int previousColumnIndex = this.pieceFile.ordinal() - 1;
-        
-        if(previousColumnIndex >= 0) // if the previous column is within the width of the board
-        {
-            previousColumn = PieceFile.values()[this.pieceFile.ordinal() - 1];
-        }
-        else // will be null otherwise
-        {
-            previousColumn = null;
-        }     
 
         //now we will check for kill pieces for white
-        if(Chess.whosPlaying == Chess.Player.white)
+        if(this.color.equals(white))
         {
-            //check for the next column
-            nextColumnIndex = this.pieceFile.ordinal() + 1;
-
-            if(nextColumnIndex < 8) // if the next column is within the width of the board
-            {
-                nextColumn = PieceFile.values()[this.pieceFile.ordinal() + 1];
+            if (this.pieceRank < 8)  {
+                int plusOneRank = this.pieceRank + 1;
+                if (prevFile != null) {
+                    // print 
+                    if (Chess.pieceExistsAt(getStringOfPosition(prevFile, plusOneRank))) {
+                        if (Chess.isEnemyForThisPiece(getStringOfPosition(this.pieceFile, this.pieceRank), getStringOfPosition(prevFile, plusOneRank))) {
+                            moves.put(getStringOfPosition(prevFile, plusOneRank), Chess.getPieceFromPosition(getStringOfPosition(prevFile, plusOneRank)));
+                            // System.out.println("COLOR of piece in capture pos.");
+                            // System.out.println(Chess.getColorOfPieceFromPosition(getStringOfPosition(prevFile, plusOneRank)));
+                        }
+                    } 
+                }
+                
+                if (nextFile != null) {
+                    if (Chess.pieceExistsAt(getStringOfPosition(nextFile, plusOneRank))) {
+                        if (Chess.isEnemyForThisPiece(getStringOfPosition(this.pieceFile, this.pieceRank), getStringOfPosition(nextFile, plusOneRank))) {
+                            moves.put(getStringOfPosition(nextFile, plusOneRank), Chess.getPieceFromPosition(getStringOfPosition(nextFile, plusOneRank)));
+                            // System.out.println("COLOR of piece in capture pos.");
+                            // System.out.println(Chess.getColorOfPieceFromPosition(getStringOfPosition(nextFile, plusOneRank)));
+                        }
+                    } 
+                }
             }
-            else // otherwise nextColumn is null
-            {
-                nextColumn = null;
-            }
-
-            //check for the previous columns
-            previousColumnIndex = this.pieceFile.ordinal() - 1;
             
-            if(previousColumnIndex >= 0) // if the previous column is within the width of the board
-            {
-                previousColumn = PieceFile.values()[this.pieceFile.ordinal() - 1];
-            }
-            else // will be null otherwise
-            {
-                previousColumn = null;
-            }     
-            
-            int plusOneRank;
-
-            if(this.pieceRank + 1 <= 8)
-                plusOneRank = this.pieceRank + 1;
-            else
-                plusOneRank = -1;
-            
-            if(previousColumn != null && plusOneRank != -1 && Chess.pieceExistsAt(getStringOfPosition(previousColumn, plusOneRank)) && Chess.getColorOfPieceFromPosition(getStringOfPosition(previousColumn, plusOneRank)).equals("B"))
-            {
-                moves.put(getStringOfPosition(previousColumn, plusOneRank), Chess.getPieceFromPosition(getStringOfPosition(previousColumn, plusOneRank)));
-            }
-            if(nextColumn != null && plusOneRank != -1 && Chess.pieceExistsAt(getStringOfPosition(nextColumn, plusOneRank)) && Chess.getColorOfPieceFromPosition(getStringOfPosition(nextColumn, plusOneRank)).equals("B"))
-            {
-                moves.put(getStringOfPosition(nextColumn, plusOneRank), Chess.getPieceFromPosition(getStringOfPosition(nextColumn, plusOneRank)));
-            }
-
             // enpessant checks
             // this piece is on the 5th rank
             // if the piece to the left or right of this piece is a pawn and has moveCount == 1
@@ -168,47 +143,55 @@ public class Pawn extends Piece
             // then this piece can be enpessanted
             if(this.pieceRank == 5)
             {
-                PieceFile leftFile = PieceFile.values()[this.pieceFile.ordinal() - 1];
-                PieceFile rightFile = PieceFile.values()[this.pieceFile.ordinal() + 1];
-
+                // handle enpessant
                 // print last moved piece
-                System.out.println("LAST MOVED PIECE: " + Chess.lastMovedPiece);
-                if(Chess.pieceExistsAt(getStringOfPosition(leftFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
+                // System.out.println("LAST MOVED PIECE: " + Chess.lastMovedPiece);
+                if(prevFile != null && Chess.pieceExistsAt(getStringOfPosition(prevFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(prevFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
                 {
-                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank));
+
+                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(prevFile, this.pieceRank));
                     if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)
                     {
                         
                         canBeEnPessanted = true;
-                        moves.put(getStringOfPosition(leftFile, this.pieceRank + 1), opponentPawn);
+                        moves.put(getStringOfPosition(prevFile, this.pieceRank + 1), opponentPawn);
                     }
                 }
-                if(Chess.pieceExistsAt(getStringOfPosition(rightFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
+                if(nextFile != null && Chess.pieceExistsAt(getStringOfPosition(nextFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(nextFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("BP") )
                 {
-                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank));
+                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(nextFile, this.pieceRank));
                     if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)
                     {
                         canBeEnPessanted = true;
-                        moves.put(getStringOfPosition(rightFile, this.pieceRank + 1), opponentPawn);
+                        moves.put(getStringOfPosition(nextFile, this.pieceRank + 1), opponentPawn);
                     }
                 }
             }
+        }
         else // if we are black so we are looking for white pices and looking down
         {
-            int minusOneRank;
-
-            if(this.pieceRank - 1 > 0) // minusOneRank is within the height of the board
-            minusOneRank = this.pieceRank - 1;
-            else
-            minusOneRank = -1;
-            
-            if(previousColumn != null && minusOneRank != -1 && Chess.pieceExistsAt(getStringOfPosition(previousColumn, minusOneRank)) && Chess.getColorOfPieceFromPosition(getStringOfPosition(previousColumn, minusOneRank)).equals("W"))
-            {
-                moves.put(getStringOfPosition(previousColumn, minusOneRank), Chess.getPieceFromPosition(getStringOfPosition(previousColumn, minusOneRank)));
-            }
-            if(nextColumn != null && minusOneRank != -1 && Chess.pieceExistsAt(getStringOfPosition(nextColumn, minusOneRank)) && Chess.getColorOfPieceFromPosition(getStringOfPosition(nextColumn, minusOneRank)).equals("W"))
-            {
-                moves.put(getStringOfPosition(nextColumn, minusOneRank), Chess.getPieceFromPosition(getStringOfPosition(nextColumn, minusOneRank)));
+            if (this.pieceRank > 1)  {
+                int minusOneRank = this.pieceRank - 1;
+                if (prevFile != null) {
+                    // print 
+                    if (Chess.pieceExistsAt(getStringOfPosition(prevFile, minusOneRank))) {
+                        if (Chess.isEnemyForThisPiece(getStringOfPosition(this.pieceFile, this.pieceRank), getStringOfPosition(prevFile, minusOneRank))) {
+                            moves.put(getStringOfPosition(prevFile, minusOneRank), Chess.getPieceFromPosition(getStringOfPosition(prevFile, minusOneRank)));
+                            // System.out.println("COLOR of piece in capture pos.");
+                            // System.out.println(Chess.getColorOfPieceFromPosition(getStringOfPosition(prevFile, minusOneRank)));
+                        }
+                    } 
+                }
+                
+                if (nextFile != null) {
+                    if (Chess.pieceExistsAt(getStringOfPosition(nextFile, minusOneRank))) {
+                        if (Chess.isEnemyForThisPiece(getStringOfPosition(this.pieceFile, this.pieceRank), getStringOfPosition(nextFile, minusOneRank))) {
+                            moves.put(getStringOfPosition(nextFile, minusOneRank), Chess.getPieceFromPosition(getStringOfPosition(nextFile, minusOneRank)));
+                            // System.out.println("COLOR of piece in capture pos.");
+                            // System.out.println(Chess.getColorOfPieceFromPosition(getStringOfPosition(nextFile, minusOneRank)));
+                        }
+                    } 
+                }
             }
 
             // enpessant checks for black
@@ -218,41 +201,107 @@ public class Pawn extends Piece
             // then this piece can be enpessanted
             if(this.pieceRank == 4)
             {
-                PieceFile leftFile = PieceFile.values()[this.pieceFile.ordinal() - 1];
-                PieceFile rightFile = PieceFile.values()[this.pieceFile.ordinal() + 1];
+                // handle enpessant
                 // print last moved piece
-                System.out.println("LAST MOVED PIECE: " + Chess.lastMovedPiece);
-
-                if(Chess.pieceExistsAt(getStringOfPosition(leftFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
+                // System.out.println("LAST MOVED PIECE: " + Chess.lastMovedPiece);
+                if(prevFile != null && Chess.pieceExistsAt(getStringOfPosition(prevFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(prevFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
                 {
-                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(leftFile, this.pieceRank));
-                    // print if Chess.lastMovedPiece == opponentPawn
-                    System.out.println("LAST MOVED PIECE == OPPONENT PAWN: " + (Chess.lastMovedPiece == opponentPawn));
+
+                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(prevFile, this.pieceRank));
                     if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)
                     {
+                        
                         canBeEnPessanted = true;
-                        System.out.println("CAN BE ENPESANTED: " + canBeEnPessanted);
-                        moves.put(getStringOfPosition(leftFile, this.pieceRank - 1), opponentPawn);
+                        moves.put(getStringOfPosition(prevFile, this.pieceRank - 1), opponentPawn);
                     }
                 }
-                if(Chess.pieceExistsAt(getStringOfPosition(rightFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
+                if(nextFile != null && Chess.pieceExistsAt(getStringOfPosition(nextFile, this.pieceRank)) && Chess.getPieceFromPosition(getStringOfPosition(nextFile, this.pieceRank)).toString().split(":")[1].toUpperCase().equals("WP") )
                 {
-                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(rightFile, this.pieceRank));
-                    // print if Chess.lastMovedPiece == opponentPawn
-                    System.out.println("LAST MOVED PIECE == OPPONENT PAWN: " + (Chess.lastMovedPiece == opponentPawn));
+                    Pawn opponentPawn = (Pawn) Chess.getPieceFromPosition(getStringOfPosition(nextFile, this.pieceRank));
                     if(opponentPawn.moveCount == 1 && Chess.lastMovedPiece == opponentPawn)
                     {
                         canBeEnPessanted = true;
-                        System.out.println("CAN BE ENPESANTED: " + canBeEnPessanted);
-                        moves.put(getStringOfPosition(rightFile, this.pieceRank - 1), opponentPawn);
+                        moves.put(getStringOfPosition(nextFile, this.pieceRank - 1), opponentPawn);
                     }
                 }
             }
             
         }
-        }
+        //System.out.println("POSSIBLE KILLS:" + moves);
+        // System.out.println("PAWN MOVES for " + this + " : " + moves) ;
 
         return moves;
     }
 
+
+    public void addPossibleKills()
+    {
+        //get the current positiion
+        String currenPosition = this.getPosition();
+
+        //if current piece is white we are going to check upriight and upleft
+        if(this.color.equals(white))
+        {
+            //checking the up right position for pawn
+            String upRightPositon = Chess.getStringOfPositionWithChange(currenPosition, 1, 1);
+
+            if(upRightPositon != null) // if it is valid position
+            {   
+                //check if we can add it
+                if(Chess.isEnemyForThisPiece(currenPosition, upRightPositon))
+                {
+                    moves.put(upRightPositon, Chess.getPieceFromPosition(upRightPositon));
+                }
+            }
+
+
+            //checking the up right position for pawn
+            String upLeftPosition = Chess.getStringOfPositionWithChange(currenPosition, -1, 1);
+
+            if(upLeftPosition != null) // if it is valid position
+            {   
+                //check if we can add it
+                if(Chess.isEnemyForThisPiece(currenPosition, upLeftPosition))
+                {
+                    moves.put(upLeftPosition, Chess.getPieceFromPosition(upLeftPosition));
+                }
+            }
+        }
+        else // black piece
+        {
+
+            //checking the downright position for pawn
+            String downRightPosition = Chess.getStringOfPositionWithChange(currenPosition, 1, -1);
+
+            if(downRightPosition != null) // if it is valid position
+            {   
+                //check if we can add it
+                if(Chess.isEnemyForThisPiece(currenPosition, downRightPosition))
+                {
+                    moves.put(downRightPosition, Chess.getPieceFromPosition(downRightPosition));
+                }
+            }
+
+
+            //checking the downleft position for pawn
+            String downLeftPosition = Chess.getStringOfPositionWithChange(currenPosition, -1, -1);
+
+            if(downLeftPosition != null) // if it is valid position
+            {   
+                //check if we can add it
+                if(Chess.isEnemyForThisPiece(currenPosition, downLeftPosition))
+                {
+                    moves.put(downLeftPosition, Chess.getPieceFromPosition(downLeftPosition));
+                }
+            }
+        }
+        
+    }
+ 
+
+    @Override
+    public void incrementMoveCount()
+    {
+        ++moveCount;
+    }
 }
